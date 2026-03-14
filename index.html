@@ -1221,7 +1221,7 @@ a {
 }
 .popup-img-wrap::before { content: ''; display: block; padding-top: 55%; }
 .popup-img-wrap img {
-  position: absolute inset: 0;
+  position: absolute; inset: 0;
   width: 100%; height: 100%;
   object-fit: cover;
 }
@@ -1651,7 +1651,7 @@ a {
   border: 1px solid var(--border2);
   color: var(--text2);
   font-size: 1rem;
-  display: flex align-items center justify-content center;
+  display: flex; align-items: center; justify-content: center;
   cursor: pointer;
   opacity: 0; transform: translateY(20px);
   transition: all 0.3s;
@@ -1688,7 +1688,7 @@ footer {
   border-radius: 50%;
   background: rgba(255,255,255,0.05);
   border: 1px solid var(--border);
-  display: flex; align-items center justify-content center;
+  display: flex; align-items: center; justify-content: center;
   font-size: 0.85rem; color: var(--text3); cursor: pointer;
   transition: all 0.2s;
 }
@@ -1713,6 +1713,7 @@ footer {
 </head>
 <body>
 
+<!-- ═══ MOBILE NAV DRAWER ═══ -->
 <div class="mobile-nav" id="mobileNav">
   <button class="mobile-nav-link" onclick="goPage('home');closeMobileNav()">홈</button>
   <button class="mobile-nav-link" onclick="goPage('explore');closeMobileNav()">탐색</button>
@@ -1721,6 +1722,7 @@ footer {
   <button class="mobile-nav-link" onclick="goPage('saved');closeMobileNav()">저장됨</button>
 </div>
 
+<!-- ═══ NAV ═══ -->
 <nav class="nav" id="mainNav">
   <div class="nav-inner">
     <div class="logo" onclick="goPage('home')">
@@ -1741,8 +1743,12 @@ footer {
   </div>
 </nav>
 
+<!-- ════════════════════════════════════════
+     PAGE: HOME
+════════════════════════════════════════ -->
 <div class="page on" id="page-home">
 
+<!-- HERO -->
 <section class="hero">
   <div class="hero-bg" id="heroBg"></div>
   <div class="hero-overlay"></div>
@@ -1765,6 +1771,7 @@ footer {
   <div class="scroll-hint"><div class="scroll-line"></div><span>스크롤</span></div>
 </section>
 
+<!-- FEATURED -->
 <section class="section">
   <div class="wrap">
     <div class="sec-row sr">
@@ -1789,6 +1796,7 @@ footer {
 
 <hr class="divider">
 
+<!-- POPULAR SPOTS -->
 <section class="section">
   <div class="wrap">
     <div class="sec-row sr">
@@ -1798,6 +1806,7 @@ footer {
       </div>
       <button class="btn-outline" onclick="goPage('explore')">전체 →</button>
     </div>
+    <!-- Category filter chips -->
     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px;" class="sr">
       <button class="chip on" onclick="filterHomeSpots(this,'all')">🗺 전체</button>
       <button class="chip"    onclick="filterHomeSpots(this,'attraction')">🏔 관광지</button>
@@ -1810,6 +1819,7 @@ footer {
 
 <hr class="divider">
 
+<!-- COURSES -->
 <section class="section" style="background:var(--bg2);">
   <div class="wrap">
     <div class="sec-row sr">
@@ -1824,6 +1834,7 @@ footer {
 
 <hr class="divider">
 
+<!-- FOOD -->
 <section class="section">
   <div class="wrap">
     <div class="sec-row sr">
@@ -1837,6 +1848,7 @@ footer {
   </div>
 </section>
 
+<!-- SEASON -->
 <section class="section" style="background:var(--bg2);">
   <div class="wrap">
     <div class="sec-head sr" style="margin-bottom:0">
@@ -1853,6 +1865,7 @@ footer {
   </div>
 </section>
 
+<!-- AI PROMO BLOCK -->
 <section class="section">
   <div class="wrap">
     <div class="ai-block sr">
@@ -1880,6 +1893,7 @@ footer {
   </div>
 </section>
 
+<!-- CAFES -->
 <section class="section" style="background:var(--bg2);">
   <div class="wrap">
     <div class="sec-row sr">
@@ -1893,7 +1907,12 @@ footer {
   </div>
 </section>
 
-</div><div class="page" id="page-explore">
+</div><!-- /page-home -->
+
+<!-- ════════════════════════════════════════
+     PAGE: EXPLORE
+════════════════════════════════════════ -->
+<div class="page" id="page-explore">
   <div class="explore-header">
     <div class="wrap">
       <h1 class="explore-title">제주 탐색</h1>
@@ -1940,13 +1959,18 @@ footer {
       </div>
       <div class="main-area">
         <div class="grid-header">
-          <span class="result-count" id="resultCount">50개 결과</span>
+          <span class="result-count" id="resultCount">13개 결과</span>
         </div>
         <div class="grid-3" id="exploreGrid"></div>
       </div>
     </div>
   </div>
-</div><div class="page" id="page-map">
+</div><!-- /page-explore -->
+
+<!-- ════════════════════════════════════════
+     PAGE: MAP
+════════════════════════════════════════ -->
+<div class="page" id="page-map">
   <div class="map-page-wrap">
     <div class="map-panel">
       <div class="map-panel-top">
@@ -1966,6 +1990,7 @@ footer {
       <div class="map-list" id="mapList"></div>
     </div>
     <div class="map-canvas-wrap" id="mapCanvas">
+      <!-- SVG Jeju island map -->
       <svg class="map-svg" viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
         <defs>
           <radialGradient id="oceanGrad" cx="50%" cy="50%" r="60%">
@@ -1982,12 +2007,18 @@ footer {
           <line x1="450" y1="0" x2="450" y2="500"/>
           <line x1="675" y1="0" x2="675" y2="500"/>
         </g>
+        <!-- Jeju island shape -->
         <path d="M 125,215 C 140,162 198,130 272,122 C 348,114 435,112 516,117 C 595,122 664,132 718,148 C 764,162 796,182 805,202 C 814,224 802,248 778,264 C 748,284 705,294 653,300 C 588,308 506,311 428,307 C 350,303 267,291 208,270 C 162,252 110,268 125,215 Z" fill="#1e3825" stroke="rgba(80,180,80,0.18)" stroke-width="1.5"/>
+        <!-- Coastal highlight -->
         <path d="M 140,222 C 155,172 205,135 274,125 C 350,115 436,113 516,118 C 595,123 663,133 717,149" stroke="rgba(13,216,200,0.18)" stroke-width="2" fill="none"/>
+        <!-- Hallasan mountain -->
         <path d="M 443,192 L 477,156 L 511,192 Z" fill="rgba(90,65,40,0.45)" stroke="rgba(200,170,130,0.2)" stroke-width="1"/>
+        <!-- Roads -->
         <path d="M 170,228 Q 325,212 465,218 Q 610,224 760,230" stroke="rgba(255,220,80,0.13)" stroke-width="2" fill="none" stroke-dasharray="7,5"/>
       </svg>
+      <!-- Pins rendered by JS -->
       <svg style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none" viewBox="0 0 900 500" id="pinsSvg" preserveAspectRatio="xMidYMid slice"></svg>
+      <!-- Popup card -->
       <div class="map-popup" id="mapPopup">
         <div class="popup-img-wrap">
           <img id="popupImg" src="" alt="">
@@ -2003,7 +2034,12 @@ footer {
       </div>
     </div>
   </div>
-</div><div class="page" id="page-planner">
+</div><!-- /page-map -->
+
+<!-- ════════════════════════════════════════
+     PAGE: PLANNER
+════════════════════════════════════════ -->
+<div class="page" id="page-planner">
   <div class="planner-wrap">
     <div class="planner-inner">
       <h1 class="planner-title">당신만의<br><em>완벽한 제주</em></h1>
@@ -2064,7 +2100,12 @@ footer {
       <div class="result-wrap" id="resultWrap"></div>
     </div>
   </div>
-</div><div class="page" id="page-saved">
+</div><!-- /page-planner -->
+
+<!-- ════════════════════════════════════════
+     PAGE: SAVED
+════════════════════════════════════════ -->
+<div class="page" id="page-saved">
   <div class="saved-wrap">
     <div class="wrap">
       <div class="sec-eyebrow" style="margin-bottom:12px">저장됨</div>
@@ -2079,7 +2120,10 @@ footer {
       </div>
     </div>
   </div>
-</div><div class="overlay" id="overlay" onclick="handleOverlayClick(event)">
+</div><!-- /page-saved -->
+
+<!-- ═══ DETAIL SHEET MODAL ═══ -->
+<div class="overlay" id="overlay" onclick="handleOverlayClick(event)">
   <div class="sheet" id="detailSheet">
     <div class="sheet-handle"></div>
     <div class="d-gallery" id="dGallery">
@@ -2130,13 +2174,16 @@ footer {
   </div>
 </div>
 
+<!-- ═══ TOAST ═══ -->
 <div class="toast" id="toastEl">
   <div class="toast-dot"></div>
   <div class="toast-text" id="toastTxt"></div>
 </div>
 
+<!-- ═══ SCROLL TOP ═══ -->
 <button class="scroll-top" id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
+<!-- ═══ FOOTER ═══ -->
 <footer>
   <div class="wrap">
     <div class="footer-grid">
@@ -2184,9 +2231,12 @@ footer {
   </div>
 </footer>
 
+<!-- ════════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════════ -->
 <script>
 /* ─────────────────
-   DATA (원본 13개 + 37개 신규 데이터 = 총 50개)
+   DATA
 ───────────────── */
 const PLACES = [
   {
@@ -2332,80 +2382,105 @@ const PLACES = [
     img3:'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=400&q=80',
     px:48, py:65
   },
-  // --- 50개 확장을 위한 추가 데이터 ---
-  {
-    id:13, name:'카멜리아 힐', area:'서귀포', type:'attraction', cat:'관광지',
-    rating:4.7, cnt:2840, price:'₩9,000', time:'08:30~18:00', fee:'₩9,000', dur:'2시간',
-    desc:'동양 최대 규모의 동백 수목원으로, 사계절 내내 다양한 꽃들이 피어나는 아름다운 정원입니다.',
-    tags:['꽃','포토존','데이트'], img:'https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?w=800', px:38, py:68
-  },
-  {
-    id:14, name:'오설록 티 뮤지엄', area:'안덕', type:'attraction', cat:'관광지',
-    rating:4.6, cnt:3120, price:'무료', time:'09:00~18:00', fee:'무료', dur:'1~2시간',
-    desc:'드넓은 녹차 밭과 차 문화를 배울 수 있는 박물관입니다. 녹차 아이스크림이 매우 유명합니다.',
-    tags:['녹차','디저트','체험'], img:'https://images.unsplash.com/photo-1504196606672-aef5c9cefc92?w=800', px:28, py:62
-  },
-  {
-    id:15, name:'비자림', area:'구좌', type:'attraction', cat:'자연',
-    rating:4.8, cnt:1850, price:'₩3,000', time:'09:00~17:00', fee:'₩3,000', dur:'1.5시간',
-    desc:'수령 500~800년 된 비자나무 2,800여 그루가 밀집해 있는 신비로운 숲길입니다.',
-    tags:['숲길','산책','힐링'], img:'https://images.unsplash.com/photo-1444930694458-01babf71870c?w=800', px:75, py:35
-  },
-  {
-    id:16, name:'함덕 해수욕장', area:'제주시', type:'attraction', cat:'해변',
-    rating:4.8, cnt:3560, price:'무료', time:'연중 개방', fee:'무료', dur:'2시간',
-    desc:'에메랄드빛 바다와 하얀 모래사장으로 유명하며, 서우봉 산책로와 연결되어 경관이 뛰어납니다.',
-    tags:['에메랄드','캠핑','제주시'], img:'https://images.unsplash.com/photo-1520931061294-7ae23011330e?w=800', px:62, py:28
-  },
-  {
-    id:17, name:'용머리 해안', area:'안덕', type:'attraction', cat:'자연',
-    rating:4.7, cnt:1450, price:'₩2,000', time:'09:00~17:00', fee:'₩2,000', dur:'1시간',
-    desc:'바닷속으로 들어가는 용의 머리를 닮은 해안 절경으로 지질 트레킹의 성지입니다.',
-    tags:['지질트레킹','인생샷','바다'], img:'https://images.unsplash.com/photo-1549887534-3db0a1c3c4c2?w=800', px:32, py:75
-  },
-  {
-    id:18, name:'명진전복', area:'구좌', type:'food', cat:'맛집',
-    rating:4.5, cnt:4200, price:'₩15,000~', time:'09:30~21:30', fee:'-', dur:'1시간',
-    desc:'전복 돌솥밥과 구이가 맛있는 유명 맛집으로 수요미식회에도 소개되었습니다.',
-    tags:['전복돌솥밥','수요미식회','로컬'], img:'https://images.unsplash.com/photo-1534422298391-e4f8c170db76?w=800', px:78, py:32
-  },
-  {
-    id:19, name:'오는정김밥', area:'서귀포', type:'food', cat:'맛집',
-    rating:4.8, cnt:5600, price:'₩4,000~', time:'10:00~20:00', fee:'-', dur:'30분',
-    desc:'제주 여행객들 사이에서 가장 유명한 예약 필수 김밥 맛집입니다.',
-    tags:['김밥맛집','예약필수','로컬인정'], img:'https://images.unsplash.com/photo-1585032226651-759b368d7246?w=800', px:51, py:63
-  }
 ];
 
-// 나머지 데이터는 반복문을 통해 생성하여 총 50개를 맞춥니다.
-const areas_pool = ['제주시', '서귀포', '애월', '성산', '협재', '안덕', '구좌'];
-const types_pool = ['attraction', 'food', 'cafe'];
-const names_pool = ['감성 명소', '숨은 맛집', '인생 카페', '바다 뷰 맛집', '로컬 핫플'];
+const COURSES = [
+  { title:'성산·우도 핵심 코스',  sub:'동부 하이라이트', dur:'1일', spots:5, tags:['성산','우도','동부'],   img:'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&q=80' },
+  { title:'애월 감성 카페투어',    sub:'커플 추천',      dur:'1일', spots:6, tags:['애월','카페','노을'],   img:'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&q=80' },
+  { title:'한라산 + 서귀포',       sub:'자연과 도심',    dur:'2일', spots:8, tags:['한라산','서귀포','자연'], img:'https://images.unsplash.com/photo-1590001155093-a3c66ab0c3ff?w=600&q=80' },
+];
 
-for (let i = 20; i < 50; i++) {
-  const type = types_pool[i % 3];
-  PLACES.push({
-    id: i,
-    name: `제주 ${names_pool[i % 5]} #${i}`,
-    area: areas_pool[i % areas_pool.length],
-    type: type,
-    cat: type === 'cafe' ? '카페' : (type === 'food' ? '맛집' : '관광지'),
-    rating: (4.0 + (i % 10) / 10).toFixed(1),
-    cnt: 100 + i * 20,
-    price: '₩10,000~',
-    time: '10:00~20:00',
-    fee: '무료/유료',
-    dur: '1시간',
-    desc: '제주의 숨겨진 아름다움을 느낄 수 있는 장소입니다. 로컬 주민들이 추천하는 핫플레이스입니다.',
-    tags: ['추천', '제주여행', '로컬'],
-    img: `https://picsum.photos/seed/${i + 50}/800/600`,
-    px: 10 + Math.random() * 80,
-    py: 10 + Math.random() * 80
-  });
-}
+const SEASONS = {
+  spring:[
+    { name:'유채꽃 드라이브', area:'성산·표선', img:'https://images.unsplash.com/photo-1490750967868-88df5691cc87?w=600&q=80', r:4.8 },
+    { name:'벚꽃길 산책',     area:'제주시',   img:'https://images.unsplash.com/photo-1522383225653-ed111181a951?w=600&q=80', r:4.7 },
+    { name:'수선화 군락',     area:'서귀포',   img:'https://images.unsplash.com/photo-1444930694458-01babf71870c?w=600&q=80', r:4.6 },
+  ],
+  summer:[
+    { name:'협재 수영',     area:'협재',   img:'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=80', r:4.9 },
+    { name:'우도 스노클링', area:'우도',   img:'https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=600&q=80', r:4.7 },
+    { name:'올레 7코스',    area:'서귀포', img:'https://images.unsplash.com/photo-1559494007-9f5847c49d94?w=600&q=80', r:4.6 },
+  ],
+  autumn:[
+    { name:'한라산 단풍', area:'한라산',   img:'https://images.unsplash.com/photo-1501854140801-50d01698950b?w=600&q=80', r:4.9 },
+    { name:'억새 평원',   area:'산굼부리', img:'https://images.unsplash.com/photo-1504701954957-2010ec3bcec1?w=600&q=80', r:4.7 },
+    { name:'감귤 체험',   area:'서귀포',   img:'https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?w=600&q=80', r:4.5 },
+  ],
+  winter:[
+    { name:'한라산 설경',  area:'한라산',   img:'https://images.unsplash.com/photo-1518098268026-4e89f1a2cd8e?w=600&q=80', r:4.9 },
+    { name:'동백꽃 여행',  area:'카멜리아힐', img:'https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?w=600&q=80', r:4.6 },
+    { name:'겨울 일출봉',  area:'성산',     img:'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&q=80', r:4.8 },
+  ],
+};
+
+const PLANS = {
+  '1':{ days:[{ d:1, title:'제주 동부 핵심', items:[
+    {t:'07:30',i:'🌅',n:'성산일출봉',d:'제주 최고의 일출'},
+    {t:'10:30',i:'⛵',n:'우도 도착',  d:'페리 30분, 자전거 대여'},
+    {t:'13:00',i:'🍜',n:'우도 성게국수',d:'싱싱한 성게 특제 국수'},
+    {t:'15:00',i:'🏖',n:'홍조단괴 해빈',d:'에메랄드빛 해변'},
+    {t:'18:00',i:'🏨',n:'성산 숙소',  d:'오션뷰 숙소 체크인'},
+  ]}]},
+  '2':{ days:[
+    { d:1, title:'동쪽 명소 탐방', items:[
+      {t:'07:00',i:'🌅',n:'성산일출봉',  d:'UNESCO 세계유산 일출'},
+      {t:'10:00',i:'⛵',n:'우도 탐방',   d:'자전거 일주'},
+      {t:'13:00',i:'🍜',n:'성게국수',    d:'우도 필수 코스'},
+      {t:'15:30',i:'🕳',n:'만장굴',      d:'세계 최장 용암동굴'},
+      {t:'19:00',i:'🍖',n:'흑돼지 BBQ', d:'제주 흑돼지 골목'},
+    ]},
+    { d:2, title:'서쪽 감성 코스', items:[
+      {t:'09:00',i:'🏖',n:'협재해수욕장',d:'에메랄드 해변'},
+      {t:'11:30',i:'☕',n:'애월 카페투어',d:'오션뷰 감성 카페'},
+      {t:'14:00',i:'🌿',n:'한담 해안산책로',d:'로맨틱 코스탈워크'},
+      {t:'17:00',i:'🌅',n:'노을 감상',  d:'협재 노을빛 카페'},
+      {t:'19:30',i:'🐟',n:'해산물 저녁',d:'한림 수산시장'},
+    ]},
+  ]},
+  '3':{ days:[
+    { d:1, title:'동부 핵심', items:[
+      {t:'07:00',i:'🌅',n:'성산일출봉',d:'일출 명소'},
+      {t:'10:00',i:'⛵',n:'우도',      d:'섬 속 섬 탐방'},
+      {t:'14:00',i:'🕳',n:'만장굴',   d:'용암동굴'},
+      {t:'19:00',i:'🍖',n:'흑돼지',   d:'BBQ 저녁'},
+    ]},
+    { d:2, title:'한라산 & 서귀포', items:[
+      {t:'06:00',i:'⛰',n:'한라산 등반',d:'성판악 코스'},
+      {t:'14:00',i:'💧',n:'천지연폭포',d:'3단 폭포'},
+      {t:'17:00',i:'🌊',n:'정방폭포', d:'바다로 떨어지는 폭포'},
+      {t:'19:30',i:'🐟',n:'갈치조림', d:'서귀포 향토음식'},
+    ]},
+    { d:3, title:'서부 감성', items:[
+      {t:'09:00',i:'🏖',n:'협재 해변',  d:'에메랄드 바다'},
+      {t:'11:00',i:'☕',n:'애월 카페거리',d:'오션뷰 카페'},
+      {t:'14:00',i:'🌿',n:'한담 산책로',d:'해안 로맨틱 코스'},
+      {t:'17:00',i:'✈',n:'공항 이동', d:'아름다운 마무리'},
+    ]},
+  ]},
+  '4':{ days:[
+    { d:1, title:'동부 탐방', items:[{t:'07:00',i:'🌅',n:'성산일출봉',d:'일출'},{t:'10:00',i:'⛵',n:'우도',d:'자전거'},{t:'15:00',i:'🕳',n:'만장굴',d:'동굴'}]},
+    { d:2, title:'한라산',    items:[{t:'06:00',i:'⛰',n:'한라산',d:'등반'},{t:'15:00',i:'💧',n:'천지연',d:'폭포'},{t:'19:00',i:'🐟',n:'갈치조림',d:'향토음식'}]},
+    { d:3, title:'서부 감성', items:[{t:'09:00',i:'🏖',n:'협재',d:'해변'},{t:'12:00',i:'☕',n:'애월',d:'카페투어'},{t:'17:00',i:'🌅',n:'노을',d:'협재 노을'}]},
+    { d:4, title:'마무리',    items:[{t:'09:00',i:'🏛',n:'민속촌',d:'제주 문화'},{t:'13:00',i:'🍜',n:'국수거리',d:'공항 근처'},{t:'16:00',i:'✈',n:'공항 이동',d:'귀가'}]},
+  ]},
+};
+
+const REVIEWS = [
+  { name:'김민지', date:'2025.03.12', r:5, txt:'AI 일정 덕분에 동선 낭비 없이 알차게 다녔어요. 성산에서 우도, 만장굴까지 완벽한 코스였습니다.' },
+  { name:'이준호', date:'2025.02.28', r:5, txt:'숨은 카페들을 찾는 데 최고였어요. 일반 검색으로는 절대 못 찾을 애월 카페를 발견했습니다.' },
+  { name:'박서연', date:'2025.02.14', r:4, txt:'커플 여행으로 2박 3일 다녀왔는데 AI 추천 코스 덕분에 이동 효율이 탁월했습니다.' },
+];
 
 /* ─────────────────
-   LOGIC (원본 소스 100% 유지)
+   STATE
+───────────────── */
+let savedIds   = [];
+let curDetail  = null;
+let curPopupId = null;
+let exType     = 'all';
+
+/* ─────────────────
+   NAV & PAGE
 ───────────────── */
 function goPage(id) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('on'));
@@ -2425,6 +2500,9 @@ function closeMobileNav() {
   document.getElementById('mobileNav').classList.remove('open');
 }
 
+/* ─────────────────
+   SCROLL EFFECTS
+───────────────── */
 function runReveal() {
   document.querySelectorAll('.sr:not(.visible)').forEach(el => {
     const r = el.getBoundingClientRect();
@@ -2439,6 +2517,9 @@ window.addEventListener('scroll', () => {
   runReveal();
 }, { passive: true });
 
+/* ─────────────────
+   CARD FACTORY
+───────────────── */
 function makeCard(p) {
   const full5 = p.rating >= 4.8;
   return `
@@ -2467,6 +2548,25 @@ function makeCard(p) {
 </div>`;
 }
 
+function makeCourseCard(c) {
+  return `
+<div class="course-card" onclick="toast('📋 코스 상세보기 준비 중입니다')">
+  <div class="course-img-wrap">
+    <img src="${c.img}" alt="${c.title}" loading="lazy"
+         onerror="this.src='https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=60'">
+    <div class="course-img-overlay"></div>
+  </div>
+  <div class="course-body">
+    <div class="course-chips">${c.tags.map(t=>`<span class="c-chip">${t}</span>`).join('')}</div>
+    <div class="course-title">${c.title}</div>
+    <div class="course-meta"><span>⏱ ${c.dur}</span><span>📍 ${c.spots}곳</span><span>✦ ${c.sub}</span></div>
+  </div>
+</div>`;
+}
+
+/* ─────────────────
+   HOME RENDERS
+───────────────── */
 function renderHome() {
   const spots   = document.getElementById('home-spots');
   const food    = document.getElementById('home-food');
@@ -2475,21 +2575,66 @@ function renderHome() {
 
   const attractions = PLACES.filter(p => p.type === 'attraction');
   if (spots)   spots.innerHTML   = attractions.slice(0,4).map(makeCard).join('');
-  if (food)    food.innerHTML    = PLACES.filter(p => p.type === 'food').slice(0,4).map(makeCard).join('');
+  if (food)    food.innerHTML    = PLACES.filter(p => p.type === 'food').map(makeCard).join('');
   if (cafes)   cafes.innerHTML   = PLACES.filter(p => p.type === 'cafe').slice(0,4).map(makeCard).join('');
   if (courses) courses.innerHTML = COURSES.map(makeCourseCard).join('');
 
   renderSeason('spring');
 }
 
+function filterHomeSpots(el, key) {
+  document.querySelectorAll('#page-home .chip').forEach(c => c.classList.remove('on'));
+  el.classList.add('on');
+  const g = document.getElementById('home-spots');
+  let list;
+  if (key === 'all')        list = PLACES.filter(p => p.type === 'attraction').slice(0,4);
+  else if (key === 'beach') list = PLACES.filter(p => p.tags.includes('해변') || p.cat === '해변');
+  else if (key === 'nature') list = PLACES.filter(p => p.cat === '자연' || p.cat === '섬');
+  else                       list = PLACES.filter(p => p.type === 'attraction').slice(0,4);
+  if (g) g.innerHTML = list.map(makeCard).join('');
+  runReveal();
+}
+
+function renderSeason(s) {
+  const g = document.getElementById('season-grid');
+  if (!g) return;
+  const data = SEASONS[s] || SEASONS.spring;
+  g.innerHTML = data.map(it => `
+<div class="card" onclick="toast('🌸 장소 상세 불러오는 중...')">
+  <div class="card-img-wrap">
+    <img src="${it.img}" alt="${it.name}" loading="lazy"
+         onerror="this.src='https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=60'">
+    <div class="card-img-overlay"></div>
+  </div>
+  <div class="card-body">
+    <div class="card-area">${it.area}</div>
+    <div class="card-name">${it.name}</div>
+    <div class="card-meta">
+      <span class="stars">★★★★${it.r>=4.8?'★':'☆'}</span>
+      <span class="score">${it.r}</span>
+    </div>
+  </div>
+</div>`).join('');
+  runReveal();
+}
+
+function setSeason(el, s) {
+  document.querySelectorAll('.s-tab').forEach(t => t.classList.remove('on'));
+  el.classList.add('on');
+  renderSeason(s);
+}
+
+/* ─────────────────
+   EXPLORE
+───────────────── */
 function renderExplore() {
-  const q = (document.getElementById('searchInput')?.value || '').toLowerCase().trim().replace(/\s/g, "");
+  const q = (document.getElementById('searchInput')?.value || '').toLowerCase().trim();
   let list = PLACES;
   if (exType !== 'all') list = list.filter(p => p.type === exType);
   if (q) list = list.filter(p =>
-    p.name.toLowerCase().replace(/\s/g, "").includes(q) ||
-    p.area.toLowerCase().replace(/\s/g, "").includes(q) ||
-    p.tags.some(t => t.toLowerCase().replace(/\s/g, "").includes(q))
+    p.name.toLowerCase().includes(q) ||
+    p.area.toLowerCase().includes(q) ||
+    p.tags.some(t => t.toLowerCase().includes(q))
   );
   const g   = document.getElementById('exploreGrid');
   const cnt = document.getElementById('resultCount');
@@ -2510,6 +2655,9 @@ function setExType(el, t) {
 function doSearch() { renderExplore(); }
 function doSort(v) { toast(`정렬: ${v === 'popular' ? '인기순' : v === 'rating' ? '평점순' : '최신순'}`); }
 
+/* ─────────────────
+   MAP
+───────────────── */
 function renderMap() {
   const listEl = document.getElementById('mapList');
   const pinsEl = document.getElementById('pinsSvg');
@@ -2561,24 +2709,36 @@ function focusPin(id) {
   document.getElementById('mapPopup').classList.add('show');
 }
 
-function openPopupDetail() { if (curPopupId !== null) openDetail(curPopupId); }
+function openPopupDetail() {
+  if (curPopupId !== null) openDetail(curPopupId);
+}
 
+/* ─────────────────
+   DETAIL MODAL
+───────────────── */
 function openDetail(id) {
   const p = PLACES.find(x => x.id === id);
   if (!p) return;
   curDetail = p;
+
+  // Images with fallback
   const fallback = 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=60';
   document.getElementById('dImg1').src = p.img  || fallback;
   document.getElementById('dImg2').src = p.img2 || fallback;
   document.getElementById('dImg3').src = p.img3 || fallback;
+  document.getElementById('dImg1').onerror = function(){ this.src = fallback; };
+  document.getElementById('dImg2').onerror = function(){ this.src = fallback; };
+  document.getElementById('dImg3').onerror = function(){ this.src = fallback; };
+
   document.getElementById('dArea').textContent   = p.area + ' · ' + p.cat;
   document.getElementById('dName').textContent   = p.name;
   document.getElementById('dRating').textContent = p.rating;
   document.getElementById('dCnt').textContent    = `(${p.cnt.toLocaleString()}개 리뷰)`;
-  document.getElementById('dTime').textContent   = p.time || '-';
-  document.getElementById('dFee').textContent    = p.fee || '-';
-  document.getElementById('dDur').textContent    = p.dur || '-';
+  document.getElementById('dTime').textContent   = p.time;
+  document.getElementById('dFee').textContent    = p.fee;
+  document.getElementById('dDur').textContent    = p.dur;
   document.getElementById('dDesc').textContent   = p.desc;
+
   document.getElementById('dReviews').innerHTML = REVIEWS.map(r => `
 <div class="review-item">
   <div class="review-head">
@@ -2590,18 +2750,28 @@ function openDetail(id) {
   </div>
   <p class="rv-text">${r.txt}</p>
 </div>`).join('');
+
   const nearby = PLACES.filter(x => x.id !== p.id).slice(0, 5);
   document.getElementById('dNearby').innerHTML = nearby.map(nb => `
 <div class="nb-card" onclick="openDetail(${nb.id})">
-  <div class="nb-img-wrap"><img src="${nb.img}" alt="${nb.name}"></div>
+  <div class="nb-img-wrap">
+    <img src="${nb.img}" alt="${nb.name}" loading="lazy"
+         onerror="this.src='https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=200&q=60'">
+  </div>
   <div class="nb-name">${nb.name}</div>
   <div class="nb-area">${nb.area}</div>
 </div>`).join('');
-  document.getElementById('saveBtnModal').textContent = savedIds.includes(p.id) ? '❤️ 저장됨' : '🤍 저장';
+
+  // Save button state
+  const sbm = document.getElementById('saveBtnModal');
+  sbm.textContent = savedIds.includes(p.id) ? '❤️ 저장됨' : '🤍 저장';
+
+  // Reset tabs
   document.querySelectorAll('.d-tab').forEach(t => t.classList.remove('on'));
   document.querySelector('.d-tab').classList.add('on');
   document.querySelectorAll('.d-tab-pane').forEach(t => t.classList.remove('on'));
   document.getElementById('dtInfo').classList.add('on');
+
   document.getElementById('overlay').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
@@ -2611,7 +2781,9 @@ function closeDetail() {
   document.body.style.overflow = '';
 }
 
-function handleOverlayClick(e) { if (e.target === document.getElementById('overlay')) closeDetail(); }
+function handleOverlayClick(e) {
+  if (e.target === document.getElementById('overlay')) closeDetail();
+}
 
 function switchDTab(el, t) {
   document.querySelectorAll('.d-tab').forEach(x => x.classList.remove('on'));
@@ -2620,80 +2792,164 @@ function switchDTab(el, t) {
   document.getElementById('dt' + t[0].toUpperCase() + t.slice(1)).classList.add('on');
 }
 
-function toggleSaveModal() { if (!curDetail) return; toggleSaveId(curDetail.id, document.getElementById('saveBtnModal')); }
+function toggleSaveModal() {
+  if (!curDetail) return;
+  toggleSaveId(curDetail.id, document.getElementById('saveBtnModal'));
+}
 
 function toggleSaveId(id, el) {
   const idx = savedIds.indexOf(id);
   if (idx === -1) {
     savedIds.push(id);
-    if(el.tagName === 'BUTTON') el.textContent = '❤️ 저장됨';
-    else el.innerHTML = '❤';
+    el.textContent = '❤️ 저장됨';
+    el.classList.add('on');
     toast('❤️ 북마크에 저장했습니다!');
   } else {
     savedIds.splice(idx, 1);
-    if(el.tagName === 'BUTTON') el.textContent = '🤍 저장';
-    else el.innerHTML = '🤍';
+    el.textContent = '🤍 저장';
+    el.classList.remove('on');
     toast('북마크에서 제거했습니다');
   }
   updateSavedPage();
+  // also refresh grids
+  if (document.getElementById('home-spots').innerHTML) renderHome();
 }
 
 function updateSavedPage() {
   const el = document.getElementById('savedContent');
   if (!el) return;
   const items = PLACES.filter(p => savedIds.includes(p.id));
-  el.innerHTML = items.length ? `<div class="grid-3">${items.map(makeCard).join('')}</div>` : 
-  `<div class="empty-state"><div class="empty-icon">🗺</div><div class="empty-title">아직 저장된 장소가 없습니다</div></div>`;
+  el.innerHTML = items.length
+    ? `<div class="grid-3">${items.map(makeCard).join('')}</div>`
+    : `<div class="empty-state">
+         <div class="empty-icon">🗺</div>
+         <div class="empty-title">아직 저장된 장소가 없습니다</div>
+         <div class="empty-sub">마음에 드는 여행지를 북마크해보세요</div>
+         <button class="btn-primary" onclick="goPage('explore')">탐색 시작하기</button>
+       </div>`;
   runReveal();
 }
 
-function generatePlan() {
-  const dur = document.getElementById('pDur').value;
-  const rw  = document.getElementById('resultWrap');
-  rw.className = 'result-wrap';
-  rw.innerHTML = `<div class="loading-bar"><div class="loading-progress"></div></div><p style="text-align:center;color:var(--text3);font-size:0.84rem;padding:6px 0 16px">AI가 최적 동선을 계산하고 있습니다...</p>`;
-  rw.classList.add('show');
-  setTimeout(() => {
-    const plan = PLANS[dur] || PLANS['2'];
-    let html = `<div class="r-header"><div><div class="r-title">${dur}박 ${parseInt(dur)+1}일 맞춤 코스</div></div></div>`;
-    plan.days.forEach(day => {
-      html += `<div class="day-block"><div class="day-lbl">Day ${day.d} — ${day.title}</div><div class="tl">`;
-      day.items.forEach(it => { html += `<div class="tl-row"><div class="tl-time">${it.t}</div><div class="tl-dot"></div><div class="tl-body"><div class="tl-name">${it.n}</div><div class="tl-desc">${it.d}</div></div></div>`; });
-      html += `</div></div>`;
-    });
-    rw.innerHTML = html;
-    rw.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }, 1500);
+function shareCurrentPlace() {
+  const url = window.location.href.split('?')[0];
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(url).then(() => toast('🔗 링크가 클립보드에 복사됐습니다!'));
+  } else {
+    toast('🔗 ' + url);
+  }
 }
 
+/* ─────────────────
+   PLANNER
+───────────────── */
+function generatePlan() {
+  const dur = document.getElementById('pDur').value;
+  const grp = document.getElementById('pGrp').value;
+  const rw  = document.getElementById('resultWrap');
+
+  rw.className  = 'result-wrap';
+  rw.innerHTML  = `<div class="loading-bar"><div class="loading-progress"></div></div>
+    <p style="text-align:center;color:var(--text3);font-size:0.84rem;padding:6px 0 16px">AI가 최적 동선을 계산하고 있습니다...</p>`;
+  rw.classList.add('show');
+
+  setTimeout(() => {
+    const plan   = PLANS[dur] || PLANS['2'];
+    const styles = [...document.querySelectorAll('#page-planner .chip.on')]
+                    .map(c => c.textContent.trim()).join(' · ');
+
+    let html = `
+<div class="r-header">
+  <div>
+    <div class="r-title">${grp} ${dur}박 ${parseInt(dur)+1}일 맞춤 코스</div>
+    <div class="r-meta">${styles}</div>
+  </div>
+  <div class="r-actions">
+    <button class="btn-outline" onclick="shareCurrentPlace()">↗ 공유</button>
+    <button class="btn-primary" style="padding:9px 18px;font-size:0.82rem"
+            onclick="toast('📋 일정이 저장되었습니다!')">저장</button>
+  </div>
+</div>`;
+
+    plan.days.forEach(day => {
+      html += `<div class="day-block">
+        <div class="day-lbl">Day ${day.d} — ${day.title}</div>
+        <div class="tl">`;
+      day.items.forEach((it, i) => {
+        html += `
+<div class="tl-row">
+  ${i < day.items.length - 1 ? '' : ''}
+  <div class="tl-time">${it.t}</div>
+  <div class="tl-dot"></div>
+  <div class="tl-body">
+    <div class="tl-icon">${it.i}</div>
+    <div class="tl-name">${it.n}</div>
+    <div class="tl-desc">${it.d}</div>
+  </div>
+</div>`;
+      });
+      html += `</div></div>`;
+    });
+
+    const spots  = plan.days.reduce((a, d) => a + d.items.length, 0);
+    const km     = 120 + parseInt(dur) * 25;
+    const budget = 8  + parseInt(dur) * 4;
+
+    html += `
+<div class="r-stats">
+  <div class="rs-item"><div class="rs-val">${spots}</div>  <div class="rs-key">방문 장소</div></div>
+  <div class="rs-item"><div class="rs-val">${km}km</div>  <div class="rs-key">총 이동 거리</div></div>
+  <div class="rs-item"><div class="rs-val">₩${budget}만~</div><div class="rs-key">예상 비용</div></div>
+</div>`;
+
+    rw.innerHTML = html;
+    rw.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 2200);
+}
+
+/* ─────────────────
+   TOAST
+───────────────── */
+let toastTimer;
 function toast(msg) {
   const el = document.getElementById('toastEl');
   document.getElementById('toastTxt').textContent = msg;
   el.classList.add('show');
-  setTimeout(() => el.classList.remove('show'), 3000);
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 3000);
 }
 
-function renderSeason(s) {
-  const g = document.getElementById('season-grid');
-  if (!g) return;
-  g.innerHTML = SEASONS[s].map(it => `
-<div class="card"><div class="card-img-wrap"><img src="${it.img}"></div><div class="card-body">
-<div class="card-area">${it.area}</div><div class="card-name">${it.name}</div><div class="card-meta"><span class="score">${it.r}</span></div></div></div>`).join('');
-}
+/* ─────────────────
+   KEYBOARD
+───────────────── */
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeDetail();
+});
 
-function setSeason(el, s) {
-  document.querySelectorAll('.s-tab').forEach(t => t.classList.remove('on'));
-  el.classList.add('on');
-  renderSeason(s);
-}
+/* ─────────────────
+   HERO BG PARALLAX
+───────────────── */
+window.addEventListener('scroll', () => {
+  const bg = document.getElementById('heroBg');
+  if (bg) {
+    const y = window.scrollY * 0.25;
+    bg.style.transform = `translateY(${y}px)`;
+  }
+}, { passive: true });
 
+/* ─────────────────
+   INIT
+───────────────── */
 window.addEventListener('DOMContentLoaded', () => {
   renderHome();
-  const bg = document.getElementById('heroBg');
+  setTimeout(runReveal, 200);
+
+  // Hero bg smooth load
+  const bg  = document.getElementById('heroBg');
   const img = new Image();
   img.onload = () => bg && bg.classList.add('loaded');
-  img.src = 'https://images.unsplash.com/photo-1539367628448-4bc5c9d171c8?w=1800&q=85';
+  img.src    = 'https://images.unsplash.com/photo-1539367628448-4bc5c9d171c8?w=1800&q=85';
 });
 </script>
+
 </body>
 </html>
