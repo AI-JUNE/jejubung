@@ -963,17 +963,19 @@ a {
   background: var(--card);
   border: 1px solid var(--border2);
   border-radius: var(--r-lg);
-  overflow: hidden;
+  overflow: visible;
   transition: border-color 0.2s, box-shadow 0.2s;
   margin-bottom: 28px;
+  position: relative;
 }
 .search-bar:focus-within {
   border-color: rgba(13,216,200,0.4);
   box-shadow: 0 0 0 3px rgba(13,216,200,0.08);
 }
 .search-icon { padding: 0 14px; font-size: 1rem; color: var(--text3); flex-shrink: 0; }
+.search-wrap { flex: 1; position: relative; min-width: 0; }
 .search-input {
-  flex: 1;
+  width: 100%;
   padding: 15px 8px;
   background: none;
   border: none;
@@ -1709,6 +1711,161 @@ footer {
 .footer-copy { font-size: 0.76rem; color: var(--text3); }
 .footer-badge { font-size: 0.72rem; color: var(--teal); opacity: 0.55; }
 
+/* ============================================================
+   TRENDING LIST
+============================================================ */
+.trending-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.trending-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  cursor: pointer;
+  transition: all 0.25s var(--ease2);
+}
+.trending-item:hover {
+  border-color: var(--border2);
+  transform: translateX(4px);
+  box-shadow: var(--sh-sm);
+}
+.trending-rank {
+  font-family: var(--ff-display);
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--text3);
+  width: 40px;
+  text-align: center;
+  flex-shrink: 0;
+}
+.trending-rank.top { color: var(--gold); }
+.trending-img {
+  width: 60px;
+  height: 60px;
+  border-radius: var(--r-md);
+  object-fit: cover;
+  flex-shrink: 0;
+}
+.trending-info { flex: 1; min-width: 0; }
+.trending-name {
+  font-weight: 700;
+  font-size: 0.95rem;
+  margin-bottom: 4px;
+  color: var(--text);
+}
+.trending-meta { font-size: 0.78rem; color: var(--text3); }
+.trending-badge {
+  padding: 4px 10px;
+  border-radius: var(--r-full);
+  background: rgba(13,216,200,0.1);
+  border: 1px solid rgba(13,216,200,0.25);
+  color: var(--teal);
+  font-size: 0.68rem;
+  font-weight: 700;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.trending-badge.hot {
+  background: rgba(255,107,107,0.1);
+  border-color: rgba(255,107,107,0.25);
+  color: var(--coral);
+}
+@media(max-width:480px){ .trending-img { width:48px; height:48px; } }
+
+/* ============================================================
+   SEARCH AUTOCOMPLETE
+============================================================ */
+.search-wrap { position: relative; flex: 1; }
+.autocomplete-list {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0; right: 0;
+  background: var(--card);
+  border: 1px solid var(--border2);
+  border-radius: var(--r-md);
+  box-shadow: var(--sh-lg);
+  z-index: 200;
+  max-height: 280px;
+  overflow-y: auto;
+  display: none;
+}
+.autocomplete-list.show { display: block; }
+.ac-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  cursor: pointer;
+  transition: background 0.15s;
+  font-size: 0.84rem;
+  color: var(--text2);
+}
+.ac-item:hover { background: rgba(255,255,255,0.05); color: var(--text); }
+.ac-item-icon { font-size: 0.9rem; flex-shrink: 0; }
+.ac-item-name { font-weight: 500; }
+.ac-item-area { font-size: 0.75rem; color: var(--text3); margin-left: auto; }
+
+/* ============================================================
+   PAGINATION
+============================================================ */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 40px 0 20px;
+  flex-wrap: wrap;
+}
+.pg-btn {
+  min-width: 38px;
+  height: 38px;
+  padding: 0 10px;
+  border-radius: var(--r-sm);
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--text2);
+  font-size: 0.82rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: var(--ff-body);
+}
+.pg-btn:hover:not(:disabled) {
+  background: rgba(255,255,255,0.09);
+  border-color: var(--border2);
+  color: var(--text);
+}
+.pg-btn.on {
+  background: var(--teal);
+  border-color: var(--teal);
+  color: #061210;
+  font-weight: 700;
+}
+.pg-btn:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+/* ============================================================
+   ACTIVITY BADGE
+============================================================ */
+.cat-badge-액티비티 { background: rgba(74,222,128,0.12); color: #4ade80; }
+
+/* ============================================================
+   STATS COUNTER (hero)
+============================================================ */
+@keyframes countUp {
+  from { opacity:0; transform:translateY(10px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+.hero-stat-num { animation: countUp 0.8s var(--ease2) both; }
+
 </style>
 </head>
 <body>
@@ -1762,7 +1919,7 @@ footer {
         <button class="btn-ghost"   onclick="goPage('explore')">탐색하기 →</button>
       </div>
       <div class="hero-stats">
-        <div><div class="hero-stat-num">2,400+</div><div class="hero-stat-lbl">등록 장소</div></div>
+        <div><div class="hero-stat-num">110+</div><div class="hero-stat-lbl">등록 장소</div></div>
         <div><div class="hero-stat-num">18만+</div><div class="hero-stat-lbl">여행자 리뷰</div></div>
         <div><div class="hero-stat-num">98%</div><div class="hero-stat-lbl">만족도</div></div>
       </div>
@@ -1812,6 +1969,7 @@ footer {
       <button class="chip"    onclick="filterHomeSpots(this,'attraction')">🏔 관광지</button>
       <button class="chip"    onclick="filterHomeSpots(this,'beach')">🏖 해변</button>
       <button class="chip"    onclick="filterHomeSpots(this,'nature')">🌿 자연</button>
+      <button class="chip"    onclick="filterHomeSpots(this,'activity')">🏄 액티비티</button>
     </div>
     <div class="grid-4 sr" id="home-spots"></div>
   </div>
@@ -1827,6 +1985,7 @@ footer {
         <div class="sec-eyebrow">추천 코스</div>
         <h2 class="sec-title">에디터가 직접 큐레이션한<br>여행 코스</h2>
       </div>
+      <button class="btn-outline" id="courseMoreBtn" onclick="toggleMoreCourses()">더 보기 →</button>
     </div>
     <div class="grid-3 sr" id="home-courses"></div>
   </div>
@@ -1907,6 +2066,35 @@ footer {
   </div>
 </section>
 
+<!-- ACTIVITIES -->
+<section class="section">
+  <div class="wrap">
+    <div class="sec-row sr">
+      <div>
+        <div class="sec-eyebrow">체험 액티비티</div>
+        <h2 class="sec-title">제주에서만 할 수 있는<br><em>특별한 경험</em></h2>
+      </div>
+      <button class="btn-outline" onclick="goPage('explore');setExType(document.querySelector('.t-tab:last-child'),'activity')">전체 →</button>
+    </div>
+    <div class="grid-4 sr" id="home-activities"></div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- TRENDING -->
+<section class="section" style="background:var(--bg2);">
+  <div class="wrap">
+    <div class="sec-row sr">
+      <div>
+        <div class="sec-eyebrow">🔥 인기 급상승</div>
+        <h2 class="sec-title">지금 가장 많이 찾는<br>여행지 <em>TOP 5</em></h2>
+      </div>
+    </div>
+    <div class="trending-list sr" id="trendingList"></div>
+  </div>
+</section>
+
 </div><!-- /page-home -->
 
 <!-- ════════════════════════════════════════
@@ -1918,7 +2106,10 @@ footer {
       <h1 class="explore-title">제주 탐색</h1>
       <div class="search-bar">
         <div class="search-icon">🔍</div>
-        <input class="search-input" type="text" id="searchInput" placeholder="여행지, 맛집, 카페를 검색하세요..." oninput="doSearch()">
+        <div class="search-wrap">
+          <input class="search-input" type="text" id="searchInput" placeholder="여행지, 맛집, 카페를 검색하세요..." oninput="doSearchAuto(this)" autocomplete="off">
+          <div class="autocomplete-list" id="acList"></div>
+        </div>
         <button class="search-btn" onclick="doSearch()">검색</button>
       </div>
       <div class="type-tabs">
@@ -1927,6 +2118,7 @@ footer {
         <button class="t-tab"    onclick="setExType(this,'food')">🍜 맛집</button>
         <button class="t-tab"    onclick="setExType(this,'cafe')">☕ 카페</button>
         <button class="t-tab"    onclick="setExType(this,'hotel')">🏨 숙소</button>
+        <button class="t-tab"    onclick="setExType(this,'activity')">🏄 액티비티</button>
       </div>
     </div>
   </div>
@@ -1939,6 +2131,7 @@ footer {
             <option value="popular">인기순</option>
             <option value="rating">평점 높은순</option>
             <option value="newest">최신순</option>
+            <option value="price_asc">가격 낮은순</option>
           </select>
         </div>
         <div class="sb-sec">
@@ -1950,6 +2143,13 @@ footer {
           <label class="sb-row"><input type="checkbox" checked><span>협재·한림</span></label>
         </div>
         <div class="sb-sec">
+          <div class="sb-lbl">평점</div>
+          <label class="sb-row"><input type="radio" name="rating" value="all" checked><span>전체</span></label>
+          <label class="sb-row"><input type="radio" name="rating" value="4.8"><span>⭐ 4.8 이상</span></label>
+          <label class="sb-row"><input type="radio" name="rating" value="4.5"><span>⭐ 4.5 이상</span></label>
+          <label class="sb-row"><input type="radio" name="rating" value="4.0"><span>⭐ 4.0 이상</span></label>
+        </div>
+        <div class="sb-sec">
           <div class="sb-lbl">특징</div>
           <label class="sb-row"><input type="checkbox"><span>뷰 맛집</span></label>
           <label class="sb-row"><input type="checkbox"><span>인스타 핫플</span></label>
@@ -1959,9 +2159,10 @@ footer {
       </div>
       <div class="main-area">
         <div class="grid-header">
-          <span class="result-count" id="resultCount">13개 결과</span>
+          <span class="result-count" id="resultCount">110개 결과</span>
         </div>
         <div class="grid-3" id="exploreGrid"></div>
+        <div class="pagination" id="explorePagination"></div>
       </div>
     </div>
   </div>
@@ -1986,6 +2187,8 @@ footer {
         <button class="mf-btn"     onclick="this.classList.toggle('on')">관광지</button>
         <button class="mf-btn"     onclick="this.classList.toggle('on')">맛집</button>
         <button class="mf-btn"     onclick="this.classList.toggle('on')">카페</button>
+        <button class="mf-btn"     onclick="this.classList.toggle('on')">숙소</button>
+        <button class="mf-btn"     onclick="this.classList.toggle('on')">액티비티</button>
       </div>
       <div class="map-list" id="mapList"></div>
     </div>
@@ -2239,155 +2442,137 @@ footer {
    DATA
 ───────────────── */
 const PLACES = [
-  {
-    id:0, name:'성산일출봉', area:'성산', type:'attraction', cat:'관광지',
-    rating:4.9, cnt:3842, price:'₩5,000',
-    time:'일출~일몰', fee:'₩5,000', dur:'1~2시간',
-    desc:'제주도 동쪽 끝에 위치한 수성화산체로 유네스코 세계자연유산입니다. 해발 182m 정상에서 바라보는 일출과 분화구 경관이 압도적입니다. 제주 여행의 필수 코스입니다.',
-    tags:['일출','UNESCO','뷰 맛집'],
-    img:'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&q=80',
-    img2:'https://images.unsplash.com/photo-1565190743600-a72aab7d0c62?w=400&q=80',
-    img3:'https://images.unsplash.com/photo-1566996533071-2b5b9b4a1e1b?w=400&q=80',
-    px:76, py:50
-  },
-  {
-    id:1, name:'한라산', area:'제주시', type:'attraction', cat:'자연',
-    rating:4.8, cnt:5621, price:'무료',
-    time:'새벽~오후 2시', fee:'무료', dur:'6~10시간',
-    desc:'해발 1,947m 한국 최고봉. 유네스코 세계자연유산으로 성판악, 어리목, 영실 등 다양한 등산 코스가 있습니다. 백록담의 설경은 평생 기억에 남을 절경입니다.',
-    tags:['등산','국립공원','설경'],
-    img:'https://images.unsplash.com/photo-1590001155093-a3c66ab0c3ff?w=800&q=80',
-    img2:'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&q=80',
-    img3:'https://images.unsplash.com/photo-1501854140801-50d01698950b?w=400&q=80',
-    px:52, py:42
-  },
-  {
-    id:2, name:'협재해수욕장', area:'협재', type:'attraction', cat:'해변',
-    rating:4.7, cnt:2984, price:'무료',
-    time:'연중 개방', fee:'무료', dur:'2~4시간',
-    desc:'서쪽 최고의 해수욕장으로 에메랄드빛 투명한 바다와 새하얀 모래사장이 아름답습니다. 앞바다에 비양도가 보이는 절경이 펼쳐집니다.',
-    tags:['해변','에메랄드','가족'],
-    img:'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80',
-    img2:'https://images.unsplash.com/photo-1519046904884-53103b34b206?w=400&q=80',
-    img3:'https://images.unsplash.com/photo-1559494007-9f5847c49d94?w=400&q=80',
-    px:18, py:48
-  },
-  {
-    id:3, name:'우도', area:'성산', type:'attraction', cat:'섬',
-    rating:4.8, cnt:4123, price:'₩11,500',
-    time:'연중 개방', fee:'₩11,500', dur:'하루',
-    desc:'제주 최대 부속 섬으로 자전거로 일주가 가능합니다. 에메랄드빛 홍조단괴 해빈, 땅콩아이스크림, 우도봉 전망대가 인기입니다.',
-    tags:['섬','자전거','스노클링'],
-    img:'https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=800&q=80',
-    img2:'https://images.unsplash.com/photo-1565190743600-a72aab7d0c62?w=400&q=80',
-    img3:'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&q=80',
-    px:84, py:44
-  },
-  {
-    id:4, name:'만장굴', area:'제주시', type:'attraction', cat:'자연',
-    rating:4.5, cnt:1876, price:'₩4,000',
-    time:'09:00~18:00', fee:'₩4,000', dur:'1~2시간',
-    desc:'세계에서 가장 긴 용암동굴 중 하나로 총 길이 7.4km입니다. 내부 온도가 연중 11°C로 일정하여 여름에도 서늘합니다. 7.6m 높이의 용암석주가 압권입니다.',
-    tags:['동굴','세계유산','신비'],
-    img:'https://images.unsplash.com/photo-1518098268026-4e89f1a2cd8e?w=800&q=80',
-    img2:'https://images.unsplash.com/photo-1504701954957-2010ec3bcec1?w=400&q=80',
-    img3:'https://images.unsplash.com/photo-1501854140801-50d01698950b?w=400&q=80',
-    px:65, py:38
-  },
-  {
-    id:5, name:'천지연폭포', area:'서귀포', type:'attraction', cat:'자연',
-    rating:4.6, cnt:2340, price:'₩2,000',
-    time:'연중 개방', fee:'₩2,000', dur:'1시간',
-    desc:'높이 22m, 폭 12m의 웅장한 폭포. 밤에는 아름다운 조명을 받아 환상적인 야경을 연출합니다. 천연기념물 무태장어 서식지이기도 합니다.',
-    tags:['폭포','야경','자연'],
-    img:'https://images.unsplash.com/photo-1504701954957-2010ec3bcec1?w=800&q=80',
-    img2:'https://images.unsplash.com/photo-1519046904884-53103b34b206?w=400&q=80',
-    img3:'https://images.unsplash.com/photo-1559494007-9f5847c49d94?w=400&q=80',
-    px:44, py:62
-  },
-  {
-    id:6, name:'흑돼지 골목', area:'제주시', type:'food', cat:'맛집',
-    rating:4.7, cnt:3245, price:'₩15,000~',
-    time:'11:00~22:00', fee:'-', dur:'1~2시간',
-    desc:'제주 흑돼지를 즐길 수 있는 골목으로 제주시 연동에 위치합니다. 두툼한 삼겹살과 오겹살의 독특한 풍미가 일품입니다.',
-    tags:['흑돼지','BBQ','제주특산'],
-    img:'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&q=80',
-    img2:'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=80',
-    img3:'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&q=80',
-    px:35, py:35
-  },
-  {
-    id:7, name:'성게국수 전문점', area:'성산', type:'food', cat:'맛집',
-    rating:4.8, cnt:1987, price:'₩12,000',
-    time:'09:00~18:00', fee:'-', dur:'30~60분',
-    desc:'싱싱한 제주 성게로 만든 고소하고 진한 국수. 성산 일출봉 근처에 여러 전문점이 있으며 아침 식사로도 인기가 높습니다.',
-    tags:['성게','해산물','아침식사'],
-    img:'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=800&q=80',
-    img2:'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&q=80',
-    img3:'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=80',
-    px:74, py:52
-  },
-  {
-    id:8, name:'갈치조림 명가', area:'서귀포', type:'food', cat:'맛집',
-    rating:4.6, cnt:2156, price:'₩13,000',
-    time:'11:00~21:00', fee:'-', dur:'1시간',
-    desc:'제주 대표 향토 음식인 갈치조림. 두툼한 갈치와 제주 고사리, 감자가 어우러진 깊고 진한 맛이 현지인들도 즐겨 찾는 맛집입니다.',
-    tags:['갈치','향토음식','로컬'],
-    img:'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&q=80',
-    img2:'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=400&q=80',
-    img3:'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&q=80',
-    px:45, py:64
-  },
-  {
-    id:9, name:'애월 오션뷰 카페', area:'애월', type:'cafe', cat:'카페',
-    rating:4.9, cnt:4521, price:'₩7,000~',
-    time:'10:00~21:00', fee:'-', dur:'1~2시간',
-    desc:'애월 해안도로를 따라 늘어선 오션뷰 카페들. 제주 바다를 바라보며 즐기는 커피 한 잔은 제주 여행의 하이라이트입니다.',
-    tags:['오션뷰','노을','감성카페'],
-    img:'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80',
-    img2:'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=400&q=80',
-    img3:'https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=400&q=80',
-    px:24, py:38
-  },
-  {
-    id:10, name:'노을빛 카페', area:'협재', type:'cafe', cat:'카페',
-    rating:4.7, cnt:3124, price:'₩6,500~',
-    time:'10:00~21:00', fee:'-', dur:'1시간',
-    desc:'협재 해변 앞에 위치한 감성 카페. 서쪽으로 열린 탁 트인 전망에서 제주 최고의 노을을 감상할 수 있는 곳입니다.',
-    tags:['노을','뷰 맛집','협재'],
-    img:'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=800&q=80',
-    img2:'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&q=80',
-    img3:'https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=400&q=80',
-    px:16, py:50
-  },
-  {
-    id:11, name:'감귤향 카페', area:'제주시', type:'cafe', cat:'카페',
-    rating:4.5, cnt:2876, price:'₩5,500~',
-    time:'09:00~20:00', fee:'-', dur:'1시간',
-    desc:'제주 감귤을 활용한 다양한 음료와 베이커리를 선보입니다. 감귤 에이드, 감귤 케이크가 시그니처 메뉴입니다.',
-    tags:['감귤','베이커리','제주'],
-    img:'https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=800&q=80',
-    img2:'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=400&q=80',
-    img3:'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&q=80',
-    px:36, py:33
-  },
-  {
-    id:12, name:'오션 리조트', area:'서귀포', type:'hotel', cat:'숙소',
-    rating:4.6, cnt:1523, price:'₩180,000~',
-    time:'-', fee:'-', dur:'-',
-    desc:'서귀포 해안가에 위치한 5성급 리조트. 전 객실 오션뷰, 야외 인피니티풀, 스파 시설을 갖추고 있습니다.',
-    tags:['5성급','오션뷰','스파'],
-    img:'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=80',
-    img2:'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=400&q=80',
-    img3:'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=400&q=80',
-    px:48, py:65
-  },
+  /* ── 관광지 (0~29) ── */
+  {id:0,name:'성산일출봉',area:'성산',type:'attraction',cat:'관광지',rating:4.9,cnt:3842,price:'₩5,000',time:'일출~일몰',fee:'₩5,000',dur:'1~2시간',desc:'제주도 동쪽 끝에 위치한 수성화산체로 유네스코 세계자연유산입니다. 해발 182m 정상에서 바라보는 일출과 분화구 경관이 압도적입니다. 제주 여행의 필수 코스입니다.',tags:['일출','UNESCO','뷰 맛집'],img:'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&q=80',img2:'https://images.unsplash.com/photo-1565190743600-a72aab7d0c62?w=400&q=80',img3:'https://images.unsplash.com/photo-1566996533071-2b5b9b4a1e1b?w=400&q=80',px:76,py:50},
+  {id:1,name:'한라산',area:'제주시',type:'attraction',cat:'자연',rating:4.8,cnt:5621,price:'무료',time:'새벽~오후 2시',fee:'무료',dur:'6~10시간',desc:'해발 1,947m 한국 최고봉. 유네스코 세계자연유산으로 성판악, 어리목, 영실 등 다양한 등산 코스가 있습니다. 백록담의 설경은 평생 기억에 남을 절경입니다.',tags:['등산','국립공원','설경'],img:'https://images.unsplash.com/photo-1590001155093-a3c66ab0c3ff?w=800&q=80',img2:'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&q=80',img3:'https://images.unsplash.com/photo-1501854140801-50d01698950b?w=400&q=80',px:52,py:42},
+  {id:2,name:'협재해수욕장',area:'협재',type:'attraction',cat:'해변',rating:4.7,cnt:2984,price:'무료',time:'연중 개방',fee:'무료',dur:'2~4시간',desc:'서쪽 최고의 해수욕장으로 에메랄드빛 투명한 바다와 새하얀 모래사장이 아름답습니다. 앞바다에 비양도가 보이는 절경이 펼쳐집니다.',tags:['해변','에메랄드','가족'],img:'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80',img2:'https://images.unsplash.com/photo-1519046904884-53103b34b206?w=400&q=80',img3:'https://images.unsplash.com/photo-1559494007-9f5847c49d94?w=400&q=80',px:18,py:48},
+  {id:3,name:'우도',area:'성산',type:'attraction',cat:'섬',rating:4.8,cnt:4123,price:'₩11,500',time:'연중 개방',fee:'₩11,500',dur:'하루',desc:'제주 최대 부속 섬으로 자전거로 일주가 가능합니다. 에메랄드빛 홍조단괴 해빈, 땅콩아이스크림, 우도봉 전망대가 인기입니다.',tags:['섬','자전거','스노클링'],img:'https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=800&q=80',img2:'https://images.unsplash.com/photo-1565190743600-a72aab7d0c62?w=400&q=80',img3:'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&q=80',px:84,py:44},
+  {id:4,name:'만장굴',area:'제주시',type:'attraction',cat:'자연',rating:4.5,cnt:1876,price:'₩4,000',time:'09:00~18:00',fee:'₩4,000',dur:'1~2시간',desc:'세계에서 가장 긴 용암동굴 중 하나로 총 길이 7.4km입니다. 내부 온도가 연중 11°C로 일정하여 여름에도 서늘합니다. 7.6m 높이의 용암석주가 압권입니다.',tags:['동굴','세계유산','신비'],img:'https://images.unsplash.com/photo-1518098268026-4e89f1a2cd8e?w=800&q=80',img2:'https://images.unsplash.com/photo-1504701954957-2010ec3bcec1?w=400&q=80',img3:'https://images.unsplash.com/photo-1501854140801-50d01698950b?w=400&q=80',px:65,py:38},
+  {id:5,name:'천지연폭포',area:'서귀포',type:'attraction',cat:'자연',rating:4.6,cnt:2340,price:'₩2,000',time:'연중 개방',fee:'₩2,000',dur:'1시간',desc:'높이 22m, 폭 12m의 웅장한 폭포. 밤에는 아름다운 조명을 받아 환상적인 야경을 연출합니다. 천연기념물 무태장어 서식지이기도 합니다.',tags:['폭포','야경','자연'],img:'https://images.unsplash.com/photo-1504701954957-2010ec3bcec1?w=800&q=80',img2:'https://images.unsplash.com/photo-1519046904884-53103b34b206?w=400&q=80',img3:'https://images.unsplash.com/photo-1559494007-9f5847c49d94?w=400&q=80',px:44,py:62},
+  {id:6,name:'정방폭포',area:'서귀포',type:'attraction',cat:'자연',rating:4.4,cnt:1543,price:'₩2,000',time:'연중 개방',fee:'₩2,000',dur:'1시간',desc:'동양 유일의 바다로 직접 떨어지는 폭포입니다. 높이 23m에서 직접 바다로 쏟아지는 장관이 장관입니다. 서귀포 도심에서 도보로 이동 가능합니다.',tags:['폭포','바다','서귀포'],img:'https://images.unsplash.com/photo-1559494007-9f5847c49d94?w=800&q=80',img2:'https://images.unsplash.com/photo-1504701954957-2010ec3bcec1?w=400&q=80',img3:'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&q=80',px:46,py:66},
+  {id:7,name:'산굼부리',area:'제주시',type:'attraction',cat:'자연',rating:4.5,cnt:1234,price:'₩6,000',time:'09:00~18:00',fee:'₩6,000',dur:'1~2시간',desc:'천연 분화구로 국내 유일의 마르형 화산체입니다. 억새밭으로 유명하며 가을이면 황금빛 억새가 장관입니다. 분화구 안의 독특한 생태계도 볼 수 있습니다.',tags:['분화구','억새','단풍'],img:'https://images.unsplash.com/photo-1501854140801-50d01698950b?w=800&q=80',img2:'https://images.unsplash.com/photo-1590001155093-a3c66ab0c3ff?w=400&q=80',img3:'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&q=80',px:60,py:40},
+  {id:8,name:'섭지코지',area:'성산',type:'attraction',cat:'관광지',rating:4.7,cnt:2876,price:'무료',time:'연중 개방',fee:'무료',dur:'1~2시간',desc:'드라마 올인의 촬영지로 유명한 해안 절경 지역입니다. 유리로 된 지니어스 로사이 건축물이 있으며 제주 바다와 어우러진 풍경이 아름답습니다.',tags:['드라이브','절경','해안'],img:'https://images.unsplash.com/photo-1565190743600-a72aab7d0c62?w=800&q=80',img2:'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&q=80',img3:'https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=400&q=80',px:80,py:56},
+  {id:9,name:'한담 해안산책로',area:'애월',type:'attraction',cat:'해안',rating:4.8,cnt:3456,price:'무료',time:'연중 개방',fee:'무료',dur:'1~2시간',desc:'애월 해안을 따라 약 1.2km 이어지는 산책로입니다. 제주 현무암 바위와 에메랄드빛 바다가 어우러진 제주 최고의 산책 코스입니다.',tags:['산책로','해안','커플'],img:'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80',img2:'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&q=80',img3:'https://images.unsplash.com/photo-1519046904884-53103b34b206?w=400&q=80',px:22,py:36},
+  {id:10,name:'카멜리아힐',area:'서귀포',type:'attraction',cat:'관광지',rating:4.6,cnt:2654,price:'₩10,000',time:'08:30~18:00',fee:'₩10,000',dur:'1~2시간',desc:'60여 개국 500여 품종의 동백꽃을 보유한 세계 최대 동백수목원입니다. 겨울부터 봄까지 붉은 동백꽃이 만발하여 이국적인 분위기를 연출합니다.',tags:['동백꽃','수목원','사진'],img:'https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?w=800&q=80',img2:'https://images.unsplash.com/photo-1490750967868-88df5691cc87?w=400&q=80',img3:'https://images.unsplash.com/photo-1444930694458-01babf71870c?w=400&q=80',px:38,py:60},
+  {id:11,name:'비자림',area:'제주시',type:'attraction',cat:'자연',rating:4.5,cnt:1876,price:'₩3,000',time:'09:00~18:00',fee:'₩3,000',dur:'1시간',desc:'수령 500~800년의 비자나무 2,800여 그루가 우거진 세계 최대의 비자나무 숲입니다. 울창한 숲 속 피톤치드 향기가 가득합니다.',tags:['숲','힐링','산림욕'],img:'https://images.unsplash.com/photo-1499728603263-13726abce5fd?w=800&q=80',img2:'https://images.unsplash.com/photo-1501854140801-50d01698950b?w=400&q=80',img3:'https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?w=400&q=80',px:68,py:42},
+  {id:12,name:'제주민속촌',area:'서귀포',type:'attraction',cat:'문화',rating:4.3,cnt:1432,price:'₩11,000',time:'08:30~17:30',fee:'₩11,000',dur:'2~3시간',desc:'조선시대 제주도 생활상을 재현한 민속촌입니다. 100여 채의 초가집과 전통 민속놀이, 장인 공연 등을 통해 제주 전통문화를 체험할 수 있습니다.',tags:['전통문화','민속','역사'],img:'https://images.unsplash.com/photo-1518098268026-4e89f1a2cd8e?w=800&q=80',img2:'https://images.unsplash.com/photo-1504701954957-2010ec3bcec1?w=400&q=80',img3:'https://images.unsplash.com/photo-1490750967868-88df5691cc87?w=400&q=80',px:72,py:60},
+  {id:13,name:'성읍민속마을',area:'성산',type:'attraction',cat:'문화',rating:4.4,cnt:1265,price:'무료',time:'연중 개방',fee:'무료',dur:'1~2시간',desc:'고려시대부터 조선시대까지 정의현청이 있던 마을로 현재도 주민이 거주하는 살아있는 민속마을입니다. 팽나무, 느티나무 고목이 인상적입니다.',tags:['민속마을','전통','고목'],img:'https://images.unsplash.com/photo-1490750967868-88df5691cc87?w=800&q=80',img2:'https://images.unsplash.com/photo-1518098268026-4e89f1a2cd8e?w=400&q=80',img3:'https://images.unsplash.com/photo-1501854140801-50d01698950b?w=400&q=80',px:70,py:54},
+  {id:14,name:'용머리해안',area:'서귀포',type:'attraction',cat:'자연',rating:4.6,cnt:2143,price:'₩2,000',time:'09:00~17:00',fee:'₩2,000',dur:'1시간',desc:'산방산 기슭에서 바다로 뻗어 내려가는 형태가 마치 용이 머리를 들이미는 것 같다 하여 붙여진 이름입니다. 파도가 깎아 만든 기암절벽이 절경입니다.',tags:['해안','절벽','사진'],img:'https://images.unsplash.com/photo-1559494007-9f5847c49d94?w=800&q=80',img2:'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&q=80',img3:'https://images.unsplash.com/photo-1519046904884-53103b34b206?w=400&q=80',px:28,py:64},
+  {id:15,name:'산방산',area:'서귀포',type:'attraction',cat:'자연',rating:4.5,cnt:1876,price:'₩1,000',time:'09:00~18:00',fee:'₩1,000',dur:'1~2시간',desc:'해발 395m의 용암 돔으로 산방굴사라는 해식동굴 안에 불상이 모셔져 있습니다. 주변 경관이 아름다워 드라이브 코스로도 인기입니다.',tags:['해식동굴','절','뷰'],img:'https://images.unsplash.com/photo-1501854140801-50d01698950b?w=800&q=80',img2:'https://images.unsplash.com/photo-1590001155093-a3c66ab0c3ff?w=400&q=80',img3:'https://images.unsplash.com/photo-1559494007-9f5847c49d94?w=400&q=80',px:30,py:62},
+  {id:16,name:'성판악 탐방로',area:'제주시',type:'attraction',cat:'자연',rating:4.7,cnt:2234,price:'무료',time:'새벽 5시~오후 1시',fee:'무료',dur:'8~10시간',desc:'한라산 백록담까지 이어지는 가장 긴 탐방로입니다. 해발 750m에서 1,950m까지 이어지는 코스로 다양한 식생대를 경험할 수 있습니다.',tags:['등산','백록담','트레킹'],img:'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=80',img2:'https://images.unsplash.com/photo-1590001155093-a3c66ab0c3ff?w=400&q=80',img3:'https://images.unsplash.com/photo-1501854140801-50d01698950b?w=400&q=80',px:62,py:46},
+  {id:17,name:'올레 7코스',area:'서귀포',type:'attraction',cat:'트레킹',rating:4.8,cnt:3102,price:'무료',time:'연중 개방',fee:'무료',dur:'4~5시간',desc:'외돌개에서 월평포구까지 약 17.6km 코스입니다. 서귀포 해안의 절경을 따라 걷는 가장 아름다운 올레길 중 하나입니다.',tags:['올레길','트레킹','해안'],img:'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80',img2:'https://images.unsplash.com/photo-1559494007-9f5847c49d94?w=400&q=80',img3:'https://images.unsplash.com/photo-1519046904884-53103b34b206?w=400&q=80',px:42,py:66},
+  {id:18,name:'외돌개',area:'서귀포',type:'attraction',cat:'자연',rating:4.5,cnt:1987,price:'무료',time:'연중 개방',fee:'무료',dur:'1시간',desc:'서귀포 해안에 우뚝 솟아있는 20m 높이의 바위 기둥입니다. 장군 바위라고도 불리며 주변 해안 경관과 어우러져 장관을 이룹니다.',tags:['바위','해안','사진'],img:'https://images.unsplash.com/photo-1519046904884-53103b34b206?w=800&q=80',img2:'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&q=80',img3:'https://images.unsplash.com/photo-1559494007-9f5847c49d94?w=400&q=80',px:40,py:68},
+  {id:19,name:'이호테우해수욕장',area:'제주시',type:'attraction',cat:'해변',rating:4.4,cnt:1654,price:'무료',time:'연중 개방',fee:'무료',dur:'2~3시간',desc:'제주시에서 가장 가까운 해수욕장으로 빨간색과 흰색의 말 모양 등대가 상징입니다. 일몰이 아름다운 서향 해수욕장입니다.',tags:['해수욕장','말등대','일몰'],img:'https://images.unsplash.com/photo-1519046904884-53103b34b206?w=800&q=80',img2:'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&q=80',img3:'https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=400&q=80',px:30,py:30},
+  {id:20,name:'함덕해수욕장',area:'제주시',type:'attraction',cat:'해변',rating:4.7,cnt:2987,price:'무료',time:'연중 개방',fee:'무료',dur:'2~3시간',desc:'제주시 동쪽에 위치한 에메랄드빛 해수욕장입니다. 얕은 수심과 맑은 물로 가족 단위 여행객에게 인기 높은 해수욕장입니다.',tags:['해수욕장','에메랄드','가족'],img:'https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=800&q=80',img2:'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&q=80',img3:'https://images.unsplash.com/photo-1519046904884-53103b34b206?w=400&q=80',px:54,py:28},
+  {id:21,name:'월정리해변',area:'제주시',type:'attraction',cat:'해변',rating:4.8,cnt:3654,price:'무료',time:'연중 개방',fee:'무료',dur:'2~3시간',desc:'투명한 에메랄드빛 바다로 최근 감성 카페와 함께 핫플레이스로 떠오른 해변입니다. 해변 앞 야자수와 함께 인생 사진을 찍을 수 있습니다.',tags:['에메랄드','인생샷','감성'],img:'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80',img2:'https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=400&q=80',img3:'https://images.unsplash.com/photo-1519046904884-53103b34b206?w=400&q=80',px:62,py:30},
+  {id:22,name:'김녕해수욕장',area:'제주시',type:'attraction',cat:'해변',rating:4.5,cnt:1876,price:'무료',time:'연중 개방',fee:'무료',dur:'2시간',desc:'김녕 마을 앞에 위치한 해수욕장으로 바람이 강해 서핑과 카이트보딩으로 유명합니다. 스쿠버다이빙 포인트로도 알려져 있습니다.',tags:['서핑','스쿠버다이빙','해변'],img:'https://images.unsplash.com/photo-1519046904884-53103b34b206?w=800&q=80',img2:'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&q=80',img3:'https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=400&q=80',px:66,py:32},
+  {id:23,name:'보목포구',area:'서귀포',type:'attraction',cat:'해안',rating:4.3,cnt:987,price:'무료',time:'연중 개방',fee:'무료',dur:'1시간',desc:'자리돔 물회로 유명한 아담한 포구입니다. 맑고 투명한 물과 수중 경관이 뛰어나 스노클링을 즐기기에 좋은 포구입니다.',tags:['포구','자리돔','스노클링'],img:'https://images.unsplash.com/photo-1559494007-9f5847c49d94?w=800&q=80',img2:'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&q=80',img3:'https://images.unsplash.com/photo-1519046904884-53103b34b206?w=400&q=80',px:48,py:68},
+  {id:24,name:'차귀도',area:'서귀포',type:'attraction',cat:'섬',rating:4.6,cnt:1432,price:'₩15,000',time:'09:00~17:00',fee:'₩15,000(유람선)',dur:'2시간',desc:'제주도 서쪽 끝에 위치한 무인도로 유람선을 타고 섬 주변을 도는 코스가 인기입니다. 절경의 해식 동굴과 기암절벽이 압도적입니다.',tags:['무인도','유람선','절경'],img:'https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=800&q=80',img2:'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&q=80',img3:'https://images.unsplash.com/photo-1519046904884-53103b34b206?w=400&q=80',px:10,py:50},
+  {id:25,name:'마라도',area:'서귀포',type:'attraction',cat:'섬',rating:4.5,cnt:1876,price:'₩17,000',time:'09:00~16:00',fee:'₩17,000(유람선)',dur:'3시간',desc:'우리나라 최남단 섬입니다. 드넓게 펼쳐진 들판과 아기자기한 등대, 짜장면으로 유명합니다. 가파도 경유 코스도 있습니다.',tags:['최남단','등대','짜장면'],img:'https://images.unsplash.com/photo-1565190743600-a72aab7d0c62?w=800&q=80',img2:'https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=400&q=80',img3:'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&q=80',px:24,py:76},
+  {id:26,name:'제주 돌문화공원',area:'제주시',type:'attraction',cat:'문화',rating:4.4,cnt:1234,price:'₩5,000',time:'09:00~18:00',fee:'₩5,000',dur:'2시간',desc:'제주 탄생 신화를 바탕으로 조성된 공원입니다. 제주 돌문화의 역사와 전설을 야외에서 체험할 수 있으며 오백장군 갤러리가 유명합니다.',tags:['돌문화','신화','공원'],img:'https://images.unsplash.com/photo-1499728603263-13726abce5fd?w=800&q=80',img2:'https://images.unsplash.com/photo-1518098268026-4e89f1a2cd8e?w=400&q=80',img3:'https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?w=400&q=80',px:48,py:36},
+  {id:27,name:'테디베어뮤지엄',area:'서귀포',type:'attraction',cat:'박물관',rating:4.2,cnt:2143,price:'₩12,000',time:'09:00~19:00',fee:'₩12,000',dur:'1시간',desc:'세계 각국 테디베어 2,000여 점을 전시하는 뮤지엄입니다. 다양한 테마 공간에서 사진 찍기 좋은 포토스팟이 많습니다.',tags:['박물관','포토스팟','가족'],img:'https://images.unsplash.com/photo-1490750967868-88df5691cc87?w=800&q=80',img2:'https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?w=400&q=80',img3:'https://images.unsplash.com/photo-1444930694458-01babf71870c?w=400&q=80',px:36,py:62},
+  {id:28,name:'오설록 티뮤지엄',area:'서귀포',type:'attraction',cat:'박물관',rating:4.6,cnt:3245,price:'무료',time:'09:00~18:00',fee:'무료',dur:'1시간',desc:'국내 최초 차 박물관으로 국내외 다양한 차 문화를 전시합니다. 드넓은 녹차밭과 아름다운 정원이 유명하며 녹차 아이스크림이 인기 메뉴입니다.',tags:['녹차','박물관','사진'],img:'https://images.unsplash.com/photo-1444930694458-01babf71870c?w=800&q=80',img2:'https://images.unsplash.com/photo-1490750967868-88df5691cc87?w=400&q=80',img3:'https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?w=400&q=80',px:32,py:56},
+  {id:29,name:'아쿠아플라넷 제주',area:'서귀포',type:'attraction',cat:'테마파크',rating:4.5,cnt:2876,price:'₩38,000',time:'10:00~20:00',fee:'₩38,000',dur:'2~3시간',desc:'아시아 최대 규모의 아쿠아리움입니다. 5만 마리의 해양생물을 보유하고 있으며 국내 최대 메인 수조가 압도적입니다.',tags:['아쿠아리움','해양생물','가족'],img:'https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=800&q=80',img2:'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&q=80',img3:'https://images.unsplash.com/photo-1519046904884-53103b34b206?w=400&q=80',px:78,py:58},
+
+  /* ── 맛집 (30~59) ── */
+  {id:30,name:'흑돼지 골목',area:'제주시',type:'food',cat:'맛집',rating:4.7,cnt:3245,price:'₩15,000~',time:'11:00~22:00',fee:'-',dur:'1~2시간',desc:'제주 흑돼지를 즐길 수 있는 골목으로 제주시 연동에 위치합니다. 두툼한 삼겹살과 오겹살의 독특한 풍미가 일품입니다.',tags:['흑돼지','BBQ','제주특산'],img:'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&q=80',img2:'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=80',img3:'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&q=80',px:35,py:35},
+  {id:31,name:'성게국수 전문점',area:'성산',type:'food',cat:'맛집',rating:4.8,cnt:1987,price:'₩12,000',time:'09:00~18:00',fee:'-',dur:'30~60분',desc:'싱싱한 제주 성게로 만든 고소하고 진한 국수. 성산 일출봉 근처에 여러 전문점이 있으며 아침 식사로도 인기가 높습니다.',tags:['성게','해산물','아침식사'],img:'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=800&q=80',img2:'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&q=80',img3:'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=80',px:74,py:52},
+  {id:32,name:'갈치조림 명가',area:'서귀포',type:'food',cat:'맛집',rating:4.6,cnt:2156,price:'₩13,000',time:'11:00~21:00',fee:'-',dur:'1시간',desc:'제주 대표 향토 음식인 갈치조림. 두툼한 갈치와 제주 고사리, 감자가 어우러진 깊고 진한 맛이 현지인들도 즐겨 찾는 맛집입니다.',tags:['갈치','향토음식','로컬'],img:'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&q=80',img2:'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=400&q=80',img3:'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&q=80',px:45,py:64},
+  {id:33,name:'자리돔 물회집',area:'서귀포',type:'food',cat:'맛집',rating:4.7,cnt:2345,price:'₩14,000',time:'11:00~20:00',fee:'-',dur:'1시간',desc:'제주도의 여름 특산물인 자리돔으로 만든 시원한 물회입니다. 고소하고 담백한 자리돔 물회는 더운 여름철 제주 여행의 별미입니다.',tags:['자리돔','물회','여름'],img:'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=800&q=80',img2:'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=80',img3:'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&q=80',px:44,py:66},
+  {id:34,name:'고기국수 명물집',area:'제주시',type:'food',cat:'맛집',rating:4.8,cnt:3456,price:'₩8,000',time:'08:00~16:00',fee:'-',dur:'30분',desc:'제주 향토 음식 고기국수의 명가입니다. 돼지 뼈를 우려낸 진한 육수에 수육과 함께 먹는 고기국수는 제주 사람들의 소울푸드입니다.',tags:['고기국수','향토음식','아침'],img:'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&q=80',img2:'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=400&q=80',img3:'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=80',px:38,py:34},
+  {id:35,name:'제주 해물라면',area:'애월',type:'food',cat:'맛집',rating:4.5,cnt:1876,price:'₩9,000',time:'10:00~21:00',fee:'-',dur:'30~60분',desc:'제주 앞바다에서 잡은 신선한 해산물을 넣은 라면 전문점입니다. 문어, 전복, 해삼이 들어간 푸짐한 해물라면이 인기입니다.',tags:['해물라면','전복','해산물'],img:'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=800&q=80',img2:'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&q=80',img3:'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&q=80',px:24,py:36},
+  {id:36,name:'전복 뚝배기',area:'서귀포',type:'food',cat:'맛집',rating:4.7,cnt:2876,price:'₩18,000',time:'11:00~21:00',fee:'-',dur:'1시간',desc:'제주 특산물 전복으로 만든 전복 뚝배기 전문점입니다. 통전복이 들어간 진한 전복 뚝배기와 전복죽이 인기 메뉴입니다.',tags:['전복','해산물','로컬'],img:'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80',img2:'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=400&q=80',img3:'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&q=80',px:42,py:62},
+  {id:37,name:'옥돔구이 맛집',area:'제주시',type:'food',cat:'맛집',rating:4.6,cnt:1543,price:'₩20,000~',time:'11:30~21:00',fee:'-',dur:'1시간',desc:'제주 특산 생선인 옥돔구이 전문점입니다. 쫄깃하고 담백한 옥돔구이는 고급 생선 요리로 제주 여행의 특별한 미식 경험을 제공합니다.',tags:['옥돔','생선구이','고급'],img:'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&q=80',img2:'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=80',img3:'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=400&q=80',px:36,py:32},
+  {id:38,name:'감귤 디저트 카페',area:'서귀포',type:'food',cat:'맛집',rating:4.4,cnt:2234,price:'₩8,000~',time:'10:00~20:00',fee:'-',dur:'1시간',desc:'제주 감귤을 활용한 다양한 디저트를 판매합니다. 감귤 타르트, 감귤 소르베, 생감귤 에이드가 시그니처 메뉴입니다.',tags:['감귤','디저트','카페'],img:'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&q=80',img2:'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&q=80',img3:'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=80',px:40,py:60},
+  {id:39,name:'해녀의 부엌',area:'성산',type:'food',cat:'맛집',rating:4.9,cnt:4123,price:'₩35,000',time:'11:00~21:00(예약제)',fee:'-',dur:'2시간',desc:'실제 해녀들이 직접 운영하는 레스토랑으로 당일 채취한 해산물로 요리합니다. 공연과 함께하는 독특한 식사 경험이 매우 특별합니다.',tags:['해녀','신선','공연'],img:'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&q=80',img2:'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=80',img3:'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&q=80',px:76,py:54},
+  {id:40,name:'모슬포 방어회',area:'서귀포',type:'food',cat:'맛집',rating:4.8,cnt:2543,price:'₩25,000~',time:'10:00~21:00',fee:'-',dur:'1~2시간',desc:'겨울이면 모슬포항에서 잡은 싱싱한 방어회를 맛볼 수 있습니다. 방어는 제주도 대표 겨울 별미로 지방이 풍부하고 감칠맛이 일품입니다.',tags:['방어','겨울별미','회'],img:'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80',img2:'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&q=80',img3:'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=400&q=80',px:26,py:68},
+  {id:41,name:'제주 한치물회',area:'제주시',type:'food',cat:'맛집',rating:4.5,cnt:1876,price:'₩13,000',time:'10:00~21:00',fee:'-',dur:'1시간',desc:'한치는 제주의 여름 특산물입니다. 오징어보다 쫄깃한 한치로 만든 물회는 시원하고 달콤한 맛이 일품이며 여름철 별미입니다.',tags:['한치','물회','여름'],img:'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=800&q=80',img2:'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&q=80',img3:'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=80',px:32,py:32},
+  {id:42,name:'국수나라',area:'제주시',type:'food',cat:'맛집',rating:4.4,cnt:3456,price:'₩7,000',time:'06:00~15:00',fee:'-',dur:'30분',desc:'아침 일찍부터 영업하는 국수 전문점입니다. 제주 공항 근처에 위치하여 제주 여행의 첫 끼나 마지막 끼로 인기 높습니다.',tags:['국수','조식','공항근처'],img:'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=800&q=80',img2:'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&q=80',img3:'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&q=80',px:28,py:28},
+  {id:43,name:'서귀포 매일올레시장',area:'서귀포',type:'food',cat:'시장',rating:4.5,cnt:2876,price:'₩3,000~',time:'07:00~21:00',fee:'-',dur:'1~2시간',desc:'제주 전통 재래시장으로 제주 특산물과 먹거리가 가득합니다. 신선한 과일, 떡, 순대, 고기 등 다양한 로컬 음식을 저렴하게 맛볼 수 있습니다.',tags:['재래시장','로컬음식','쇼핑'],img:'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&q=80',img2:'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=80',img3:'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&q=80',px:42,py:64},
+  {id:44,name:'비양도 낙지볶음',area:'협재',type:'food',cat:'맛집',rating:4.6,cnt:1234,price:'₩16,000',time:'11:00~20:00',fee:'-',dur:'1시간',desc:'협재 항구에서 바라보이는 비양도를 배경으로 즐기는 신선한 낙지볶음 전문점입니다. 매콤하고 쫄깃한 낙지볶음이 인기입니다.',tags:['낙지볶음','협재','해산물'],img:'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&q=80',img2:'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=400&q=80',img3:'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&q=80',px:18,py:46},
+  {id:45,name:'제주 돔베고기',area:'제주시',type:'food',cat:'맛집',rating:4.7,cnt:2987,price:'₩12,000',time:'11:00~21:00',fee:'-',dur:'1시간',desc:'제주 전통 삶은 돼지고기 요리로 두툼하게 썰어 간장 소스에 찍어 먹습니다. 제주 잔칫날 빠지지 않는 전통 음식입니다.',tags:['돔베고기','전통음식','수육'],img:'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&q=80',img2:'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=400&q=80',img3:'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=80',px:34,py:34},
+  {id:46,name:'중문 해산물 뷔페',area:'서귀포',type:'food',cat:'맛집',rating:4.3,cnt:1543,price:'₩45,000',time:'11:30~21:30',fee:'-',dur:'2시간',desc:'중문 관광단지 내 위치한 해산물 뷔페입니다. 제주산 신선한 해산물을 무제한으로 즐길 수 있으며 회, 구이, 탕 등 다양한 조리법으로 제공합니다.',tags:['뷔페','해산물','중문'],img:'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80',img2:'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&q=80',img3:'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&q=80',px:38,py:64},
+  {id:47,name:'제주빙떡집',area:'제주시',type:'food',cat:'간식',rating:4.4,cnt:1987,price:'₩2,000',time:'09:00~18:00',fee:'-',dur:'30분',desc:'제주 전통 음식인 빙떡 전문점입니다. 메밀 전병에 무나물을 넣어 돌돌 말아 구운 빙떡은 간단하면서도 맛있는 제주 간식입니다.',tags:['빙떡','전통','메밀'],img:'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&q=80',img2:'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&q=80',img3:'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=80',px:36,py:36},
+  {id:48,name:'제주 고사리육개장',area:'서귀포',type:'food',cat:'맛집',rating:4.5,cnt:1654,price:'₩11,000',time:'09:00~20:00',fee:'-',dur:'1시간',desc:'제주 특산물인 고사리로 만든 육개장입니다. 일반 육개장과 달리 제주 고사리의 진한 향과 풍미가 어우러진 제주만의 독특한 맛입니다.',tags:['고사리','육개장','향토'],img:'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=800&q=80',img2:'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&q=80',img3:'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&q=80',px:44,py:62},
+  {id:49,name:'성산항 새벽 어시장',area:'성산',type:'food',cat:'시장',rating:4.7,cnt:2345,price:'₩5,000~',time:'새벽 5시~오전',fee:'-',dur:'1시간',desc:'매일 새벽 어선에서 갓 내린 제주 신선한 해산물을 경매하는 어시장입니다. 관광객도 새벽 어시장 구경과 함께 신선한 해산물을 구매할 수 있습니다.',tags:['새벽시장','해산물','신선'],img:'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80',img2:'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=400&q=80',img3:'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&q=80',px:74,py:56},
+  {id:50,name:'한림 수산시장',area:'협재',type:'food',cat:'시장',rating:4.4,cnt:1234,price:'₩5,000~',time:'06:00~18:00',fee:'-',dur:'1시간',desc:'제주 서부 지역의 대표 수산시장으로 신선한 제주 해산물을 저렴하게 구입할 수 있습니다. 시장 2층 식당에서 직접 회를 썰어 먹을 수 있습니다.',tags:['수산시장','회','저렴'],img:'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80',img2:'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&q=80',img3:'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=400&q=80',px:20,py:48},
+  {id:51,name:'제주 아구찜',area:'제주시',type:'food',cat:'맛집',rating:4.6,cnt:2156,price:'₩16,000',time:'11:00~22:00',fee:'-',dur:'1시간',desc:'제주 아귀로 만든 매콤한 아구찜 전문점입니다. 콩나물과 미더덕을 함께 넣어 끓인 시원하고 얼큰한 아구찜이 특징입니다.',tags:['아구찜','해산물','얼큰'],img:'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&q=80',img2:'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=80',img3:'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=400&q=80',px:36,py:34},
+  {id:52,name:'우도 땅콩 아이스크림',area:'성산',type:'food',cat:'간식',rating:4.6,cnt:3876,price:'₩5,000',time:'09:00~18:00',fee:'-',dur:'30분',desc:'우도 특산물인 흑땅콩으로 만든 아이스크림입니다. 고소하고 진한 땅콩향이 일품이며 우도 여행의 필수 먹거리입니다.',tags:['아이스크림','우도','땅콩'],img:'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&q=80',img2:'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=400&q=80',img3:'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&q=80',px:84,py:46},
+  {id:53,name:'제주 닭갈비',area:'제주시',type:'food',cat:'맛집',rating:4.5,cnt:2543,price:'₩12,000',time:'11:00~22:00',fee:'-',dur:'1시간',desc:'제주 감귤소스로 만든 특제 닭갈비입니다. 달콤하고 매콤한 제주 감귤 소스가 닭고기에 잘 어우러져 독특한 맛을 냅니다.',tags:['닭갈비','감귤소스','로컬'],img:'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&q=80',img2:'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&q=80',img3:'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=80',px:34,py:34},
+  {id:54,name:'제주 보말칼국수',area:'제주시',type:'food',cat:'맛집',rating:4.6,cnt:2876,price:'₩9,000',time:'09:00~20:00',fee:'-',dur:'1시간',desc:'제주 해안에서 채취한 보말(고둥)로 만든 칼국수입니다. 진한 보말 육수와 쫄깃한 면이 어우러진 제주 대표 향토 국수입니다.',tags:['보말칼국수','향토음식','로컬'],img:'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=800&q=80',img2:'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&q=80',img3:'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=80',px:36,py:32},
+  {id:55,name:'제주 해물순대',area:'제주시',type:'food',cat:'간식',rating:4.3,cnt:1543,price:'₩8,000',time:'10:00~20:00',fee:'-',dur:'30분',desc:'제주 오일장에서 맛볼 수 있는 해산물이 들어간 순대입니다. 쫄깃한 식감과 함께 다양한 해산물의 풍미가 어우러져 인기 길거리 음식입니다.',tags:['순대','시장음식','해산물'],img:'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&q=80',img2:'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=80',img3:'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&q=80',px:34,py:36},
+  {id:56,name:'제주 흑임자라떼 카페',area:'애월',type:'food',cat:'카페',rating:4.7,cnt:2345,price:'₩7,500',time:'09:00~21:00',fee:'-',dur:'1시간',desc:'흑임자(검은깨)를 이용한 건강한 라떼 전문점입니다. 제주 바다 뷰와 함께 즐기는 고소하고 진한 흑임자 라떼가 인기입니다.',tags:['흑임자','건강음료','오션뷰'],img:'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80',img2:'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=400&q=80',img3:'https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=400&q=80',px:22,py:38},
+  {id:57,name:'천혜향 아이스크림',area:'서귀포',type:'food',cat:'간식',rating:4.5,cnt:2876,price:'₩5,000',time:'10:00~19:00',fee:'-',dur:'30분',desc:'제주 특산 천혜향으로 만든 아이스크림입니다. 달콤하고 상큼한 천혜향의 풍미가 가득한 아이스크림은 제주 여행의 달콤한 추억을 만들어줍니다.',tags:['천혜향','아이스크림','디저트'],img:'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&q=80',img2:'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=400&q=80',img3:'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&q=80',px:40,py:62},
+  {id:58,name:'애월 해녀탕',area:'애월',type:'food',cat:'맛집',rating:4.6,cnt:1876,price:'₩15,000',time:'11:00~20:00',fee:'-',dur:'1시간',desc:'애월 해녀들이 직접 잡아 올린 신선한 해산물로 끓인 얼큰한 해물탕입니다. 제주 앞바다의 싱싱한 해산물을 진한 탕으로 즐길 수 있습니다.',tags:['해물탕','해녀','신선'],img:'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80',img2:'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&q=80',img3:'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&q=80',px:22,py:38},
+  {id:59,name:'중문 파파이스 빙수',area:'서귀포',type:'food',cat:'디저트',rating:4.4,cnt:2543,price:'₩12,000',time:'10:00~20:00',fee:'-',dur:'1시간',desc:'제주 특산 과일로 만든 빙수 전문점입니다. 한라봉, 천혜향, 감귤 등 제주 과일이 가득 올라간 빙수가 여름철 인기입니다.',tags:['빙수','제주과일','디저트'],img:'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&q=80',img2:'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=80',img3:'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=400&q=80',px:38,py:66},
+
+  /* ── 카페 (60~79) ── */
+  {id:60,name:'애월 오션뷰 카페',area:'애월',type:'cafe',cat:'카페',rating:4.9,cnt:4521,price:'₩7,000~',time:'10:00~21:00',fee:'-',dur:'1~2시간',desc:'애월 해안도로를 따라 늘어선 오션뷰 카페들. 제주 바다를 바라보며 즐기는 커피 한 잔은 제주 여행의 하이라이트입니다.',tags:['오션뷰','노을','감성카페'],img:'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80',img2:'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=400&q=80',img3:'https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=400&q=80',px:24,py:38},
+  {id:61,name:'노을빛 카페',area:'협재',type:'cafe',cat:'카페',rating:4.7,cnt:3124,price:'₩6,500~',time:'10:00~21:00',fee:'-',dur:'1시간',desc:'협재 해변 앞에 위치한 감성 카페. 서쪽으로 열린 탁 트인 전망에서 제주 최고의 노을을 감상할 수 있는 곳입니다.',tags:['노을','뷰 맛집','협재'],img:'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=800&q=80',img2:'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&q=80',img3:'https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=400&q=80',px:16,py:50},
+  {id:62,name:'감귤향 카페',area:'제주시',type:'cafe',cat:'카페',rating:4.5,cnt:2876,price:'₩5,500~',time:'09:00~20:00',fee:'-',dur:'1시간',desc:'제주 감귤을 활용한 다양한 음료와 베이커리를 선보입니다. 감귤 에이드, 감귤 케이크가 시그니처 메뉴입니다.',tags:['감귤','베이커리','제주'],img:'https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=800&q=80',img2:'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=400&q=80',img3:'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&q=80',px:36,py:33},
+  {id:63,name:'월정리 감성 카페',area:'제주시',type:'cafe',cat:'카페',rating:4.8,cnt:4234,price:'₩7,000~',time:'09:00~22:00',fee:'-',dur:'1~2시간',desc:'월정리 해변 앞에 위치한 감성 카페입니다. 에메랄드빛 바다를 바라보며 즐기는 커피와 브런치가 인기입니다. 인스타그램 핫플레이스입니다.',tags:['월정리','오션뷰','브런치'],img:'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80',img2:'https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=400&q=80',img3:'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=400&q=80',px:62,py:30},
+  {id:64,name:'독채 카페 제주',area:'서귀포',type:'cafe',cat:'카페',rating:4.6,cnt:2345,price:'₩8,000~',time:'10:00~20:00',fee:'-',dur:'1~2시간',desc:'서귀포 한적한 곳에 위치한 독채 형태의 카페입니다. 감귤 밭과 한라산이 보이는 정원에서 제주의 여유를 즐길 수 있습니다.',tags:['독채카페','감귤밭','한라산뷰'],img:'https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=800&q=80',img2:'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&q=80',img3:'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=400&q=80',px:40,py:60},
+  {id:65,name:'성산 일출뷰 카페',area:'성산',type:'cafe',cat:'카페',rating:4.8,cnt:3456,price:'₩7,500~',time:'07:00~21:00',fee:'-',dur:'1~2시간',desc:'성산일출봉이 바로 보이는 위치에 있는 카페입니다. 이른 아침 일출과 함께 즐기는 커피 한 잔이 특별합니다. 루프탑 좌석이 인기입니다.',tags:['성산','일출뷰','루프탑'],img:'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80',img2:'https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=400&q=80',img3:'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&q=80',px:76,py:52},
+  {id:66,name:'제주 오름 카페',area:'제주시',type:'cafe',cat:'카페',rating:4.5,cnt:1987,price:'₩6,000~',time:'10:00~20:00',fee:'-',dur:'1시간',desc:'오름이 보이는 뷰를 가진 아늑한 카페입니다. 제주 로컬 원두로 내린 스페셜티 커피와 직접 만든 베이커리가 인기입니다.',tags:['오름뷰','스페셜티','베이커리'],img:'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=800&q=80',img2:'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&q=80',img3:'https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=400&q=80',px:50,py:36},
+  {id:67,name:'한림 베이커리 카페',area:'협재',type:'cafe',cat:'카페',rating:4.4,cnt:1654,price:'₩5,500~',time:'08:00~19:00',fee:'-',dur:'1시간',desc:'제주산 재료로 만든 다양한 베이커리와 커피를 즐길 수 있는 카페입니다. 쑥 크루아상, 감귤 마들렌이 시그니처 메뉴입니다.',tags:['베이커리','쑥','제주재료'],img:'https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=800&q=80',img2:'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=400&q=80',img3:'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&q=80',px:18,py:46},
+  {id:68,name:'제주 갤러리 카페',area:'애월',type:'cafe',cat:'카페',rating:4.7,cnt:2876,price:'₩7,000~',time:'10:00~21:00',fee:'-',dur:'1~2시간',desc:'제주 작가들의 예술 작품을 전시하는 갤러리 카페입니다. 아름다운 공간에서 예술을 감상하며 커피를 즐기는 특별한 경험을 제공합니다.',tags:['갤러리','예술','감성'],img:'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80',img2:'https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=400&q=80',img3:'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=400&q=80',px:24,py:36},
+  {id:69,name:'서귀포 한라봉 스무디',area:'서귀포',type:'cafe',cat:'카페',rating:4.6,cnt:2345,price:'₩6,500',time:'10:00~19:00',fee:'-',dur:'30분',desc:'제주 특산 한라봉으로 만든 신선한 스무디 전문점입니다. 달콤하고 상큼한 한라봉 스무디는 제주 여행의 특별한 추억이 됩니다.',tags:['한라봉','스무디','신선'],img:'https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=800&q=80',img2:'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&q=80',img3:'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=400&q=80',px:40,py:64},
+  {id:70,name:'제주 녹차 카페',area:'서귀포',type:'cafe',cat:'카페',rating:4.5,cnt:2156,price:'₩6,000~',time:'09:00~19:00',fee:'-',dur:'1시간',desc:'오설록 녹차밭 인근의 녹차 전문 카페입니다. 녹차 라떼, 녹차 빙수, 녹차 케이크 등 다양한 녹차 기반 음료와 디저트를 즐길 수 있습니다.',tags:['녹차','오설록','힐링'],img:'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80',img2:'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=400&q=80',img3:'https://images.unsplash.com/photo-1444930694458-01babf71870c?w=400&q=80',px:32,py:58},
+  {id:71,name:'마을 게스트하우스 카페',area:'제주시',type:'cafe',cat:'카페',rating:4.3,cnt:1234,price:'₩5,000~',time:'08:00~22:00',fee:'-',dur:'1시간',desc:'제주 원도심 골목에 위치한 아늑한 카페입니다. 제주 돌담과 조화를 이루는 공간에서 여유로운 시간을 보낼 수 있습니다.',tags:['원도심','돌담','아늑'],img:'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=800&q=80',img2:'https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=400&q=80',img3:'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&q=80',px:34,py:32},
+  {id:72,name:'우도 선착장 카페',area:'성산',type:'cafe',cat:'카페',rating:4.6,cnt:2987,price:'₩6,000~',time:'08:00~18:00',fee:'-',dur:'1시간',desc:'우도 선착장 바로 앞에 위치한 카페입니다. 우도 땅콩을 이용한 특제 음료와 베이커리가 인기이며 우도 바다 전망이 아름답습니다.',tags:['우도','땅콩','바다뷰'],img:'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80',img2:'https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=400&q=80',img3:'https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=400&q=80',px:82,py:46},
+  {id:73,name:'제주 루프탑바 카페',area:'제주시',type:'cafe',cat:'카페',rating:4.7,cnt:3456,price:'₩8,000~',time:'11:00~23:00',fee:'-',dur:'1~2시간',desc:'제주 시내가 한눈에 보이는 루프탑 카페입니다. 낮에는 카페로, 저녁에는 야경 바로 운영됩니다. 한라산과 도심이 한눈에 내려다 보입니다.',tags:['루프탑','야경','도심뷰'],img:'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80',img2:'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=400&q=80',img3:'https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=400&q=80',px:32,py:30},
+  {id:74,name:'함덕 파도 카페',area:'제주시',type:'cafe',cat:'카페',rating:4.8,cnt:3876,price:'₩7,500~',time:'09:00~21:00',fee:'-',dur:'1~2시간',desc:'함덕 해수욕장 바로 앞에 위치한 오션뷰 카페입니다. 파도 소리를 들으며 즐기는 커피가 특별합니다. 시그니처 함덕 라떼가 인기입니다.',tags:['함덕','오션뷰','파도'],img:'https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=800&q=80',img2:'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&q=80',img3:'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=400&q=80',px:54,py:28},
+  {id:75,name:'제주 오래된 책방 카페',area:'제주시',type:'cafe',cat:'카페',rating:4.5,cnt:1876,price:'₩5,500~',time:'10:00~20:00',fee:'-',dur:'1~2시간',desc:'제주 관련 서적과 독립 출판물을 갖춘 책방 카페입니다. 아늑한 공간에서 제주를 테마로 한 책을 읽으며 시간을 보낼 수 있습니다.',tags:['책방','독립서점','아늑'],img:'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=800&q=80',img2:'https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=400&q=80',img3:'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&q=80',px:34,py:34},
+  {id:76,name:'중문 리조트 카페',area:'서귀포',type:'cafe',cat:'카페',rating:4.4,cnt:2345,price:'₩9,000~',time:'08:00~22:00',fee:'-',dur:'1시간',desc:'중문 관광단지 내 위치한 고급 카페입니다. 바다가 한눈에 보이는 테라스에서 즐기는 하이티 세트가 인기입니다.',tags:['중문','하이티','고급'],img:'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80',img2:'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=400&q=80',img3:'https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=400&q=80',px:38,py:66},
+  {id:77,name:'제주 우유 크림 카페',area:'협재',type:'cafe',cat:'카페',rating:4.6,cnt:2654,price:'₩6,500~',time:'10:00~20:00',fee:'-',dur:'1시간',desc:'제주 신선한 우유를 이용한 음료를 판매하는 카페입니다. 진한 우유 거품이 올라간 크림 라떼와 우유 소프트 아이스크림이 인기입니다.',tags:['우유크림','라떼','협재'],img:'https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=800&q=80',img2:'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&q=80',img3:'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=400&q=80',px:18,py:50},
+  {id:78,name:'비자림 숲속 카페',area:'제주시',type:'cafe',cat:'카페',rating:4.7,cnt:2876,price:'₩6,000~',time:'09:00~18:00',fee:'-',dur:'1시간',desc:'비자림 근처 숲속에 위치한 카페입니다. 천연 피톤치드 향이 가득한 숲 속에서 즐기는 핸드드립 커피가 힐링이 됩니다.',tags:['숲속','피톤치드','힐링'],img:'https://images.unsplash.com/photo-1499728603263-13726abce5fd?w=800&q=80',img2:'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&q=80',img3:'https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=400&q=80',px:66,py:38},
+  {id:79,name:'제주 새벽 베이커리',area:'제주시',type:'cafe',cat:'카페',rating:4.5,cnt:1987,price:'₩5,000~',time:'06:00~14:00',fee:'-',dur:'1시간',desc:'이른 아침부터 문을 여는 베이커리 카페입니다. 매일 아침 갓 구운 크루아상과 소금빵, 핸드드립 커피로 제주 아침을 시작할 수 있습니다.',tags:['베이커리','새벽','크루아상'],img:'https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=800&q=80',img2:'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=400&q=80',img3:'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&q=80',px:30,py:28},
+
+  /* ── 숙소 (80~99) ── */
+  {id:80,name:'오션 리조트',area:'서귀포',type:'hotel',cat:'숙소',rating:4.6,cnt:1523,price:'₩180,000~',time:'-',fee:'-',dur:'-',desc:'서귀포 해안가에 위치한 5성급 리조트. 전 객실 오션뷰, 야외 인피니티풀, 스파 시설을 갖추고 있습니다.',tags:['5성급','오션뷰','스파'],img:'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=80',img2:'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=400&q=80',img3:'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=400&q=80',px:48,py:65},
+  {id:81,name:'한라산 뷰 펜션',area:'서귀포',type:'hotel',cat:'숙소',rating:4.7,cnt:1234,price:'₩120,000~',time:'-',fee:'-',dur:'-',desc:'한라산이 바로 보이는 위치의 아늑한 펜션입니다. 독채 형태로 전용 정원이 딸려 있으며 바베큐 시설이 갖춰져 있습니다.',tags:['펜션','한라산뷰','독채'],img:'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=800&q=80',img2:'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&q=80',img3:'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=400&q=80',px:44,py:56},
+  {id:82,name:'성산 게스트하우스',area:'성산',type:'hotel',cat:'숙소',rating:4.4,cnt:987,price:'₩35,000~',time:'-',fee:'-',dur:'-',desc:'성산일출봉 도보 10분 거리의 게스트하우스입니다. 새벽 일출 투어를 위해 일찍 체크아웃이 가능하며 조식 서비스가 포함됩니다.',tags:['게스트하우스','일출','저렴'],img:'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=80',img2:'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=400&q=80',img3:'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=400&q=80',px:74,py:52},
+  {id:83,name:'협재 비치 풀빌라',area:'협재',type:'hotel',cat:'숙소',rating:4.8,cnt:1543,price:'₩250,000~',time:'-',fee:'-',dur:'-',desc:'협재 해변 도보 2분 거리의 풀빌라입니다. 독채 개인 수영장에서 제주 바다를 바라보는 럭셔리한 숙박 경험을 제공합니다.',tags:['풀빌라','협재','럭셔리'],img:'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=800&q=80',img2:'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&q=80',img3:'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=400&q=80',px:18,py:50},
+  {id:84,name:'애월 에어비앤비',area:'애월',type:'hotel',cat:'숙소',rating:4.6,cnt:2345,price:'₩80,000~',time:'-',fee:'-',dur:'-',desc:'애월 해안도로에 위치한 감성 숙소입니다. 바다가 보이는 테라스에서 커피를 마시며 여유를 즐길 수 있습니다.',tags:['에어비앤비','테라스','오션뷰'],img:'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=80',img2:'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=400&q=80',img3:'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=400&q=80',px:24,py:38},
+  {id:85,name:'제주 전통 초가 민박',area:'성산',type:'hotel',cat:'숙소',rating:4.5,cnt:876,price:'₩60,000~',time:'-',fee:'-',dur:'-',desc:'제주 전통 초가 형태의 독채 민박입니다. 현무암 돌담과 제주 전통 정원에서 제주의 전통 생활을 경험할 수 있습니다.',tags:['초가','전통','독채'],img:'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=800&q=80',img2:'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&q=80',img3:'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=400&q=80',px:74,py:50},
+  {id:86,name:'중문 관광단지 호텔',area:'서귀포',type:'hotel',cat:'숙소',rating:4.5,cnt:2134,price:'₩150,000~',time:'-',fee:'-',dur:'-',desc:'중문 관광단지 내 위치한 비즈니스 호텔입니다. 퍼시픽랜드, 아쿠아플라넷 등 인근 관광시설 이용이 편리합니다.',tags:['호텔','중문','관광지인근'],img:'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=800&q=80',img2:'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=400&q=80',img3:'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&q=80',px:38,py:66},
+  {id:87,name:'제주 캠핑장',area:'제주시',type:'hotel',cat:'숙소',rating:4.3,cnt:1234,price:'₩20,000~',time:'-',fee:'-',dur:'-',desc:'한라산 기슭에 위치한 캠핑장입니다. 별이 쏟아지는 맑은 하늘 아래 캠핑을 즐길 수 있으며 다양한 캠핑 장비 대여 서비스도 제공합니다.',tags:['캠핑','별','자연'],img:'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=800&q=80',img2:'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&q=80',img3:'https://images.unsplash.com/photo-1501854140801-50d01698950b?w=400&q=80',px:48,py:44},
+  {id:88,name:'우도 풀빌라',area:'성산',type:'hotel',cat:'숙소',rating:4.7,cnt:876,price:'₩200,000~',time:'-',fee:'-',dur:'-',desc:'우도 섬 안에 위치한 단 4개의 독채 풀빌라입니다. 에메랄드빛 우도 바다 전망의 개인 수영장에서 최고의 프라이빗한 시간을 즐길 수 있습니다.',tags:['우도','풀빌라','프라이빗'],img:'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=800&q=80',img2:'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&q=80',img3:'https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=400&q=80',px:84,py:46},
+  {id:89,name:'제주 한옥 스테이',area:'제주시',type:'hotel',cat:'숙소',rating:4.6,cnt:1543,price:'₩90,000~',time:'-',fee:'-',dur:'-',desc:'제주 전통 건축 양식으로 지어진 한옥 스테이입니다. 현무암 돌담과 조화로운 전통 정원이 아름다우며 명상 체험 프로그램이 운영됩니다.',tags:['한옥','전통','명상'],img:'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=800&q=80',img2:'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=400&q=80',img3:'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&q=80',px:34,py:34},
+  {id:90,name:'서귀포 부티크 호텔',area:'서귀포',type:'hotel',cat:'숙소',rating:4.7,cnt:1876,price:'₩130,000~',time:'-',fee:'-',dur:'-',desc:'서귀포 도심에 위치한 세련된 부티크 호텔입니다. 루프탑 테라스에서 서귀포 야경과 바다가 한눈에 펼쳐집니다.',tags:['부티크호텔','루프탑','야경'],img:'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=80',img2:'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=400&q=80',img3:'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=400&q=80',px:44,py:66},
+  {id:91,name:'제주 에코 리조트',area:'서귀포',type:'hotel',cat:'숙소',rating:4.5,cnt:1234,price:'₩100,000~',time:'-',fee:'-',dur:'-',desc:'자연과 조화를 이루는 친환경 리조트입니다. 태양광 에너지로 운영되며 유기농 조식과 다양한 자연 체험 프로그램이 제공됩니다.',tags:['친환경','유기농','자연'],img:'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=800&q=80',img2:'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=400&q=80',img3:'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&q=80',px:36,py:62},
+  {id:92,name:'비양도 전망 민박',area:'협재',type:'hotel',cat:'숙소',rating:4.4,cnt:765,price:'₩55,000~',time:'-',fee:'-',dur:'-',desc:'협재 해변에서 비양도가 바로 보이는 위치의 민박입니다. 규모는 작지만 아늑하고 정감 있는 제주 민박의 정취를 느낄 수 있습니다.',tags:['민박','비양도뷰','아늑'],img:'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=800&q=80',img2:'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&q=80',img3:'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=400&q=80',px:16,py:50},
+  {id:93,name:'제주 클럽하우스',area:'제주시',type:'hotel',cat:'숙소',rating:4.6,cnt:1987,price:'₩110,000~',time:'-',fee:'-',dur:'-',desc:'골프 클럽하우스가 딸린 리조트입니다. 18홀 골프코스와 한라산 전망이 아름다우며 스파, 레스토랑 등 다양한 부대시설이 있습니다.',tags:['골프','한라산뷰','리조트'],img:'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=800&q=80',img2:'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&q=80',img3:'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=400&q=80',px:42,py:38},
+  {id:94,name:'제주 신혼여행 호텔',area:'서귀포',type:'hotel',cat:'숙소',rating:4.8,cnt:2345,price:'₩200,000~',time:'-',fee:'-',dur:'-',desc:'신혼여행 전문 호텔로 커플을 위한 특별한 서비스와 프로그램이 준비되어 있습니다. 오션뷰 스위트룸과 개인 자쿠지가 인기입니다.',tags:['신혼여행','스위트룸','자쿠지'],img:'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=80',img2:'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=400&q=80',img3:'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=400&q=80',px:46,py:68},
+  {id:95,name:'제주 여행자 호스텔',area:'제주시',type:'hotel',cat:'숙소',rating:4.3,cnt:3456,price:'₩25,000~',time:'-',fee:'-',dur:'-',desc:'혼자 여행하는 여행자를 위한 청결하고 안전한 호스텔입니다. 다양한 국적의 여행자들과 교류할 수 있으며 자전거 대여 서비스가 있습니다.',tags:['호스텔','혼여행','자전거'],img:'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=800&q=80',img2:'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&q=80',img3:'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=400&q=80',px:32,py:32},
+  {id:96,name:'서귀포 오션스파 호텔',area:'서귀포',type:'hotel',cat:'숙소',rating:4.7,cnt:1654,price:'₩160,000~',time:'-',fee:'-',dur:'-',desc:'서귀포 해안가에 위치한 스파 특화 호텔입니다. 바다가 보이는 해수 온천탕과 다양한 마사지 서비스가 제공됩니다.',tags:['스파','온천','오션뷰'],img:'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=800&q=80',img2:'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&q=80',img3:'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=400&q=80',px:44,py:66},
+  {id:97,name:'함덕 게스트하우스',area:'제주시',type:'hotel',cat:'숙소',rating:4.4,cnt:876,price:'₩40,000~',time:'-',fee:'-',dur:'-',desc:'함덕 해수욕장 도보 5분 거리의 게스트하우스입니다. 자유로운 분위기에서 다양한 여행자들과 교류하며 제주 여행 정보를 나눌 수 있습니다.',tags:['게스트하우스','함덕','자유여행'],img:'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=800&q=80',img2:'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=400&q=80',img3:'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&q=80',px:54,py:28},
+  {id:98,name:'제주 힐링 리트리트',area:'서귀포',type:'hotel',cat:'숙소',rating:4.8,cnt:1345,price:'₩170,000~',time:'-',fee:'-',dur:'-',desc:'자연 속에서 휴식과 명상을 위한 웰니스 리트리트 센터입니다. 요가, 명상, 자연 치유 프로그램이 운영되며 채식 식단이 제공됩니다.',tags:['웰니스','요가','힐링'],img:'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=80',img2:'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=400&q=80',img3:'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=400&q=80',px:38,py:62},
+  {id:99,name:'제주 럭셔리 빌라',area:'애월',type:'hotel',cat:'숙소',rating:4.9,cnt:654,price:'₩400,000~',time:'-',fee:'-',dur:'-',desc:'애월 해안에 위치한 초럭셔리 프라이빗 빌라입니다. 개인 수영장과 정원, 개인 셰프 서비스가 제공되며 영화배우들도 즐겨 찾는 최고급 숙소입니다.',tags:['럭셔리','프라이빗','빌라'],img:'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=800&q=80',img2:'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&q=80',img3:'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=400&q=80',px:22,py:38},
+
+  /* ── 액티비티 (100~109) ── */
+  {id:100,name:'제주 서핑 스쿨',area:'협재',type:'attraction',cat:'액티비티',rating:4.7,cnt:2345,price:'₩60,000',time:'09:00~18:00',fee:'₩60,000',dur:'3시간',desc:'협재 해변에서 즐기는 서핑 체험입니다. 초보자도 2시간 이내에 파도를 탈 수 있도록 전문 강사가 개인 레슨을 제공합니다.',tags:['서핑','액티비티','협재'],img:'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80',img2:'https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=400&q=80',img3:'https://images.unsplash.com/photo-1519046904884-53103b34b206?w=400&q=80',px:18,py:50},
+  {id:101,name:'제주 스쿠버다이빙',area:'서귀포',type:'attraction',cat:'액티비티',rating:4.8,cnt:1876,price:'₩80,000',time:'09:00~17:00',fee:'₩80,000',dur:'3~4시간',desc:'제주 맑은 바다에서 즐기는 스쿠버다이빙입니다. 서귀포 앞바다는 시야가 좋고 다양한 해양생물이 서식하여 스쿠버다이빙 명소입니다.',tags:['스쿠버다이빙','해양생물','서귀포'],img:'https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=800&q=80',img2:'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&q=80',img3:'https://images.unsplash.com/photo-1519046904884-53103b34b206?w=400&q=80',px:44,py:68},
+  {id:102,name:'우도 자전거 투어',area:'성산',type:'attraction',cat:'액티비티',rating:4.8,cnt:3456,price:'₩15,000',time:'08:00~18:00',fee:'₩15,000',dur:'3~4시간',desc:'우도를 자전거로 일주하는 투어입니다. 약 17km의 코스로 우도의 아름다운 해안선과 내부 경관을 모두 즐길 수 있습니다.',tags:['자전거','우도','일주'],img:'https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=800&q=80',img2:'https://images.unsplash.com/photo-1565190743600-a72aab7d0c62?w=400&q=80',img3:'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&q=80',px:84,py:46},
+  {id:103,name:'제주 패러글라이딩',area:'제주시',type:'attraction',cat:'액티비티',rating:4.7,cnt:1543,price:'₩90,000',time:'09:00~17:00',fee:'₩90,000',dur:'2시간',desc:'제주 오름 위에서 즐기는 짜릿한 패러글라이딩입니다. 제주 전경을 하늘에서 바라보는 경험은 일생에 한 번은 해봐야 하는 특별한 체험입니다.',tags:['패러글라이딩','하늘','스릴'],img:'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=80',img2:'https://images.unsplash.com/photo-1590001155093-a3c66ab0c3ff?w=400&q=80',img3:'https://images.unsplash.com/photo-1501854140801-50d01698950b?w=400&q=80',px:50,py:36},
+  {id:104,name:'해녀 체험 투어',area:'성산',type:'attraction',cat:'액티비티',rating:4.9,cnt:2876,price:'₩40,000',time:'10:00~15:00',fee:'₩40,000',dur:'2시간',desc:'실제 해녀와 함께하는 제주 해녀 문화 체험입니다. 물질 시연을 보고 직접 무게추를 달고 잠수 체험도 할 수 있습니다.',tags:['해녀','체험','전통문화'],img:'https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=800&q=80',img2:'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&q=80',img3:'https://images.unsplash.com/photo-1565190743600-a72aab7d0c62?w=400&q=80',px:76,py:54},
+  {id:105,name:'감귤 농장 체험',area:'서귀포',type:'attraction',cat:'액티비티',rating:4.6,cnt:3456,price:'₩10,000',time:'10:00~17:00',fee:'₩10,000',dur:'1~2시간',desc:'제주 감귤 농장에서 직접 감귤을 따는 체험입니다. 수확한 감귤은 직접 가져갈 수 있으며 감귤 주스 만들기 체험도 함께 진행됩니다.',tags:['감귤따기','체험','가족'],img:'https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?w=800&q=80',img2:'https://images.unsplash.com/photo-1444930694458-01babf71870c?w=400&q=80',img3:'https://images.unsplash.com/photo-1490750967868-88df5691cc87?w=400&q=80',px:42,py:60},
+  {id:106,name:'제주 승마 체험',area:'제주시',type:'attraction',cat:'액티비티',rating:4.5,cnt:1987,price:'₩30,000',time:'09:00~17:00',fee:'₩30,000',dur:'1시간',desc:'제주의 넓은 초원에서 즐기는 승마 체험입니다. 초보자부터 숙련자까지 다양한 코스가 준비되어 있으며 제주마와 함께하는 특별한 경험입니다.',tags:['승마','제주마','초원'],img:'https://images.unsplash.com/photo-1501854140801-50d01698950b?w=800&q=80',img2:'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&q=80',img3:'https://images.unsplash.com/photo-1590001155093-a3c66ab0c3ff?w=400&q=80',px:50,py:40},
+  {id:107,name:'올레길 1코스 걷기',area:'성산',type:'attraction',cat:'액티비티',rating:4.7,cnt:2543,price:'무료',time:'연중 개방',fee:'무료',dur:'4~5시간',desc:'시흥리에서 광치기 해변까지 15.1km 코스입니다. 제주 올레길의 시작점으로 성산일출봉과 우도가 보이는 아름다운 해안길을 걸을 수 있습니다.',tags:['올레길','트레킹','성산'],img:'https://images.unsplash.com/photo-1565190743600-a72aab7d0c62?w=800&q=80',img2:'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&q=80',img3:'https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=400&q=80',px:76,py:56},
+  {id:108,name:'제주 카약 투어',area:'협재',type:'attraction',cat:'액티비티',rating:4.6,cnt:1654,price:'₩45,000',time:'09:00~17:00',fee:'₩45,000',dur:'2시간',desc:'협재 에메랄드빛 바다에서 즐기는 카약 투어입니다. 비양도까지 카약으로 이동하는 코스가 인기이며 맑은 물 아래 바닥이 보이는 투명 카약도 운영합니다.',tags:['카약','투명카약','비양도'],img:'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80',img2:'https://images.unsplash.com/photo-1519046904884-53103b34b206?w=400&q=80',img3:'https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=400&q=80',px:18,py:48},
+  {id:109,name:'제주 별빛 투어',area:'제주시',type:'attraction',cat:'액티비티',rating:4.9,cnt:2134,price:'₩25,000',time:'20:00~23:00',fee:'₩25,000',dur:'2시간',desc:'한라산 중턱에서 즐기는 야간 별빛 투어입니다. 도심의 빛이 없는 맑은 하늘에서 은하수를 관측하는 특별한 경험입니다. 천문 해설사가 동행합니다.',tags:['별빛','은하수','야간'],img:'https://images.unsplash.com/photo-1518098268026-4e89f1a2cd8e?w=800&q=80',img2:'https://images.unsplash.com/photo-1504701954957-2010ec3bcec1?w=400&q=80',img3:'https://images.unsplash.com/photo-1501854140801-50d01698950b?w=400&q=80',px:50,py:44},
 ];
 
 const COURSES = [
-  { title:'성산·우도 핵심 코스',  sub:'동부 하이라이트', dur:'1일', spots:5, tags:['성산','우도','동부'],   img:'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&q=80' },
-  { title:'애월 감성 카페투어',    sub:'커플 추천',      dur:'1일', spots:6, tags:['애월','카페','노을'],   img:'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&q=80' },
-  { title:'한라산 + 서귀포',       sub:'자연과 도심',    dur:'2일', spots:8, tags:['한라산','서귀포','자연'], img:'https://images.unsplash.com/photo-1590001155093-a3c66ab0c3ff?w=600&q=80' },
+  { title:'성산·우도 핵심 코스',   sub:'동부 하이라이트', dur:'1일', spots:5, tags:['성산','우도','동부'],     img:'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&q=80' },
+  { title:'애월 감성 카페투어',     sub:'커플 추천',      dur:'1일', spots:6, tags:['애월','카페','노을'],     img:'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&q=80' },
+  { title:'한라산 + 서귀포',        sub:'자연과 도심',    dur:'2일', spots:8, tags:['한라산','서귀포','자연'],  img:'https://images.unsplash.com/photo-1590001155093-a3c66ab0c3ff?w=600&q=80' },
+  { title:'협재·한림 힐링 코스',    sub:'서부 감성 여행', dur:'1일', spots:5, tags:['협재','한림','노을'],     img:'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=80' },
+  { title:'제주 맛집 그랜드투어',   sub:'미식 탐방',      dur:'2일', spots:10,tags:['흑돼지','해산물','카페'], img:'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&q=80' },
+  { title:'혼행자를 위한 코스',     sub:'나 홀로 여행',   dur:'3일', spots:9, tags:['솔로','힐링','트레킹'],   img:'https://images.unsplash.com/photo-1501854140801-50d01698950b?w=600&q=80' },
+  { title:'가족과 함께 제주 완전정복',sub:'어린이 추천',  dur:'3일', spots:11,tags:['가족','아이','테마파크'], img:'https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=600&q=80' },
+  { title:'제주 액티비티 풀패키지', sub:'도전과 스릴',    dur:'2일', spots:7, tags:['서핑','패러글라이딩','카약'],img:'https://images.unsplash.com/photo-1519046904884-53103b34b206?w=600&q=80' },
+  { title:'제주 사진 작가 코스',    sub:'인생샷 투어',    dur:'2일', spots:8, tags:['월정리','섭지코지','사진'],img:'https://images.unsplash.com/photo-1565190743600-a72aab7d0c62?w=600&q=80' },
 ];
 
 const SEASONS = {
@@ -2469,6 +2654,8 @@ const REVIEWS = [
   { name:'김민지', date:'2025.03.12', r:5, txt:'AI 일정 덕분에 동선 낭비 없이 알차게 다녔어요. 성산에서 우도, 만장굴까지 완벽한 코스였습니다.' },
   { name:'이준호', date:'2025.02.28', r:5, txt:'숨은 카페들을 찾는 데 최고였어요. 일반 검색으로는 절대 못 찾을 애월 카페를 발견했습니다.' },
   { name:'박서연', date:'2025.02.14', r:4, txt:'커플 여행으로 2박 3일 다녀왔는데 AI 추천 코스 덕분에 이동 효율이 탁월했습니다.' },
+  { name:'최현우', date:'2025.01.20', r:5, txt:'혼자 여행인데도 외롭지 않았어요. 현지인 맛집 정보가 진짜 알찼고 골목 카페까지 안내해줬어요.' },
+  { name:'정다은', date:'2025.01.05', r:5, txt:'가족 4인이서 왔는데 아이들도 너무 좋아했어요. 아쿠아플라넷, 감귤농장 체험 등 딱 맞게 짜줘서 감사해요!' },
 ];
 
 /* ─────────────────
@@ -2567,19 +2754,15 @@ function makeCourseCard(c) {
 /* ─────────────────
    HOME RENDERS
 ───────────────── */
-function renderHome() {
-  const spots   = document.getElementById('home-spots');
-  const food    = document.getElementById('home-food');
-  const cafes   = document.getElementById('home-cafes');
+let showAllCourses = false;
+
+function toggleMoreCourses() {
+  showAllCourses = !showAllCourses;
   const courses = document.getElementById('home-courses');
-
-  const attractions = PLACES.filter(p => p.type === 'attraction');
-  if (spots)   spots.innerHTML   = attractions.slice(0,4).map(makeCard).join('');
-  if (food)    food.innerHTML    = PLACES.filter(p => p.type === 'food').map(makeCard).join('');
-  if (cafes)   cafes.innerHTML   = PLACES.filter(p => p.type === 'cafe').slice(0,4).map(makeCard).join('');
-  if (courses) courses.innerHTML = COURSES.map(makeCourseCard).join('');
-
-  renderSeason('spring');
+  const btn = document.getElementById('courseMoreBtn');
+  if (courses) courses.innerHTML = (showAllCourses ? COURSES : COURSES.slice(0,3)).map(makeCourseCard).join('');
+  if (btn) btn.textContent = showAllCourses ? '접기 ↑' : '더 보기 →';
+  runReveal();
 }
 
 function filterHomeSpots(el, key) {
@@ -2587,10 +2770,11 @@ function filterHomeSpots(el, key) {
   el.classList.add('on');
   const g = document.getElementById('home-spots');
   let list;
-  if (key === 'all')        list = PLACES.filter(p => p.type === 'attraction').slice(0,4);
-  else if (key === 'beach') list = PLACES.filter(p => p.tags.includes('해변') || p.cat === '해변');
-  else if (key === 'nature') list = PLACES.filter(p => p.cat === '자연' || p.cat === '섬');
-  else                       list = PLACES.filter(p => p.type === 'attraction').slice(0,4);
+  if (key === 'all')           list = PLACES.filter(p => p.type === 'attraction').slice(0,8);
+  else if (key === 'beach')    list = PLACES.filter(p => p.tags.includes('해변') || p.cat === '해변').slice(0,8);
+  else if (key === 'nature')   list = PLACES.filter(p => p.cat === '자연' || p.cat === '섬').slice(0,8);
+  else if (key === 'activity') list = PLACES.filter(p => p.cat === '액티비티').slice(0,8);
+  else                         list = PLACES.filter(p => p.type === 'attraction').slice(0,8);
   if (g) g.innerHTML = list.map(makeCard).join('');
   runReveal();
 }
@@ -2625,24 +2809,90 @@ function setSeason(el, s) {
 }
 
 /* ─────────────────
-   EXPLORE
+   EXPLORE (with pagination)
 ───────────────── */
-function renderExplore() {
+let exPage = 1;
+const EX_PER_PAGE = 12;
+let exSortVal = 'popular';
+
+function getExploreList() {
   const q = (document.getElementById('searchInput')?.value || '').toLowerCase().trim();
-  let list = PLACES;
-  if (exType !== 'all') list = list.filter(p => p.type === exType);
+  const ratingFilter = document.querySelector('input[name="rating"]:checked')?.value || 'all';
+  let list = [...PLACES];
+
+  // type filter
+  if (exType === 'activity') {
+    list = list.filter(p => p.cat === '액티비티');
+  } else if (exType !== 'all') {
+    list = list.filter(p => p.type === exType);
+  }
+
+  // search
   if (q) list = list.filter(p =>
     p.name.toLowerCase().includes(q) ||
     p.area.toLowerCase().includes(q) ||
-    p.tags.some(t => t.toLowerCase().includes(q))
+    p.tags.some(t => t.toLowerCase().includes(q)) ||
+    p.cat.toLowerCase().includes(q)
   );
+
+  // rating filter
+  if (ratingFilter !== 'all') {
+    const minRating = parseFloat(ratingFilter);
+    list = list.filter(p => p.rating >= minRating);
+  }
+
+  // sort
+  if (exSortVal === 'rating') list.sort((a, b) => b.rating - a.rating);
+  else if (exSortVal === 'newest') list.sort((a, b) => b.id - a.id);
+  else list.sort((a, b) => b.cnt - a.cnt); // popular
+
+  return list;
+}
+
+function renderExplore() {
+  exPage = 1;
+  renderExplorePage();
+}
+
+function renderExplorePage() {
+  const list = getExploreList();
+  const total = list.length;
+  const totalPages = Math.ceil(total / EX_PER_PAGE);
+  const start = (exPage - 1) * EX_PER_PAGE;
+  const pageList = list.slice(start, start + EX_PER_PAGE);
+
   const g   = document.getElementById('exploreGrid');
   const cnt = document.getElementById('resultCount');
-  if (g) g.innerHTML = list.length
-    ? list.map(makeCard).join('')
+
+  if (g) g.innerHTML = pageList.length
+    ? pageList.map(makeCard).join('')
     : '<p style="grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--text3)">검색 결과가 없습니다</p>';
-  if (cnt) cnt.textContent = `${list.length}개 결과`;
+  if (cnt) cnt.textContent = `${total}개 결과`;
+
+  // render pagination
+  const pEl = document.getElementById('explorePagination');
+  if (pEl && totalPages > 1) {
+    let pages = '';
+    for (let i = 1; i <= totalPages; i++) {
+      pages += `<button class="pg-btn${i === exPage ? ' on' : ''}" onclick="goExPage(${i})">${i}</button>`;
+    }
+    pEl.innerHTML = `
+      <button class="pg-btn" onclick="goExPage(${Math.max(1, exPage-1)})" ${exPage===1?'disabled':''}>‹</button>
+      ${pages}
+      <button class="pg-btn" onclick="goExPage(${Math.min(totalPages, exPage+1)})" ${exPage===totalPages?'disabled':''}>›</button>
+    `;
+    pEl.style.display = 'flex';
+  } else if (pEl) {
+    pEl.style.display = 'none';
+  }
+
   runReveal();
+}
+
+function goExPage(n) {
+  exPage = n;
+  renderExplorePage();
+  document.querySelector('.explore-header')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 function setExType(el, t) {
@@ -2653,7 +2903,98 @@ function setExType(el, t) {
 }
 
 function doSearch() { renderExplore(); }
-function doSort(v) { toast(`정렬: ${v === 'popular' ? '인기순' : v === 'rating' ? '평점순' : '최신순'}`); }
+
+function doSort(v) {
+  exSortVal = v;
+  const labels = { popular:'인기순', rating:'평점 높은순', newest:'최신순', price_asc:'가격순' };
+  renderExplore();
+  toast(`✓ ${labels[v] || v}으로 정렬`);
+}
+
+/* ─────────────────
+   AUTOCOMPLETE
+───────────────── */
+const CAT_ICONS = { '관광지':'🏔', '자연':'🌿', '해변':'🏖', '섬':'⛵', '맛집':'🍜', '카페':'☕', '숙소':'🏨', '액티비티':'🏄', '트레킹':'🥾', '문화':'🏛', '박물관':'🗿', '시장':'🛒', '간식':'🍡', '디저트':'🍮', '해안':'🌊', '테마파크':'🎡' };
+
+function doSearchAuto(inp) {
+  const q = inp.value.toLowerCase().trim();
+  renderExplore();
+  const listEl = document.getElementById('acList');
+  if (!listEl) return;
+  if (!q) { listEl.classList.remove('show'); return; }
+  const hits = PLACES.filter(p =>
+    p.name.toLowerCase().includes(q) ||
+    p.area.toLowerCase().includes(q) ||
+    p.cat.toLowerCase().includes(q) ||
+    p.tags.some(t => t.toLowerCase().includes(q))
+  ).slice(0, 7);
+  if (!hits.length) { listEl.classList.remove('show'); return; }
+  listEl.innerHTML = hits.map(p => `
+<div class="ac-item" onclick="selectAC('${p.name.replace(/'/g, "\\'")}', ${p.id})">
+  <span class="ac-item-icon">${CAT_ICONS[p.cat] || '📍'}</span>
+  <span class="ac-item-name">${p.name}</span>
+  <span class="ac-item-area">${p.area} · ${p.cat}</span>
+</div>`).join('');
+  listEl.classList.add('show');
+}
+
+function selectAC(name, id) {
+  const si = document.getElementById('searchInput');
+  if (si) si.value = name;
+  closeAC();
+  renderExplore();
+  openDetail(id);
+}
+
+function closeAC() {
+  const listEl = document.getElementById('acList');
+  if (listEl) listEl.classList.remove('show');
+}
+
+/* ─────────────────
+   TRENDING & ACTIVITIES (Home)
+───────────────── */
+function renderTrending() {
+  const el = document.getElementById('trendingList');
+  if (!el) return;
+  const top5 = [...PLACES].sort((a,b) => b.cnt - a.cnt).slice(0, 5);
+  el.innerHTML = top5.map((p, i) => `
+<div class="trending-item" onclick="openDetail(${p.id})">
+  <div class="trending-rank${i < 3 ? ' top' : ''}">${i + 1}</div>
+  <img class="trending-img" src="${p.img}" alt="${p.name}" loading="lazy"
+       onerror="this.src='https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=200&q=50'">
+  <div class="trending-info">
+    <div class="trending-name">${p.name}</div>
+    <div class="trending-meta">${p.area} · ${p.cat} · ★ ${p.rating} (${p.cnt.toLocaleString()}개 리뷰)</div>
+  </div>
+  <div class="trending-badge${i === 0 ? ' hot' : ''}">${i === 0 ? '🔥 HOT' : i < 3 ? '↑ 인기' : p.rating >= 4.8 ? '⭐ 추천' : '→'}</div>
+</div>`).join('');
+}
+
+function renderActivities() {
+  const el = document.getElementById('home-activities');
+  if (!el) return;
+  const acts = PLACES.filter(p => p.cat === '액티비티').slice(0, 8);
+  el.innerHTML = acts.map(makeCard).join('');
+}
+
+/* Override renderHome to include trending + activities */
+function renderHome() {
+  const spots   = document.getElementById('home-spots');
+  const food    = document.getElementById('home-food');
+  const cafes   = document.getElementById('home-cafes');
+  const courses = document.getElementById('home-courses');
+
+  const attractions = PLACES.filter(p => p.type === 'attraction');
+  if (spots)   spots.innerHTML   = attractions.slice(0,8).map(makeCard).join('');
+  if (food)    food.innerHTML    = PLACES.filter(p => p.type === 'food').slice(0,8).map(makeCard).join('');
+  if (cafes)   cafes.innerHTML   = PLACES.filter(p => p.type === 'cafe').slice(0,8).map(makeCard).join('');
+  if (courses) courses.innerHTML = COURSES.slice(0,3).map(makeCourseCard).join('');
+
+  renderSeason('spring');
+  renderActivities();
+  renderTrending();
+}
 
 /* ─────────────────
    MAP
@@ -2663,7 +3004,9 @@ function renderMap() {
   const pinsEl = document.getElementById('pinsSvg');
   if (!listEl || !pinsEl) return;
 
-  listEl.innerHTML = PLACES.map((p, i) => `
+  const mapPlaces = PLACES.slice(0, 30);
+
+  listEl.innerHTML = mapPlaces.map((p, i) => `
 <div class="map-item" id="mi${p.id}" onclick="focusPin(${p.id})">
   <div class="mi-num">${i+1}</div>
   <img class="mi-img" src="${p.img}" alt="${p.name}" loading="lazy"
@@ -2678,8 +3021,8 @@ function renderMap() {
   </div>
 </div>`).join('');
 
-  const COLORS = { attraction:'#0dd8c8', food:'#f0c060', cafe:'#ff8c69', hotel:'#a78bfa' };
-  pinsEl.innerHTML = PLACES.map(p => {
+  const COLORS = { attraction:'#0dd8c8', food:'#f0c060', cafe:'#ff8c69', hotel:'#a78bfa', activity:'#4ade80' };
+  pinsEl.innerHTML = mapPlaces.map(p => {
     const c = COLORS[p.type] || '#0dd8c8';
     const x = (p.px / 100) * 900;
     const y = (p.py / 100) * 500;
@@ -2751,7 +3094,10 @@ function openDetail(id) {
   <p class="rv-text">${r.txt}</p>
 </div>`).join('');
 
-  const nearby = PLACES.filter(x => x.id !== p.id).slice(0, 5);
+  const sameArea = PLACES.filter(x => x.id !== p.id && x.area === p.area);
+  const nearby = sameArea.length >= 3
+    ? sameArea.slice(0, 5)
+    : [...sameArea, ...PLACES.filter(x => x.id !== p.id && x.area !== p.area)].slice(0, 5);
   document.getElementById('dNearby').innerHTML = nearby.map(nb => `
 <div class="nb-card" onclick="openDetail(${nb.id})">
   <div class="nb-img-wrap">
@@ -2948,6 +3294,20 @@ window.addEventListener('DOMContentLoaded', () => {
   const img = new Image();
   img.onload = () => bg && bg.classList.add('loaded');
   img.src    = 'https://images.unsplash.com/photo-1539367628448-4bc5c9d171c8?w=1800&q=85';
+
+  // Rating filter realtime
+  document.querySelectorAll('input[name="rating"]').forEach(r => {
+    r.addEventListener('change', () => renderExplore());
+  });
+
+  // Enter key search
+  const si = document.getElementById('searchInput');
+  if (si) si.addEventListener('keydown', e => { if (e.key === 'Enter') { closeAC(); renderExplore(); } });
+
+  // Close autocomplete on outside click
+  document.addEventListener('click', e => {
+    if (!e.target.closest('.search-wrap')) closeAC();
+  });
 });
 </script>
 
