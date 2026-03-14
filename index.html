@@ -1,0 +1,2955 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0a0e1a">
+<title>JejuNow — 제주 여행의 모든 것</title>
+<meta name="description" content="제주도 여행 정보, AI 일정 생성, 맛집 카페 관광지 탐색을 한 곳에서">
+<meta property="og:title" content="JejuNow — 제주 여행의 모든 것">
+<meta property="og:description" content="AI가 설계하는 나만의 제주 여행 코스">
+<meta property="og:image" content="https://images.unsplash.com/photo-1539367628448-4bc5c9d171c8?w=1200&q=80">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+
+/* ===========================================
+   JEJUNOW DESIGN SYSTEM
+   Theme: Deep Ocean Dark + Citrus Teal
+=========================================== */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg:          #0a0e1a;
+  --bg2:         #0f1420;
+  --surface:     #141928;
+  --card:        #1a2035;
+  --border:      rgba(255,255,255,0.08);
+  --border2:     rgba(255,255,255,0.14);
+  --text:        #eef0f6;
+  --text2:       rgba(238,240,246,0.6);
+  --text3:       rgba(238,240,246,0.3);
+  --teal:        #0dd8c8;
+  --teal2:       rgba(13,216,200,0.12);
+  --gold:        #f0c060;
+  --gold2:       rgba(240,192,96,0.12);
+  --coral:       #ff6b6b;
+  --ff-display:  'Playfair Display', Georgia, serif;
+  --ff-body:     'Noto Sans KR', -apple-system, sans-serif;
+  --r-sm:  8px;
+  --r-md:  14px;
+  --r-lg:  20px;
+  --r-xl:  28px;
+  --r-full: 9999px;
+  --sh-sm:  0 2px 12px rgba(0,0,0,0.3);
+  --sh-md:  0 8px 32px rgba(0,0,0,0.45);
+  --sh-lg:  0 24px 64px rgba(0,0,0,0.6);
+  --ease:   cubic-bezier(0.25,0.46,0.45,0.94);
+  --ease2:  cubic-bezier(0.16,1,0.3,1);
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--ff-body);
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+button, select, input {
+  font-family: var(--ff-body);
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: var(--bg2); }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 3px; }
+
+/* ============================================================
+   LAYOUT
+============================================================ */
+.wrap { max-width: 1240px; margin: 0 auto; padding: 0 24px; }
+@media(max-width:480px){ .wrap { padding: 0 16px; } }
+
+.section { padding: 80px 0; }
+.section-sm { padding: 56px 0; }
+@media(max-width:768px){ .section { padding: 56px 0; } .section-sm { padding: 40px 0; } }
+
+/* ============================================================
+   NAVIGATION
+============================================================ */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 900;
+  height: 62px;
+  display: flex;
+  align-items: center;
+  transition: background 0.3s, backdrop-filter 0.3s, border-color 0.3s;
+  border-bottom: 1px solid transparent;
+}
+.nav.scrolled {
+  background: rgba(10,14,26,0.92);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-color: var(--border);
+}
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+@media(max-width:480px){ .nav-inner { padding: 0 16px; } }
+
+/* Logo */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.logo-text {
+  font-family: var(--ff-display);
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: 0.01em;
+}
+.logo-dot {
+  width: 7px; height: 7px;
+  background: var(--teal);
+  border-radius: 50%;
+  margin-left: 1px;
+  flex-shrink: 0;
+}
+
+/* Desktop nav links */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: var(--r-full);
+  padding: 4px;
+}
+@media(max-width:768px){ .nav-links { display: none; } }
+
+.nav-link {
+  padding: 7px 16px;
+  border-radius: var(--r-full);
+  font-size: 0.83rem;
+  font-weight: 500;
+  color: var(--text2);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.nav-link:hover { color: var(--text); }
+.nav-link.on {
+  background: rgba(255,255,255,0.1);
+  color: var(--text);
+}
+
+/* Nav right */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.nav-cta-btn {
+  padding: 9px 20px;
+  background: var(--teal);
+  color: #06110f;
+  border-radius: var(--r-full);
+  border: none;
+  cursor: pointer;
+  font-size: 0.83rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.nav-cta-btn:hover {
+  background: #1feedd;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(13,216,200,0.35);
+}
+@media(max-width:480px){ .nav-cta-btn { display: none; } }
+
+.hamburger {
+  display: none;
+  width: 40px; height: 40px;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  cursor: pointer;
+  font-size: 1.1rem;
+  color: var(--text2);
+  transition: all 0.2s;
+}
+.hamburger:hover { background: rgba(255,255,255,0.1); color: var(--text); }
+@media(max-width:768px){ .hamburger { display: flex; } }
+
+/* Mobile menu drawer */
+.mobile-nav {
+  position: fixed;
+  top: 62px; left: 0; right: 0; bottom: 0;
+  background: rgba(10,14,26,0.97);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  z-index: 800;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+.mobile-nav.open {
+  opacity: 1;
+  pointer-events: all;
+}
+.mobile-nav-link {
+  font-family: var(--ff-display);
+  font-size: 2rem;
+  font-weight: 400;
+  color: var(--text2);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 12px 32px;
+  transition: color 0.2s;
+}
+.mobile-nav-link:hover { color: var(--teal); }
+
+/* ============================================================
+   PAGE SYSTEM
+============================================================ */
+.page { display: none; }
+.page.on { display: block; }
+
+/* ============================================================
+   HERO
+============================================================ */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background-image: url('https://images.unsplash.com/photo-1539367628448-4bc5c9d171c8?w=1800&q=85');
+  background-size: cover;
+  background-position: center 40%;
+  background-repeat: no-repeat;
+  transform: scale(1.03);
+  transition: transform 8s ease-out;
+}
+.hero-bg.loaded { transform: scale(1); }
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(10,14,26,1) 0%,
+    rgba(10,14,26,0.75) 28%,
+    rgba(10,14,26,0.3) 60%,
+    rgba(10,14,26,0.1) 100%
+  );
+}
+.hero-content {
+  position: relative;
+  z-index: 2;
+  padding: 0 24px 80px;
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding-top: 62px;
+  display: flex;
+  align-items: flex-end;
+  min-height: 100vh;
+}
+@media(max-width:480px){
+  .hero-content { padding: 62px 16px 60px; }
+}
+.hero-text { max-width: 640px; }
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(13,216,200,0.12);
+  border: 1px solid rgba(13,216,200,0.3);
+  color: var(--teal);
+  padding: 6px 14px;
+  border-radius: var(--r-full);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 22px;
+}
+.hero-title {
+  font-family: var(--ff-display);
+  font-size: clamp(2.8rem, 6.5vw, 5.5rem);
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  margin-bottom: 22px;
+  color: var(--text);
+}
+.hero-title em {
+  font-style: italic;
+  color: var(--gold);
+}
+.hero-sub {
+  font-size: clamp(0.9rem, 1.8vw, 1.05rem);
+  color: var(--text2);
+  line-height: 1.75;
+  margin-bottom: 36px;
+  max-width: 480px;
+}
+.hero-btns {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 44px;
+}
+.hero-stats {
+  display: flex;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+.hero-stat-num {
+  font-family: var(--ff-display);
+  font-size: 1.7rem;
+  color: var(--text);
+  line-height: 1;
+}
+.hero-stat-lbl {
+  font-size: 0.77rem;
+  color: var(--text3);
+  margin-top: 4px;
+}
+@media(max-width:480px){
+  .hero-stats { gap: 20px; }
+  .hero-btns { gap: 8px; }
+}
+/* Scroll indicator */
+.scroll-hint {
+  position: absolute;
+  bottom: 32px;
+  right: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  z-index: 3;
+  color: var(--text3);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.scroll-line {
+  width: 1px;
+  height: 44px;
+  background: linear-gradient(var(--teal), transparent);
+  animation: scrollAnim 2s ease-in-out infinite;
+}
+@keyframes scrollAnim {
+  0%,100% { opacity: 0.3; transform: scaleY(0.6); transform-origin: top; }
+  50% { opacity: 1; transform: scaleY(1); }
+}
+@media(max-width:480px){ .scroll-hint { display: none; } }
+
+/* ============================================================
+   BUTTONS
+============================================================ */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 26px;
+  background: var(--teal);
+  color: #061210;
+  border-radius: var(--r-full);
+  border: none;
+  cursor: pointer;
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  transition: all 0.22s var(--ease2);
+  white-space: nowrap;
+}
+.btn-primary:hover {
+  background: #1feedd;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(13,216,200,0.38);
+}
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: rgba(255,255,255,0.07);
+  color: var(--text);
+  border-radius: var(--r-full);
+  border: 1px solid var(--border2);
+  cursor: pointer;
+  font-size: 0.88rem;
+  font-weight: 500;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.btn-ghost:hover {
+  background: rgba(255,255,255,0.12);
+  border-color: rgba(255,255,255,0.22);
+}
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 18px;
+  background: none;
+  color: var(--text2);
+  border-radius: var(--r-full);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+.btn-outline:hover {
+  border-color: var(--teal);
+  color: var(--teal);
+}
+
+/* ============================================================
+   SECTION HEADERS
+============================================================ */
+.sec-eyebrow {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.sec-eyebrow::before {
+  content: '';
+  width: 22px;
+  height: 1px;
+  background: var(--teal);
+  flex-shrink: 0;
+}
+.sec-title {
+  font-family: var(--ff-display);
+  font-size: clamp(1.7rem, 3vw, 2.6rem);
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+.sec-title em { font-style: italic; color: var(--gold); }
+.sec-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 36px;
+  gap: 16px;
+}
+@media(max-width:480px){ .sec-row { flex-direction: column; align-items: flex-start; } }
+
+/* ============================================================
+   CARDS
+============================================================ */
+.card {
+  background: var(--card);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: transform 0.35s var(--ease2), box-shadow 0.35s var(--ease2), border-color 0.2s;
+  position: relative;
+}
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--sh-lg);
+  border-color: var(--border2);
+}
+/* Image wrapper — fixed aspect ratio to prevent layout shift */
+.card-img-wrap {
+  position: relative;
+  overflow: hidden;
+  background: var(--surface);
+}
+.card-img-wrap::before {
+  content: '';
+  display: block;
+  padding-top: 66.67%; /* 3:2 aspect ratio */
+}
+.card-img-wrap img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.5s var(--ease2);
+  /* Fallback gradient while loading */
+  background: linear-gradient(135deg, var(--surface) 0%, var(--bg2) 100%);
+}
+.card:hover .card-img-wrap img { transform: scale(1.05); }
+.card-img-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(10,14,26,0.6) 0%, transparent 50%);
+  pointer-events: none;
+}
+.card-tag {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 4px 10px;
+  border-radius: var(--r-full);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: rgba(10,14,26,0.7);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: var(--text);
+}
+.card-save {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(10,14,26,0.7);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: var(--text3);
+  z-index: 2;
+}
+.card-save:hover, .card-save.on {
+  color: var(--coral);
+  border-color: rgba(255,107,107,0.3);
+  background: rgba(255,107,107,0.15);
+}
+.card-body {
+  padding: 16px 18px 18px;
+}
+.card-area {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--teal);
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.card-name {
+  font-weight: 700;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  margin-bottom: 10px;
+  color: var(--text);
+}
+.card-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.stars { color: var(--gold); font-size: 0.7rem; letter-spacing: 1px; }
+.score { font-weight: 700; font-size: 0.82rem; color: var(--text); }
+.cnt { font-size: 0.75rem; color: var(--text3); }
+.price {
+  margin-left: auto;
+  font-size: 0.8rem;
+  color: var(--text2);
+  font-weight: 500;
+}
+.card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 10px;
+}
+.tag {
+  padding: 3px 9px;
+  border-radius: var(--r-full);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border);
+  font-size: 0.7rem;
+  color: var(--text3);
+}
+
+/* ============================================================
+   GRIDS — fluid, no layout shift
+============================================================ */
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+@media(max-width:1100px){ .grid-4 { grid-template-columns: repeat(2, 1fr); } }
+@media(max-width:768px){ .grid-3 { grid-template-columns: repeat(2, 1fr); } }
+@media(max-width:600px){
+  .grid-4, .grid-3 { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+}
+@media(max-width:420px){
+  .grid-4, .grid-3, .grid-2 { grid-template-columns: 1fr; }
+}
+
+/* Horizontal scroll row */
+.hrow {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.hrow::-webkit-scrollbar { display: none; }
+.hrow .card { flex: none; width: 280px; }
+@media(max-width:480px){ .hrow .card { width: 240px; } }
+
+/* ============================================================
+   FEATURED BANNER
+============================================================ */
+.featured {
+  border-radius: var(--r-xl);
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.3s var(--ease2);
+  background: var(--surface);
+}
+.featured::before {
+  content: '';
+  display: block;
+  padding-top: 43.75%; /* 16:7 ratio */
+}
+@media(max-width:768px){ .featured::before { padding-top: 60%; } }
+@media(max-width:480px){ .featured::before { padding-top: 75%; } }
+.featured:hover { transform: translateY(-3px); }
+.featured-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.5s var(--ease2);
+}
+.featured:hover .featured-img { transform: scale(1.03); }
+.featured-grad {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, rgba(10,14,26,0.9) 0%, rgba(10,14,26,0.5) 55%, transparent 100%);
+}
+.featured-content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: clamp(24px, 5vw, 52px);
+}
+.featured-badge {
+  display: inline-block;
+  padding: 5px 13px;
+  border-radius: var(--r-full);
+  background: rgba(240,192,96,0.15);
+  border: 1px solid rgba(240,192,96,0.35);
+  color: var(--gold);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+  width: fit-content;
+}
+.featured-title {
+  font-family: var(--ff-display);
+  font-size: clamp(1.6rem, 4vw, 2.8rem);
+  font-weight: 400;
+  color: var(--text);
+  margin-bottom: 12px;
+  line-height: 1.15;
+}
+.featured-sub {
+  font-size: clamp(0.82rem, 1.5vw, 0.95rem);
+  color: rgba(238,240,246,0.7);
+  line-height: 1.65;
+  max-width: 420px;
+  margin-bottom: 22px;
+}
+
+/* ============================================================
+   COURSE CARDS
+============================================================ */
+.course-card {
+  background: var(--card);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: transform 0.35s var(--ease2), box-shadow 0.35s var(--ease2), border-color 0.2s;
+}
+.course-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--sh-lg);
+  border-color: var(--border2);
+}
+.course-img-wrap {
+  position: relative;
+  overflow: hidden;
+  background: var(--surface);
+}
+.course-img-wrap::before {
+  content: '';
+  display: block;
+  padding-top: 62.5%; /* 16:10 */
+}
+.course-img-wrap img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s var(--ease2);
+}
+.course-card:hover .course-img-wrap img { transform: scale(1.04); }
+.course-img-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(10,14,26,0.5) 0%, transparent 50%);
+}
+.course-body { padding: 18px 20px 20px; }
+.course-chips {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  margin-bottom: 9px;
+}
+.c-chip {
+  padding: 2px 9px;
+  border-radius: var(--r-full);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border);
+  font-size: 0.68rem;
+  color: var(--text3);
+}
+.course-title {
+  font-weight: 700;
+  font-size: 0.98rem;
+  margin-bottom: 6px;
+  color: var(--text);
+}
+.course-meta {
+  display: flex;
+  gap: 14px;
+  font-size: 0.76rem;
+  color: var(--text3);
+}
+
+/* ============================================================
+   SEASON SECTION
+============================================================ */
+.season-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 36px;
+  flex-wrap: wrap;
+}
+.s-tab {
+  padding: 9px 20px;
+  border-radius: var(--r-full);
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text2);
+  font-size: 0.83rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.s-tab:hover { border-color: var(--border2); color: var(--text); }
+.s-tab.on {
+  background: var(--teal2);
+  border-color: rgba(13,216,200,0.3);
+  color: var(--teal);
+}
+
+/* ============================================================
+   AI PLANNER SECTION (home)
+============================================================ */
+.ai-block {
+  border-radius: var(--r-xl);
+  background: linear-gradient(135deg, #0c1929 0%, #091422 100%);
+  border: 1px solid rgba(13,216,200,0.14);
+  padding: clamp(36px, 6vw, 72px) clamp(28px, 5vw, 68px);
+  position: relative;
+  overflow: hidden;
+}
+.ai-block::before {
+  content: '';
+  position: absolute;
+  top: -100px; right: -80px;
+  width: 440px; height: 440px;
+  background: radial-gradient(circle, rgba(13,216,200,0.1) 0%, transparent 70%);
+  pointer-events: none;
+}
+.ai-block::after {
+  content: '';
+  position: absolute;
+  bottom: -80px; left: -60px;
+  width: 320px; height: 320px;
+  background: radial-gradient(circle, rgba(240,192,96,0.07) 0%, transparent 70%);
+  pointer-events: none;
+}
+.ai-inner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+  align-items: center;
+}
+@media(max-width:900px){
+  .ai-inner { grid-template-columns: 1fr; gap: 36px; }
+}
+.ai-form-wrap { display: flex; flex-direction: column; gap: 12px; }
+.f-sel {
+  width: 100%;
+  padding: 13px 16px;
+  border-radius: var(--r-md);
+  background: rgba(255,255,255,0.06);
+  border: 1px solid var(--border2);
+  color: var(--text);
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: border-color 0.2s;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='rgba(238,240,246,0.35)' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+  padding-right: 36px;
+}
+.f-sel:focus { outline: none; border-color: var(--teal); }
+.f-sel option { background: #141928; }
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+.chip {
+  padding: 7px 15px;
+  border-radius: var(--r-full);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border);
+  color: var(--text2);
+  font-size: 0.78rem;
+  cursor: pointer;
+  transition: all 0.18s;
+}
+.chip:hover { border-color: var(--border2); color: var(--text); }
+.chip.on {
+  background: var(--teal2);
+  border-color: rgba(13,216,200,0.3);
+  color: var(--teal);
+}
+.ai-gen-btn {
+  width: 100%;
+  padding: 15px;
+  border-radius: var(--r-lg);
+  background: var(--teal);
+  color: #061210;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 700;
+  transition: all 0.25s var(--ease2);
+  letter-spacing: 0.02em;
+}
+.ai-gen-btn:hover {
+  background: #1feedd;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(13,216,200,0.35);
+}
+
+/* ============================================================
+   EXPLORE PAGE
+============================================================ */
+.explore-header {
+  padding: 88px 0 0;
+  background: linear-gradient(180deg, var(--bg2) 0%, var(--bg) 100%);
+}
+.explore-title {
+  font-family: var(--ff-display);
+  font-size: clamp(1.9rem, 4vw, 3rem);
+  font-weight: 400;
+  margin-bottom: 22px;
+}
+.search-bar {
+  display: flex;
+  align-items: center;
+  max-width: 580px;
+  background: var(--card);
+  border: 1px solid var(--border2);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  margin-bottom: 28px;
+}
+.search-bar:focus-within {
+  border-color: rgba(13,216,200,0.4);
+  box-shadow: 0 0 0 3px rgba(13,216,200,0.08);
+}
+.search-icon { padding: 0 14px; font-size: 1rem; color: var(--text3); flex-shrink: 0; }
+.search-input {
+  flex: 1;
+  padding: 15px 8px;
+  background: none;
+  border: none;
+  color: var(--text);
+  font-size: 0.9rem;
+  min-width: 0;
+}
+.search-input::placeholder { color: var(--text3); }
+.search-input:focus { outline: none; }
+.search-btn {
+  flex-shrink: 0;
+  margin: 6px;
+  padding: 10px 18px;
+  background: var(--teal);
+  border: none;
+  border-radius: var(--r-md);
+  color: #061210;
+  font-weight: 700;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.search-btn:hover { background: #1feedd; }
+.type-tabs {
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+  padding-bottom: 28px;
+  border-bottom: 1px solid var(--border);
+}
+.t-tab {
+  padding: 8px 18px;
+  border-radius: var(--r-full);
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text2);
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.18s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.t-tab:hover { border-color: var(--border2); color: var(--text); }
+.t-tab.on {
+  background: var(--teal2);
+  border-color: rgba(13,216,200,0.3);
+  color: var(--teal);
+}
+.explore-layout {
+  display: grid;
+  grid-template-columns: 230px 1fr;
+  gap: 0;
+  align-items: start;
+}
+@media(max-width:860px){ .explore-layout { grid-template-columns: 1fr; } }
+.sidebar {
+  padding: 28px 20px 28px 0;
+  border-right: 1px solid var(--border);
+  position: sticky;
+  top: 62px;
+  max-height: calc(100vh - 62px);
+  overflow-y: auto;
+}
+.sidebar::-webkit-scrollbar { width: 3px; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+@media(max-width:860px){ .sidebar { display: none; } }
+.sb-sec { margin-bottom: 26px; }
+.sb-lbl {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: 12px;
+}
+.sb-row { display: flex; align-items: center; gap: 9px; padding: 6px 0; cursor: pointer; }
+.sb-row input { accent-color: var(--teal); flex-shrink: 0; }
+.sb-row span { font-size: 0.83rem; color: var(--text2); }
+.sb-row:hover span { color: var(--text); }
+.sb-sort {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: var(--r-md);
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+.sb-sort:focus { outline: none; border-color: var(--teal); }
+.sb-sort option { background: var(--surface); }
+.main-area { padding: 28px 0 28px 28px; }
+@media(max-width:860px){ .main-area { padding: 28px 0; } }
+.grid-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 22px;
+}
+.result-count { font-size: 0.8rem; color: var(--text3); }
+
+/* ============================================================
+   MAP PAGE
+============================================================ */
+.map-page-wrap {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  height: calc(100vh - 62px);
+  margin-top: 62px;
+}
+@media(max-width:860px){
+  .map-page-wrap { grid-template-columns: 1fr; grid-template-rows: auto 1fr; height: auto; }
+}
+.map-panel {
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+@media(max-width:860px){ .map-panel { max-height: 45vh; } }
+.map-panel-top {
+  padding: 22px 18px 16px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.map-panel-title {
+  font-family: var(--ff-display);
+  font-size: 1.25rem;
+  font-weight: 400;
+  margin-bottom: 14px;
+}
+.map-filter-row {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  padding: 0 18px 14px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.mf-btn {
+  padding: 6px 14px;
+  border-radius: var(--r-full);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border);
+  color: var(--text2);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.18s;
+}
+.mf-btn.on {
+  background: var(--teal2);
+  border-color: rgba(13,216,200,0.3);
+  color: var(--teal);
+}
+.map-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px;
+}
+.map-list::-webkit-scrollbar { width: 3px; }
+.map-list::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+.map-item {
+  display: flex;
+  gap: 11px;
+  padding: 12px;
+  border-radius: var(--r-md);
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.18s;
+  margin-bottom: 4px;
+  align-items: center;
+}
+.map-item:hover { background: var(--card); border-color: var(--border); }
+.map-item.on { background: var(--card); border-color: rgba(13,216,200,0.25); }
+.mi-num {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: var(--teal2);
+  border: 1px solid rgba(13,216,200,0.25);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.7rem; font-weight: 700; color: var(--teal);
+  flex-shrink: 0;
+}
+.mi-img {
+  width: 60px; height: 60px;
+  border-radius: var(--r-sm);
+  object-fit: cover;
+  flex-shrink: 0;
+  background: var(--bg2);
+}
+.mi-info { flex: 1; min-width: 0; }
+.mi-name {
+  font-weight: 600;
+  font-size: 0.87rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 3px;
+}
+.mi-area {
+  font-size: 0.7rem;
+  color: var(--teal);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
+.mi-meta { display: flex; gap: 7px; font-size: 0.72rem; }
+.mi-score { color: var(--gold); font-weight: 700; }
+.mi-cnt { color: var(--text3); }
+
+/* Map canvas */
+.map-canvas-wrap {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(160deg, #0b1828 0%, #070f1a 100%);
+  flex: 1;
+}
+@media(max-width:860px){ .map-canvas-wrap { min-height: 340px; } }
+.map-svg { width: 100%; height: 100%; position: absolute; inset: 0; }
+.map-popup {
+  position: absolute;
+  bottom: 20px; right: 20px;
+  width: 260px;
+  background: var(--card);
+  border: 1px solid var(--border2);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  box-shadow: var(--sh-lg);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s var(--ease2);
+  pointer-events: none;
+  z-index: 10;
+}
+.map-popup.show { opacity: 1; transform: translateY(0); pointer-events: all; }
+.popup-img-wrap {
+  position: relative;
+  overflow: hidden;
+  background: var(--surface);
+}
+.popup-img-wrap::before { content: ''; display: block; padding-top: 55%; }
+.popup-img-wrap img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+.popup-body { padding: 14px; }
+.popup-name { font-weight: 700; font-size: 0.9rem; margin-bottom: 6px; }
+.popup-meta { display: flex; align-items: center; gap: 7px; margin-bottom: 12px; }
+
+/* ============================================================
+   PLANNER PAGE
+============================================================ */
+.planner-wrap {
+  padding: 96px 0 80px;
+  min-height: 100vh;
+}
+.planner-inner {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+@media(max-width:480px){ .planner-inner { padding: 0 16px; } }
+.planner-title {
+  font-family: var(--ff-display);
+  font-size: clamp(2.2rem, 5vw, 3.8rem);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: 14px;
+}
+.planner-title em { font-style: italic; color: var(--teal); }
+.planner-sub {
+  font-size: 0.95rem;
+  color: var(--text2);
+  line-height: 1.75;
+  margin-bottom: 44px;
+}
+.p-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 24px;
+  margin-bottom: 14px;
+}
+.p-card-lbl {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: 14px;
+}
+.p-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media(max-width:480px){ .p-grid-2 { grid-template-columns: 1fr; } }
+.p-sel {
+  width: 100%;
+  padding: 13px 16px;
+  border-radius: var(--r-md);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border2);
+  color: var(--text);
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: border-color 0.2s;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='rgba(238,240,246,0.35)' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 34px;
+}
+.p-sel:focus { outline: none; border-color: var(--teal); }
+.p-sel option { background: #141928; }
+.gen-btn {
+  width: 100%;
+  padding: 17px;
+  border-radius: var(--r-lg);
+  background: var(--teal);
+  color: #061210;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 700;
+  transition: all 0.25s var(--ease2);
+  margin-top: 6px;
+}
+.gen-btn:hover {
+  background: #1feedd;
+  transform: translateY(-2px);
+  box-shadow: 0 14px 36px rgba(13,216,200,0.35);
+}
+/* Result */
+.result-wrap {
+  display: none;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 28px;
+  margin-top: 20px;
+  animation: fadeUp 0.5s var(--ease2);
+}
+.result-wrap.show { display: block; }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.r-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 26px;
+  flex-wrap: wrap;
+}
+.r-title { font-family: var(--ff-display); font-size: 1.35rem; font-weight: 400; margin-bottom: 4px; }
+.r-meta { font-size: 0.78rem; color: var(--text3); }
+.r-actions { display: flex; gap: 8px; flex-shrink: 0; }
+.day-block { margin-bottom: 28px; }
+.day-lbl {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 16px;
+}
+.day-lbl::before { content: ''; width: 18px; height: 1px; background: currentColor; }
+.tl { display: flex; flex-direction: column; }
+.tl-row { display: flex; gap: 14px; position: relative; }
+.tl-row:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: 61px; top: 42px;
+  width: 1px;
+  height: calc(100% - 12px);
+  background: var(--border);
+}
+.tl-time {
+  min-width: 46px;
+  padding-top: 12px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--teal);
+  text-align: right;
+  flex-shrink: 0;
+}
+.tl-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--teal);
+  margin-top: 16px;
+  flex-shrink: 0;
+  border: 2px solid var(--bg);
+  box-shadow: 0 0 0 3px var(--teal2);
+  position: relative;
+  z-index: 1;
+}
+.tl-body { padding: 10px 0 26px; flex: 1; }
+.tl-icon { font-size: 1.05rem; margin-bottom: 4px; }
+.tl-name { font-weight: 700; font-size: 0.9rem; margin-bottom: 2px; }
+.tl-desc { font-size: 0.76rem; color: var(--text3); }
+.r-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 22px;
+  padding-top: 22px;
+  border-top: 1px solid var(--border);
+}
+@media(max-width:400px){ .r-stats { grid-template-columns: 1fr 1fr; } }
+.rs-item {
+  text-align: center;
+  padding: 14px 10px;
+  background: rgba(255,255,255,0.03);
+  border-radius: var(--r-md);
+}
+.rs-val { font-family: var(--ff-display); font-size: 1.25rem; color: var(--teal); line-height: 1.2; }
+.rs-key { font-size: 0.7rem; color: var(--text3); margin-top: 4px; }
+.loading-bar {
+  height: 2px;
+  background: var(--border);
+  border-radius: 1px;
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+.loading-progress {
+  height: 100%;
+  background: linear-gradient(90deg, var(--teal), var(--gold));
+  animation: progress 2.1s ease-in-out forwards;
+}
+@keyframes progress { from { width: 0; } to { width: 100%; } }
+
+/* ============================================================
+   DETAIL SHEET (modal bottom drawer)
+============================================================ */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0,0,0,0.8);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+.overlay.open { opacity: 1; pointer-events: all; }
+.sheet {
+  width: 100%;
+  max-width: 800px;
+  max-height: 92vh;
+  background: var(--surface);
+  border-radius: var(--r-xl) var(--r-xl) 0 0;
+  overflow-y: auto;
+  transform: translateY(100%);
+  transition: transform 0.45s var(--ease2);
+}
+.overlay.open .sheet { transform: translateY(0); }
+.sheet::-webkit-scrollbar { width: 4px; }
+.sheet::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+.sheet-handle {
+  width: 40px; height: 4px;
+  background: var(--border2);
+  border-radius: 2px;
+  margin: 14px auto 0;
+}
+/* Gallery — fixed ratio, no shift */
+.d-gallery {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 3px;
+  margin-top: 16px;
+  height: 320px;
+}
+@media(max-width:600px){ .d-gallery { grid-template-columns: 1fr; height: 220px; } }
+.d-gallery-main {
+  position: relative;
+  overflow: hidden;
+  background: var(--bg2);
+}
+.d-gallery-sub {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  gap: 3px;
+}
+@media(max-width:600px){ .d-gallery-sub { display: none; } }
+.d-gallery img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.d-body { padding: 26px 28px 48px; }
+@media(max-width:480px){ .d-body { padding: 20px 18px 40px; } }
+.d-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 18px;
+  gap: 12px;
+}
+.d-area { font-size: 0.7rem; font-weight: 700; color: var(--teal); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 6px; }
+.d-name { font-family: var(--ff-display); font-size: clamp(1.5rem, 4vw, 2rem); font-weight: 400; margin-bottom: 10px; }
+.d-rating { display: flex; align-items: center; gap: 9px; }
+.d-close-btn {
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem; color: var(--text2); cursor: pointer;
+  transition: all 0.2s; flex-shrink: 0;
+}
+.d-close-btn:hover { background: rgba(255,255,255,0.12); color: var(--text); }
+.d-action-row { display: flex; gap: 10px; margin-bottom: 24px; flex-wrap: wrap; }
+.d-info-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 26px;
+}
+@media(max-width:480px){ .d-info-grid { grid-template-columns: 1fr 1fr; } }
+.d-info-item {
+  padding: 14px 15px;
+  background: var(--card);
+  border-radius: var(--r-md);
+  border: 1px solid var(--border);
+}
+.d-info-lbl { font-size: 0.67rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text3); margin-bottom: 6px; }
+.d-info-val { font-weight: 600; font-size: 0.88rem; }
+.d-tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 22px;
+}
+.d-tab {
+  padding: 11px 18px;
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--text3);
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  margin-bottom: -1px;
+  transition: all 0.18s;
+}
+.d-tab.on { color: var(--teal); border-bottom-color: var(--teal); }
+.d-tab-pane { display: none; }
+.d-tab-pane.on { display: block; animation: fadeUp 0.3s var(--ease2); }
+.desc-text { font-size: 0.9rem; color: var(--text2); line-height: 1.8; }
+.review-item { padding: 18px 0; border-bottom: 1px solid var(--border); }
+.review-item:last-child { border-bottom: none; }
+.review-head { display: flex; align-items: center; gap: 11px; margin-bottom: 10px; }
+.av {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--teal), var(--gold));
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 0.82rem; color: var(--bg);
+  flex-shrink: 0;
+}
+.rv-name { font-weight: 600; font-size: 0.87rem; }
+.rv-date { font-size: 0.73rem; color: var(--text3); margin-top: 2px; }
+.rv-text { font-size: 0.87rem; color: var(--text2); line-height: 1.7; }
+/* Nearby */
+.nb-row {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding-bottom: 4px;
+}
+.nb-row::-webkit-scrollbar { display: none; }
+.nb-card { flex: none; width: 148px; cursor: pointer; }
+.nb-img-wrap {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--r-md);
+  background: var(--bg2);
+  margin-bottom: 8px;
+}
+.nb-img-wrap::before { content: ''; display: block; padding-top: 75%; }
+.nb-img-wrap img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.35s;
+}
+.nb-card:hover .nb-img-wrap img { transform: scale(1.05); }
+.nb-name { font-size: 0.8rem; font-weight: 600; margin-bottom: 3px; }
+.nb-area { font-size: 0.7rem; color: var(--teal); }
+
+/* ============================================================
+   SAVED PAGE
+============================================================ */
+.saved-wrap { padding: 100px 0 80px; min-height: 100vh; }
+.empty-state {
+  text-align: center;
+  padding: 80px 20px;
+  color: var(--text3);
+}
+.empty-icon { font-size: 3.5rem; margin-bottom: 18px; }
+.empty-title { font-size: 1rem; color: var(--text2); margin-bottom: 8px; font-weight: 600; }
+.empty-sub { font-size: 0.85rem; margin-bottom: 28px; }
+
+/* ============================================================
+   TOAST
+============================================================ */
+.toast {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: var(--card);
+  border: 1px solid var(--border2);
+  border-radius: var(--r-lg);
+  padding: 13px 20px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  box-shadow: var(--sh-lg);
+  z-index: 2000;
+  opacity: 0;
+  transition: all 0.35s var(--ease2);
+  white-space: nowrap;
+  pointer-events: none;
+}
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+.toast-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--teal);
+  flex-shrink: 0;
+}
+.toast-text { font-size: 0.84rem; font-weight: 500; }
+
+/* ============================================================
+   SCROLL REVEAL
+============================================================ */
+.sr {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.65s var(--ease2), transform 0.65s var(--ease2);
+}
+.sr.visible { opacity: 1; transform: translateY(0); }
+.sr-d1 { transition-delay: 0.08s; }
+.sr-d2 { transition-delay: 0.16s; }
+.sr-d3 { transition-delay: 0.24s; }
+.sr-d4 { transition-delay: 0.32s; }
+
+/* Scroll to top */
+.scroll-top {
+  position: fixed;
+  bottom: 28px; right: 24px;
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: var(--card);
+  border: 1px solid var(--border2);
+  color: var(--text2);
+  font-size: 1rem;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  opacity: 0; transform: translateY(20px);
+  transition: all 0.3s;
+  z-index: 400;
+}
+.scroll-top.show { opacity: 1; transform: translateY(0); }
+.scroll-top:hover { background: var(--teal2); border-color: rgba(13,216,200,0.3); color: var(--teal); }
+
+/* ============================================================
+   DIVIDER
+============================================================ */
+.divider { border: none; border-top: 1px solid var(--border); }
+
+/* ============================================================
+   FOOTER
+============================================================ */
+footer {
+  padding: 72px 0 36px;
+  border-top: 1px solid var(--border);
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.8fr 1fr 1fr 1fr;
+  gap: 40px;
+  margin-bottom: 56px;
+}
+@media(max-width:900px){ .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; } }
+@media(max-width:480px){ .footer-grid { grid-template-columns: 1fr; gap: 28px; } }
+.footer-logo-text { font-family: var(--ff-display); font-size: 1.4rem; font-weight: 600; margin-bottom: 12px; }
+.footer-desc { font-size: 0.83rem; color: var(--text3); line-height: 1.7; max-width: 240px; margin-bottom: 22px; }
+.f-socials { display: flex; gap: 8px; }
+.f-social {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.85rem; color: var(--text3); cursor: pointer;
+  transition: all 0.2s;
+}
+.f-social:hover { background: var(--teal2); border-color: rgba(13,216,200,0.3); color: var(--teal); }
+.f-col h4 { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text3); margin-bottom: 16px; }
+.f-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.f-col ul li a { font-size: 0.83rem; color: var(--text3); cursor: pointer; transition: color 0.2s; }
+.f-col ul li a:hover { color: var(--text); }
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 28px;
+  border-top: 1px solid var(--border);
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.footer-copy { font-size: 0.76rem; color: var(--text3); }
+.footer-badge { font-size: 0.72rem; color: var(--teal); opacity: 0.55; }
+
+</style>
+</head>
+<body>
+
+<!-- ═══ MOBILE NAV DRAWER ═══ -->
+<div class="mobile-nav" id="mobileNav">
+  <button class="mobile-nav-link" onclick="goPage('home');closeMobileNav()">홈</button>
+  <button class="mobile-nav-link" onclick="goPage('explore');closeMobileNav()">탐색</button>
+  <button class="mobile-nav-link" onclick="goPage('map');closeMobileNav()">지도</button>
+  <button class="mobile-nav-link" onclick="goPage('planner');closeMobileNav()">AI 일정</button>
+  <button class="mobile-nav-link" onclick="goPage('saved');closeMobileNav()">저장됨</button>
+</div>
+
+<!-- ═══ NAV ═══ -->
+<nav class="nav" id="mainNav">
+  <div class="nav-inner">
+    <div class="logo" onclick="goPage('home')">
+      <span class="logo-text">JejuNow</span>
+      <div class="logo-dot"></div>
+    </div>
+    <div class="nav-links">
+      <button class="nav-link on" id="nl-home"    onclick="goPage('home')">홈</button>
+      <button class="nav-link"    id="nl-explore" onclick="goPage('explore')">탐색</button>
+      <button class="nav-link"    id="nl-map"     onclick="goPage('map')">지도</button>
+      <button class="nav-link"    id="nl-planner" onclick="goPage('planner')">AI 일정</button>
+      <button class="nav-link"    id="nl-saved"   onclick="goPage('saved')">저장됨</button>
+    </div>
+    <div class="nav-right">
+      <button class="nav-cta-btn" onclick="toast('🎉 서비스 오픈 준비 중입니다!')">시작하기</button>
+      <button class="hamburger" id="hamburger" onclick="openMobileNav()">☰</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ════════════════════════════════════════
+     PAGE: HOME
+════════════════════════════════════════ -->
+<div class="page on" id="page-home">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-text">
+      <div class="hero-badge">✦ 제주 여행 플랫폼</div>
+      <h1 class="hero-title">제주를<br><em>다시</em><br>발견하다</h1>
+      <p class="hero-sub">AI가 설계하는 나만의 제주 여행. 숨은 명소부터 로컬 맛집, 감성 카페까지 모든 정보를 한 곳에서.</p>
+      <div class="hero-btns">
+        <button class="btn-primary" onclick="goPage('planner')">✦ AI 일정 만들기</button>
+        <button class="btn-ghost"   onclick="goPage('explore')">탐색하기 →</button>
+      </div>
+      <div class="hero-stats">
+        <div><div class="hero-stat-num">2,400+</div><div class="hero-stat-lbl">등록 장소</div></div>
+        <div><div class="hero-stat-num">18만+</div><div class="hero-stat-lbl">여행자 리뷰</div></div>
+        <div><div class="hero-stat-num">98%</div><div class="hero-stat-lbl">만족도</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-hint"><div class="scroll-line"></div><span>스크롤</span></div>
+</section>
+
+<!-- FEATURED -->
+<section class="section">
+  <div class="wrap">
+    <div class="sec-row sr">
+      <div>
+        <div class="sec-eyebrow">에디터 추천</div>
+        <h2 class="sec-title">지금 가장 <em>핫한</em> 여행지</h2>
+      </div>
+      <button class="btn-outline" onclick="goPage('explore')">전체 보기 →</button>
+    </div>
+    <div class="featured sr" onclick="openDetail(0)">
+      <img class="featured-img" src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=1400&q=85" alt="성산일출봉" loading="lazy">
+      <div class="featured-grad"></div>
+      <div class="featured-content">
+        <div class="featured-badge">✦ UNESCO 세계자연유산</div>
+        <div class="featured-title">성산일출봉</div>
+        <div class="featured-sub">제주 동쪽 끝에 솟아오른 수성화산체. 정상에서 맞이하는 일출은 평생 잊을 수 없는 경험입니다.</div>
+        <button class="btn-ghost" style="width:fit-content">상세보기 →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- POPULAR SPOTS -->
+<section class="section">
+  <div class="wrap">
+    <div class="sec-row sr">
+      <div>
+        <div class="sec-eyebrow">인기 여행지</div>
+        <h2 class="sec-title">가장 많이 찾는<br>제주 명소</h2>
+      </div>
+      <button class="btn-outline" onclick="goPage('explore')">전체 →</button>
+    </div>
+    <!-- Category filter chips -->
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px;" class="sr">
+      <button class="chip on" onclick="filterHomeSpots(this,'all')">🗺 전체</button>
+      <button class="chip"    onclick="filterHomeSpots(this,'attraction')">🏔 관광지</button>
+      <button class="chip"    onclick="filterHomeSpots(this,'beach')">🏖 해변</button>
+      <button class="chip"    onclick="filterHomeSpots(this,'nature')">🌿 자연</button>
+    </div>
+    <div class="grid-4 sr" id="home-spots"></div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- COURSES -->
+<section class="section" style="background:var(--bg2);">
+  <div class="wrap">
+    <div class="sec-row sr">
+      <div>
+        <div class="sec-eyebrow">추천 코스</div>
+        <h2 class="sec-title">에디터가 직접 큐레이션한<br>여행 코스</h2>
+      </div>
+    </div>
+    <div class="grid-3 sr" id="home-courses"></div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- FOOD -->
+<section class="section">
+  <div class="wrap">
+    <div class="sec-row sr">
+      <div>
+        <div class="sec-eyebrow">미식 탐방</div>
+        <h2 class="sec-title">제주 대표 <em>맛집</em></h2>
+      </div>
+      <button class="btn-outline" onclick="goPage('explore')">전체 →</button>
+    </div>
+    <div class="hrow sr" id="home-food"></div>
+  </div>
+</section>
+
+<!-- SEASON -->
+<section class="section" style="background:var(--bg2);">
+  <div class="wrap">
+    <div class="sec-head sr" style="margin-bottom:0">
+      <div class="sec-eyebrow">계절별 추천</div>
+      <h2 class="sec-title" style="margin-bottom:28px">계절마다 다른<br>제주의 <em>얼굴</em></h2>
+    </div>
+    <div class="season-tabs sr">
+      <button class="s-tab on" onclick="setSeason(this,'spring')">🌸 봄</button>
+      <button class="s-tab"    onclick="setSeason(this,'summer')">☀️ 여름</button>
+      <button class="s-tab"    onclick="setSeason(this,'autumn')">🍂 가을</button>
+      <button class="s-tab"    onclick="setSeason(this,'winter')">❄️ 겨울</button>
+    </div>
+    <div class="grid-3 sr" id="season-grid"></div>
+  </div>
+</section>
+
+<!-- AI PROMO BLOCK -->
+<section class="section">
+  <div class="wrap">
+    <div class="ai-block sr">
+      <div class="ai-inner">
+        <div>
+          <div class="sec-eyebrow" style="margin-bottom:14px">AI 여행 플래너</div>
+          <h2 class="sec-title" style="margin-bottom:14px;font-size:clamp(1.7rem,3vw,2.6rem)">30초 만에 완성되는<br><em>나만의 코스</em></h2>
+          <p style="font-size:0.92rem;color:var(--text2);line-height:1.75;margin-bottom:30px;max-width:400px">여행 기간, 스타일, 동행자를 입력하면 AI가 최적 동선의 완벽한 여행 계획을 설계합니다.</p>
+          <button class="btn-primary" onclick="goPage('planner')">✦ 무료로 시작하기</button>
+        </div>
+        <div class="ai-form-wrap">
+          <select class="f-sel"><option>2박 3일</option><option>1박 2일</option><option>3박 4일</option><option>4박 5일+</option></select>
+          <select class="f-sel"><option>커플 여행</option><option>혼자 여행</option><option>가족 여행</option><option>친구 여행</option></select>
+          <div class="chip-row">
+            <div class="chip on"  onclick="this.classList.toggle('on')">🌿 자연</div>
+            <div class="chip on"  onclick="this.classList.toggle('on')">🍜 맛집</div>
+            <div class="chip"     onclick="this.classList.toggle('on')">☕ 카페</div>
+            <div class="chip"     onclick="this.classList.toggle('on')">📸 사진</div>
+            <div class="chip"     onclick="this.classList.toggle('on')">🧘 힐링</div>
+          </div>
+          <button class="ai-gen-btn" onclick="goPage('planner')">AI 일정 생성하기 →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CAFES -->
+<section class="section" style="background:var(--bg2);">
+  <div class="wrap">
+    <div class="sec-row sr">
+      <div>
+        <div class="sec-eyebrow">카페 투어</div>
+        <h2 class="sec-title">감성 가득한<br>제주 <em>카페</em></h2>
+      </div>
+      <button class="btn-outline" onclick="goPage('explore')">전체 →</button>
+    </div>
+    <div class="grid-4 sr" id="home-cafes"></div>
+  </div>
+</section>
+
+</div><!-- /page-home -->
+
+<!-- ════════════════════════════════════════
+     PAGE: EXPLORE
+════════════════════════════════════════ -->
+<div class="page" id="page-explore">
+  <div class="explore-header">
+    <div class="wrap">
+      <h1 class="explore-title">제주 탐색</h1>
+      <div class="search-bar">
+        <div class="search-icon">🔍</div>
+        <input class="search-input" type="text" id="searchInput" placeholder="여행지, 맛집, 카페를 검색하세요..." oninput="doSearch()">
+        <button class="search-btn" onclick="doSearch()">검색</button>
+      </div>
+      <div class="type-tabs">
+        <button class="t-tab on" onclick="setExType(this,'all')">🗺 전체</button>
+        <button class="t-tab"    onclick="setExType(this,'attraction')">🏔 관광지</button>
+        <button class="t-tab"    onclick="setExType(this,'food')">🍜 맛집</button>
+        <button class="t-tab"    onclick="setExType(this,'cafe')">☕ 카페</button>
+        <button class="t-tab"    onclick="setExType(this,'hotel')">🏨 숙소</button>
+      </div>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="explore-layout">
+      <div class="sidebar">
+        <div class="sb-sec">
+          <div class="sb-lbl">정렬</div>
+          <select class="sb-sort" onchange="doSort(this.value)">
+            <option value="popular">인기순</option>
+            <option value="rating">평점 높은순</option>
+            <option value="newest">최신순</option>
+          </select>
+        </div>
+        <div class="sb-sec">
+          <div class="sb-lbl">지역</div>
+          <label class="sb-row"><input type="checkbox" checked><span>제주시</span></label>
+          <label class="sb-row"><input type="checkbox" checked><span>서귀포시</span></label>
+          <label class="sb-row"><input type="checkbox" checked><span>애월</span></label>
+          <label class="sb-row"><input type="checkbox" checked><span>성산</span></label>
+          <label class="sb-row"><input type="checkbox" checked><span>협재·한림</span></label>
+        </div>
+        <div class="sb-sec">
+          <div class="sb-lbl">특징</div>
+          <label class="sb-row"><input type="checkbox"><span>뷰 맛집</span></label>
+          <label class="sb-row"><input type="checkbox"><span>인스타 핫플</span></label>
+          <label class="sb-row"><input type="checkbox"><span>가족 추천</span></label>
+          <label class="sb-row"><input type="checkbox"><span>커플 코스</span></label>
+        </div>
+      </div>
+      <div class="main-area">
+        <div class="grid-header">
+          <span class="result-count" id="resultCount">13개 결과</span>
+        </div>
+        <div class="grid-3" id="exploreGrid"></div>
+      </div>
+    </div>
+  </div>
+</div><!-- /page-explore -->
+
+<!-- ════════════════════════════════════════
+     PAGE: MAP
+════════════════════════════════════════ -->
+<div class="page" id="page-map">
+  <div class="map-page-wrap">
+    <div class="map-panel">
+      <div class="map-panel-top">
+        <div class="map-panel-title">지도 탐색</div>
+        <div class="search-bar" style="margin-bottom:0">
+          <div class="search-icon">🔍</div>
+          <input class="search-input" type="text" placeholder="장소 검색...">
+          <button class="search-btn">검색</button>
+        </div>
+      </div>
+      <div class="map-filter-row">
+        <button class="mf-btn on"  onclick="this.classList.toggle('on')">전체</button>
+        <button class="mf-btn"     onclick="this.classList.toggle('on')">관광지</button>
+        <button class="mf-btn"     onclick="this.classList.toggle('on')">맛집</button>
+        <button class="mf-btn"     onclick="this.classList.toggle('on')">카페</button>
+      </div>
+      <div class="map-list" id="mapList"></div>
+    </div>
+    <div class="map-canvas-wrap" id="mapCanvas">
+      <!-- SVG Jeju island map -->
+      <svg class="map-svg" viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <radialGradient id="oceanGrad" cx="50%" cy="50%" r="60%">
+            <stop offset="0%" stop-color="#0d1e38"/>
+            <stop offset="100%" stop-color="#060e18"/>
+          </radialGradient>
+        </defs>
+        <rect width="900" height="500" fill="url(#oceanGrad)"/>
+        <g stroke="rgba(255,255,255,0.025)" stroke-width="1" fill="none">
+          <line x1="0" y1="125" x2="900" y2="125"/>
+          <line x1="0" y1="250" x2="900" y2="250"/>
+          <line x1="0" y1="375" x2="900" y2="375"/>
+          <line x1="225" y1="0" x2="225" y2="500"/>
+          <line x1="450" y1="0" x2="450" y2="500"/>
+          <line x1="675" y1="0" x2="675" y2="500"/>
+        </g>
+        <!-- Jeju island shape -->
+        <path d="M 125,215 C 140,162 198,130 272,122 C 348,114 435,112 516,117 C 595,122 664,132 718,148 C 764,162 796,182 805,202 C 814,224 802,248 778,264 C 748,284 705,294 653,300 C 588,308 506,311 428,307 C 350,303 267,291 208,270 C 162,252 110,268 125,215 Z" fill="#1e3825" stroke="rgba(80,180,80,0.18)" stroke-width="1.5"/>
+        <!-- Coastal highlight -->
+        <path d="M 140,222 C 155,172 205,135 274,125 C 350,115 436,113 516,118 C 595,123 663,133 717,149" stroke="rgba(13,216,200,0.18)" stroke-width="2" fill="none"/>
+        <!-- Hallasan mountain -->
+        <path d="M 443,192 L 477,156 L 511,192 Z" fill="rgba(90,65,40,0.45)" stroke="rgba(200,170,130,0.2)" stroke-width="1"/>
+        <!-- Roads -->
+        <path d="M 170,228 Q 325,212 465,218 Q 610,224 760,230" stroke="rgba(255,220,80,0.13)" stroke-width="2" fill="none" stroke-dasharray="7,5"/>
+      </svg>
+      <!-- Pins rendered by JS -->
+      <svg style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none" viewBox="0 0 900 500" id="pinsSvg" preserveAspectRatio="xMidYMid slice"></svg>
+      <!-- Popup card -->
+      <div class="map-popup" id="mapPopup">
+        <div class="popup-img-wrap">
+          <img id="popupImg" src="" alt="">
+        </div>
+        <div class="popup-body">
+          <div class="popup-name" id="popupName"></div>
+          <div class="popup-meta">
+            <span class="mi-score" id="popupRating"></span>
+            <span class="mi-cnt"   id="popupType"></span>
+          </div>
+          <button class="btn-primary" style="width:100%;justify-content:center;padding:10px;font-size:0.82rem;margin-top:8px" onclick="openPopupDetail()">상세보기 →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div><!-- /page-map -->
+
+<!-- ════════════════════════════════════════
+     PAGE: PLANNER
+════════════════════════════════════════ -->
+<div class="page" id="page-planner">
+  <div class="planner-wrap">
+    <div class="planner-inner">
+      <h1 class="planner-title">당신만의<br><em>완벽한 제주</em></h1>
+      <p class="planner-sub">여행 정보를 입력하면 AI가 최적 동선으로 맞춤 일정을 설계합니다. 이동 시간, 맛집, 카페, 숙소까지 모두 포함됩니다.</p>
+
+      <div class="p-card">
+        <div class="p-card-lbl">여행 기간 및 동행</div>
+        <div class="p-grid-2">
+          <select class="p-sel" id="pDur">
+            <option value="1">1박 2일</option>
+            <option value="2" selected>2박 3일</option>
+            <option value="3">3박 4일</option>
+            <option value="4">4박 5일+</option>
+          </select>
+          <select class="p-sel" id="pGrp">
+            <option>혼자 여행</option>
+            <option selected>커플 여행</option>
+            <option>가족 여행</option>
+            <option>친구 여행</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="p-card">
+        <div class="p-card-lbl">이동 수단</div>
+        <select class="p-sel" id="pTrans">
+          <option>🚗 렌터카</option>
+          <option>🚌 대중교통</option>
+          <option>🚲 자전거</option>
+        </select>
+      </div>
+
+      <div class="p-card">
+        <div class="p-card-lbl">여행 스타일 (복수 선택)</div>
+        <div class="chip-row">
+          <div class="chip on" onclick="this.classList.toggle('on')">🌿 자연탐방</div>
+          <div class="chip on" onclick="this.classList.toggle('on')">🍜 맛집탐방</div>
+          <div class="chip"    onclick="this.classList.toggle('on')">☕ 카페투어</div>
+          <div class="chip"    onclick="this.classList.toggle('on')">📸 사진여행</div>
+          <div class="chip"    onclick="this.classList.toggle('on')">🧘 힐링휴식</div>
+          <div class="chip"    onclick="this.classList.toggle('on')">🏄 액티비티</div>
+          <div class="chip"    onclick="this.classList.toggle('on')">🌆 야경</div>
+        </div>
+      </div>
+
+      <div class="p-card">
+        <div class="p-card-lbl">선호 지역</div>
+        <div class="chip-row">
+          <div class="chip on" onclick="this.classList.toggle('on')">🏙 제주시</div>
+          <div class="chip"    onclick="this.classList.toggle('on')">🌅 성산·우도</div>
+          <div class="chip"    onclick="this.classList.toggle('on')">🏖 협재·한림</div>
+          <div class="chip"    onclick="this.classList.toggle('on')">☕ 애월</div>
+          <div class="chip"    onclick="this.classList.toggle('on')">🌊 서귀포</div>
+        </div>
+      </div>
+
+      <button class="gen-btn" onclick="generatePlan()">✦ AI 일정 생성하기</button>
+      <div class="result-wrap" id="resultWrap"></div>
+    </div>
+  </div>
+</div><!-- /page-planner -->
+
+<!-- ════════════════════════════════════════
+     PAGE: SAVED
+════════════════════════════════════════ -->
+<div class="page" id="page-saved">
+  <div class="saved-wrap">
+    <div class="wrap">
+      <div class="sec-eyebrow" style="margin-bottom:12px">저장됨</div>
+      <h1 class="sec-title" style="font-size:clamp(1.8rem,3.5vw,2.8rem);margin-bottom:40px">나의 제주 여행</h1>
+      <div id="savedContent">
+        <div class="empty-state">
+          <div class="empty-icon">🗺</div>
+          <div class="empty-title">아직 저장된 장소가 없습니다</div>
+          <div class="empty-sub">마음에 드는 여행지를 북마크해보세요</div>
+          <button class="btn-primary" onclick="goPage('explore')">탐색 시작하기</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div><!-- /page-saved -->
+
+<!-- ═══ DETAIL SHEET MODAL ═══ -->
+<div class="overlay" id="overlay" onclick="handleOverlayClick(event)">
+  <div class="sheet" id="detailSheet">
+    <div class="sheet-handle"></div>
+    <div class="d-gallery" id="dGallery">
+      <div class="d-gallery-main"><img id="dImg1" src="" alt=""></div>
+      <div class="d-gallery-sub">
+        <div style="overflow:hidden;background:var(--bg2)"><img id="dImg2" src="" alt="" style="width:100%;height:100%;object-fit:cover"></div>
+        <div style="overflow:hidden;background:var(--bg2)"><img id="dImg3" src="" alt="" style="width:100%;height:100%;object-fit:cover"></div>
+      </div>
+    </div>
+    <div class="d-body">
+      <div class="d-top">
+        <div>
+          <div class="d-area"   id="dArea"></div>
+          <div class="d-name"   id="dName"></div>
+          <div class="d-rating">
+            <span class="stars">★★★★★</span>
+            <span class="score" id="dRating" style="font-size:1rem"></span>
+            <span class="cnt"   id="dCnt"></span>
+          </div>
+        </div>
+        <button class="d-close-btn" onclick="closeDetail()">✕</button>
+      </div>
+      <div class="d-action-row">
+        <button class="btn-primary" onclick="toast('📋 일정에 추가되었습니다!')">+ 일정에 추가</button>
+        <button class="btn-ghost"   id="saveBtnModal" onclick="toggleSaveModal()">🤍 저장</button>
+        <button class="btn-ghost"   onclick="shareCurrentPlace()">↗ 공유</button>
+      </div>
+      <div class="d-info-grid">
+        <div class="d-info-item"><div class="d-info-lbl">추천 시간</div><div class="d-info-val" id="dTime"></div></div>
+        <div class="d-info-item"><div class="d-info-lbl">입장료</div>   <div class="d-info-val" id="dFee"></div></div>
+        <div class="d-info-item"><div class="d-info-lbl">소요 시간</div><div class="d-info-val" id="dDur"></div></div>
+      </div>
+      <div class="d-tabs">
+        <button class="d-tab on" onclick="switchDTab(this,'info')">정보</button>
+        <button class="d-tab"    onclick="switchDTab(this,'reviews')">리뷰</button>
+        <button class="d-tab"    onclick="switchDTab(this,'nearby')">근처 여행지</button>
+      </div>
+      <div class="d-tab-pane on" id="dtInfo">
+        <p class="desc-text" id="dDesc"></p>
+      </div>
+      <div class="d-tab-pane" id="dtReviews">
+        <div id="dReviews"></div>
+      </div>
+      <div class="d-tab-pane" id="dtNearby">
+        <div class="nb-row" id="dNearby"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ TOAST ═══ -->
+<div class="toast" id="toastEl">
+  <div class="toast-dot"></div>
+  <div class="toast-text" id="toastTxt"></div>
+</div>
+
+<!-- ═══ SCROLL TOP ═══ -->
+<button class="scroll-top" id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo-text">JejuNow</div>
+        <p class="footer-desc">제주도 여행의 모든 것을 한 곳에서. AI 기반 일정 생성부터 로컬 맛집, 감성 카페까지.</p>
+        <div class="f-socials">
+          <div class="f-social">📘</div>
+          <div class="f-social">📸</div>
+          <div class="f-social">🐦</div>
+        </div>
+      </div>
+      <div class="f-col">
+        <h4>탐색</h4>
+        <ul>
+          <li><a onclick="goPage('explore')">관광지</a></li>
+          <li><a onclick="goPage('explore')">맛집</a></li>
+          <li><a onclick="goPage('explore')">카페</a></li>
+          <li><a onclick="goPage('explore')">숙소</a></li>
+        </ul>
+      </div>
+      <div class="f-col">
+        <h4>서비스</h4>
+        <ul>
+          <li><a onclick="goPage('planner')">AI 일정 생성</a></li>
+          <li><a onclick="goPage('map')">지도 탐색</a></li>
+          <li><a>여행 코스</a></li>
+          <li><a>여행 가이드</a></li>
+        </ul>
+      </div>
+      <div class="f-col">
+        <h4>회사</h4>
+        <ul>
+          <li><a>소개</a></li>
+          <li><a>광고 문의</a></li>
+          <li><a>개인정보처리방침</a></li>
+          <li><a>이용약관</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2025 JejuNow. All rights reserved.</span>
+      <span class="footer-badge">Made for Jeju 🌴</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ════════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════════ -->
+<script>
+/* ─────────────────
+   DATA
+───────────────── */
+const PLACES = [
+  {
+    id:0, name:'성산일출봉', area:'성산', type:'attraction', cat:'관광지',
+    rating:4.9, cnt:3842, price:'₩5,000',
+    time:'일출~일몰', fee:'₩5,000', dur:'1~2시간',
+    desc:'제주도 동쪽 끝에 위치한 수성화산체로 유네스코 세계자연유산입니다. 해발 182m 정상에서 바라보는 일출과 분화구 경관이 압도적입니다. 제주 여행의 필수 코스입니다.',
+    tags:['일출','UNESCO','뷰 맛집'],
+    img:'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&q=80',
+    img2:'https://images.unsplash.com/photo-1565190743600-a72aab7d0c62?w=400&q=80',
+    img3:'https://images.unsplash.com/photo-1566996533071-2b5b9b4a1e1b?w=400&q=80',
+    px:76, py:50
+  },
+  {
+    id:1, name:'한라산', area:'제주시', type:'attraction', cat:'자연',
+    rating:4.8, cnt:5621, price:'무료',
+    time:'새벽~오후 2시', fee:'무료', dur:'6~10시간',
+    desc:'해발 1,947m 한국 최고봉. 유네스코 세계자연유산으로 성판악, 어리목, 영실 등 다양한 등산 코스가 있습니다. 백록담의 설경은 평생 기억에 남을 절경입니다.',
+    tags:['등산','국립공원','설경'],
+    img:'https://images.unsplash.com/photo-1590001155093-a3c66ab0c3ff?w=800&q=80',
+    img2:'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&q=80',
+    img3:'https://images.unsplash.com/photo-1501854140801-50d01698950b?w=400&q=80',
+    px:52, py:42
+  },
+  {
+    id:2, name:'협재해수욕장', area:'협재', type:'attraction', cat:'해변',
+    rating:4.7, cnt:2984, price:'무료',
+    time:'연중 개방', fee:'무료', dur:'2~4시간',
+    desc:'서쪽 최고의 해수욕장으로 에메랄드빛 투명한 바다와 새하얀 모래사장이 아름답습니다. 앞바다에 비양도가 보이는 절경이 펼쳐집니다.',
+    tags:['해변','에메랄드','가족'],
+    img:'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80',
+    img2:'https://images.unsplash.com/photo-1519046904884-53103b34b206?w=400&q=80',
+    img3:'https://images.unsplash.com/photo-1559494007-9f5847c49d94?w=400&q=80',
+    px:18, py:48
+  },
+  {
+    id:3, name:'우도', area:'성산', type:'attraction', cat:'섬',
+    rating:4.8, cnt:4123, price:'₩11,500',
+    time:'연중 개방', fee:'₩11,500', dur:'하루',
+    desc:'제주 최대 부속 섬으로 자전거로 일주가 가능합니다. 에메랄드빛 홍조단괴 해빈, 땅콩아이스크림, 우도봉 전망대가 인기입니다.',
+    tags:['섬','자전거','스노클링'],
+    img:'https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=800&q=80',
+    img2:'https://images.unsplash.com/photo-1565190743600-a72aab7d0c62?w=400&q=80',
+    img3:'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&q=80',
+    px:84, py:44
+  },
+  {
+    id:4, name:'만장굴', area:'제주시', type:'attraction', cat:'자연',
+    rating:4.5, cnt:1876, price:'₩4,000',
+    time:'09:00~18:00', fee:'₩4,000', dur:'1~2시간',
+    desc:'세계에서 가장 긴 용암동굴 중 하나로 총 길이 7.4km입니다. 내부 온도가 연중 11°C로 일정하여 여름에도 서늘합니다. 7.6m 높이의 용암석주가 압권입니다.',
+    tags:['동굴','세계유산','신비'],
+    img:'https://images.unsplash.com/photo-1518098268026-4e89f1a2cd8e?w=800&q=80',
+    img2:'https://images.unsplash.com/photo-1504701954957-2010ec3bcec1?w=400&q=80',
+    img3:'https://images.unsplash.com/photo-1501854140801-50d01698950b?w=400&q=80',
+    px:65, py:38
+  },
+  {
+    id:5, name:'천지연폭포', area:'서귀포', type:'attraction', cat:'자연',
+    rating:4.6, cnt:2340, price:'₩2,000',
+    time:'연중 개방', fee:'₩2,000', dur:'1시간',
+    desc:'높이 22m, 폭 12m의 웅장한 폭포. 밤에는 아름다운 조명을 받아 환상적인 야경을 연출합니다. 천연기념물 무태장어 서식지이기도 합니다.',
+    tags:['폭포','야경','자연'],
+    img:'https://images.unsplash.com/photo-1504701954957-2010ec3bcec1?w=800&q=80',
+    img2:'https://images.unsplash.com/photo-1519046904884-53103b34b206?w=400&q=80',
+    img3:'https://images.unsplash.com/photo-1559494007-9f5847c49d94?w=400&q=80',
+    px:44, py:62
+  },
+  {
+    id:6, name:'흑돼지 골목', area:'제주시', type:'food', cat:'맛집',
+    rating:4.7, cnt:3245, price:'₩15,000~',
+    time:'11:00~22:00', fee:'-', dur:'1~2시간',
+    desc:'제주 흑돼지를 즐길 수 있는 골목으로 제주시 연동에 위치합니다. 두툼한 삼겹살과 오겹살의 독특한 풍미가 일품입니다.',
+    tags:['흑돼지','BBQ','제주특산'],
+    img:'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&q=80',
+    img2:'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=80',
+    img3:'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&q=80',
+    px:35, py:35
+  },
+  {
+    id:7, name:'성게국수 전문점', area:'성산', type:'food', cat:'맛집',
+    rating:4.8, cnt:1987, price:'₩12,000',
+    time:'09:00~18:00', fee:'-', dur:'30~60분',
+    desc:'싱싱한 제주 성게로 만든 고소하고 진한 국수. 성산 일출봉 근처에 여러 전문점이 있으며 아침 식사로도 인기가 높습니다.',
+    tags:['성게','해산물','아침식사'],
+    img:'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=800&q=80',
+    img2:'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&q=80',
+    img3:'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=80',
+    px:74, py:52
+  },
+  {
+    id:8, name:'갈치조림 명가', area:'서귀포', type:'food', cat:'맛집',
+    rating:4.6, cnt:2156, price:'₩13,000',
+    time:'11:00~21:00', fee:'-', dur:'1시간',
+    desc:'제주 대표 향토 음식인 갈치조림. 두툼한 갈치와 제주 고사리, 감자가 어우러진 깊고 진한 맛이 현지인들도 즐겨 찾는 맛집입니다.',
+    tags:['갈치','향토음식','로컬'],
+    img:'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&q=80',
+    img2:'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=400&q=80',
+    img3:'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&q=80',
+    px:45, py:64
+  },
+  {
+    id:9, name:'애월 오션뷰 카페', area:'애월', type:'cafe', cat:'카페',
+    rating:4.9, cnt:4521, price:'₩7,000~',
+    time:'10:00~21:00', fee:'-', dur:'1~2시간',
+    desc:'애월 해안도로를 따라 늘어선 오션뷰 카페들. 제주 바다를 바라보며 즐기는 커피 한 잔은 제주 여행의 하이라이트입니다.',
+    tags:['오션뷰','노을','감성카페'],
+    img:'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80',
+    img2:'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=400&q=80',
+    img3:'https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=400&q=80',
+    px:24, py:38
+  },
+  {
+    id:10, name:'노을빛 카페', area:'협재', type:'cafe', cat:'카페',
+    rating:4.7, cnt:3124, price:'₩6,500~',
+    time:'10:00~21:00', fee:'-', dur:'1시간',
+    desc:'협재 해변 앞에 위치한 감성 카페. 서쪽으로 열린 탁 트인 전망에서 제주 최고의 노을을 감상할 수 있는 곳입니다.',
+    tags:['노을','뷰 맛집','협재'],
+    img:'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=800&q=80',
+    img2:'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&q=80',
+    img3:'https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=400&q=80',
+    px:16, py:50
+  },
+  {
+    id:11, name:'감귤향 카페', area:'제주시', type:'cafe', cat:'카페',
+    rating:4.5, cnt:2876, price:'₩5,500~',
+    time:'09:00~20:00', fee:'-', dur:'1시간',
+    desc:'제주 감귤을 활용한 다양한 음료와 베이커리를 선보입니다. 감귤 에이드, 감귤 케이크가 시그니처 메뉴입니다.',
+    tags:['감귤','베이커리','제주'],
+    img:'https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=800&q=80',
+    img2:'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=400&q=80',
+    img3:'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&q=80',
+    px:36, py:33
+  },
+  {
+    id:12, name:'오션 리조트', area:'서귀포', type:'hotel', cat:'숙소',
+    rating:4.6, cnt:1523, price:'₩180,000~',
+    time:'-', fee:'-', dur:'-',
+    desc:'서귀포 해안가에 위치한 5성급 리조트. 전 객실 오션뷰, 야외 인피니티풀, 스파 시설을 갖추고 있습니다.',
+    tags:['5성급','오션뷰','스파'],
+    img:'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=80',
+    img2:'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=400&q=80',
+    img3:'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=400&q=80',
+    px:48, py:65
+  },
+];
+
+const COURSES = [
+  { title:'성산·우도 핵심 코스',  sub:'동부 하이라이트', dur:'1일', spots:5, tags:['성산','우도','동부'],   img:'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&q=80' },
+  { title:'애월 감성 카페투어',    sub:'커플 추천',      dur:'1일', spots:6, tags:['애월','카페','노을'],   img:'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&q=80' },
+  { title:'한라산 + 서귀포',       sub:'자연과 도심',    dur:'2일', spots:8, tags:['한라산','서귀포','자연'], img:'https://images.unsplash.com/photo-1590001155093-a3c66ab0c3ff?w=600&q=80' },
+];
+
+const SEASONS = {
+  spring:[
+    { name:'유채꽃 드라이브', area:'성산·표선', img:'https://images.unsplash.com/photo-1490750967868-88df5691cc87?w=600&q=80', r:4.8 },
+    { name:'벚꽃길 산책',     area:'제주시',   img:'https://images.unsplash.com/photo-1522383225653-ed111181a951?w=600&q=80', r:4.7 },
+    { name:'수선화 군락',     area:'서귀포',   img:'https://images.unsplash.com/photo-1444930694458-01babf71870c?w=600&q=80', r:4.6 },
+  ],
+  summer:[
+    { name:'협재 수영',     area:'협재',   img:'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=80', r:4.9 },
+    { name:'우도 스노클링', area:'우도',   img:'https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=600&q=80', r:4.7 },
+    { name:'올레 7코스',    area:'서귀포', img:'https://images.unsplash.com/photo-1559494007-9f5847c49d94?w=600&q=80', r:4.6 },
+  ],
+  autumn:[
+    { name:'한라산 단풍', area:'한라산',   img:'https://images.unsplash.com/photo-1501854140801-50d01698950b?w=600&q=80', r:4.9 },
+    { name:'억새 평원',   area:'산굼부리', img:'https://images.unsplash.com/photo-1504701954957-2010ec3bcec1?w=600&q=80', r:4.7 },
+    { name:'감귤 체험',   area:'서귀포',   img:'https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?w=600&q=80', r:4.5 },
+  ],
+  winter:[
+    { name:'한라산 설경',  area:'한라산',   img:'https://images.unsplash.com/photo-1518098268026-4e89f1a2cd8e?w=600&q=80', r:4.9 },
+    { name:'동백꽃 여행',  area:'카멜리아힐', img:'https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?w=600&q=80', r:4.6 },
+    { name:'겨울 일출봉',  area:'성산',     img:'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&q=80', r:4.8 },
+  ],
+};
+
+const PLANS = {
+  '1':{ days:[{ d:1, title:'제주 동부 핵심', items:[
+    {t:'07:30',i:'🌅',n:'성산일출봉',d:'제주 최고의 일출'},
+    {t:'10:30',i:'⛵',n:'우도 도착',  d:'페리 30분, 자전거 대여'},
+    {t:'13:00',i:'🍜',n:'우도 성게국수',d:'싱싱한 성게 특제 국수'},
+    {t:'15:00',i:'🏖',n:'홍조단괴 해빈',d:'에메랄드빛 해변'},
+    {t:'18:00',i:'🏨',n:'성산 숙소',  d:'오션뷰 숙소 체크인'},
+  ]}]},
+  '2':{ days:[
+    { d:1, title:'동쪽 명소 탐방', items:[
+      {t:'07:00',i:'🌅',n:'성산일출봉',  d:'UNESCO 세계유산 일출'},
+      {t:'10:00',i:'⛵',n:'우도 탐방',   d:'자전거 일주'},
+      {t:'13:00',i:'🍜',n:'성게국수',    d:'우도 필수 코스'},
+      {t:'15:30',i:'🕳',n:'만장굴',      d:'세계 최장 용암동굴'},
+      {t:'19:00',i:'🍖',n:'흑돼지 BBQ', d:'제주 흑돼지 골목'},
+    ]},
+    { d:2, title:'서쪽 감성 코스', items:[
+      {t:'09:00',i:'🏖',n:'협재해수욕장',d:'에메랄드 해변'},
+      {t:'11:30',i:'☕',n:'애월 카페투어',d:'오션뷰 감성 카페'},
+      {t:'14:00',i:'🌿',n:'한담 해안산책로',d:'로맨틱 코스탈워크'},
+      {t:'17:00',i:'🌅',n:'노을 감상',  d:'협재 노을빛 카페'},
+      {t:'19:30',i:'🐟',n:'해산물 저녁',d:'한림 수산시장'},
+    ]},
+  ]},
+  '3':{ days:[
+    { d:1, title:'동부 핵심', items:[
+      {t:'07:00',i:'🌅',n:'성산일출봉',d:'일출 명소'},
+      {t:'10:00',i:'⛵',n:'우도',      d:'섬 속 섬 탐방'},
+      {t:'14:00',i:'🕳',n:'만장굴',   d:'용암동굴'},
+      {t:'19:00',i:'🍖',n:'흑돼지',   d:'BBQ 저녁'},
+    ]},
+    { d:2, title:'한라산 & 서귀포', items:[
+      {t:'06:00',i:'⛰',n:'한라산 등반',d:'성판악 코스'},
+      {t:'14:00',i:'💧',n:'천지연폭포',d:'3단 폭포'},
+      {t:'17:00',i:'🌊',n:'정방폭포', d:'바다로 떨어지는 폭포'},
+      {t:'19:30',i:'🐟',n:'갈치조림', d:'서귀포 향토음식'},
+    ]},
+    { d:3, title:'서부 감성', items:[
+      {t:'09:00',i:'🏖',n:'협재 해변',  d:'에메랄드 바다'},
+      {t:'11:00',i:'☕',n:'애월 카페거리',d:'오션뷰 카페'},
+      {t:'14:00',i:'🌿',n:'한담 산책로',d:'해안 로맨틱 코스'},
+      {t:'17:00',i:'✈',n:'공항 이동', d:'아름다운 마무리'},
+    ]},
+  ]},
+  '4':{ days:[
+    { d:1, title:'동부 탐방', items:[{t:'07:00',i:'🌅',n:'성산일출봉',d:'일출'},{t:'10:00',i:'⛵',n:'우도',d:'자전거'},{t:'15:00',i:'🕳',n:'만장굴',d:'동굴'}]},
+    { d:2, title:'한라산',    items:[{t:'06:00',i:'⛰',n:'한라산',d:'등반'},{t:'15:00',i:'💧',n:'천지연',d:'폭포'},{t:'19:00',i:'🐟',n:'갈치조림',d:'향토음식'}]},
+    { d:3, title:'서부 감성', items:[{t:'09:00',i:'🏖',n:'협재',d:'해변'},{t:'12:00',i:'☕',n:'애월',d:'카페투어'},{t:'17:00',i:'🌅',n:'노을',d:'협재 노을'}]},
+    { d:4, title:'마무리',    items:[{t:'09:00',i:'🏛',n:'민속촌',d:'제주 문화'},{t:'13:00',i:'🍜',n:'국수거리',d:'공항 근처'},{t:'16:00',i:'✈',n:'공항 이동',d:'귀가'}]},
+  ]},
+};
+
+const REVIEWS = [
+  { name:'김민지', date:'2025.03.12', r:5, txt:'AI 일정 덕분에 동선 낭비 없이 알차게 다녔어요. 성산에서 우도, 만장굴까지 완벽한 코스였습니다.' },
+  { name:'이준호', date:'2025.02.28', r:5, txt:'숨은 카페들을 찾는 데 최고였어요. 일반 검색으로는 절대 못 찾을 애월 카페를 발견했습니다.' },
+  { name:'박서연', date:'2025.02.14', r:4, txt:'커플 여행으로 2박 3일 다녀왔는데 AI 추천 코스 덕분에 이동 효율이 탁월했습니다.' },
+];
+
+/* ─────────────────
+   STATE
+───────────────── */
+let savedIds   = [];
+let curDetail  = null;
+let curPopupId = null;
+let exType     = 'all';
+
+/* ─────────────────
+   NAV & PAGE
+───────────────── */
+function goPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('on'));
+  document.getElementById('page-' + id).classList.add('on');
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('on'));
+  const lk = document.getElementById('nl-' + id);
+  if (lk) lk.classList.add('on');
+  window.scrollTo(0, 0);
+  if (id === 'explore') renderExplore();
+  if (id === 'map')     renderMap();
+}
+
+function openMobileNav() {
+  document.getElementById('mobileNav').classList.add('open');
+}
+function closeMobileNav() {
+  document.getElementById('mobileNav').classList.remove('open');
+}
+
+/* ─────────────────
+   SCROLL EFFECTS
+───────────────── */
+function runReveal() {
+  document.querySelectorAll('.sr:not(.visible)').forEach(el => {
+    const r = el.getBoundingClientRect();
+    if (r.top < window.innerHeight - 50) el.classList.add('visible');
+  });
+}
+
+window.addEventListener('scroll', () => {
+  const nav = document.getElementById('mainNav');
+  nav.classList.toggle('scrolled', window.scrollY > 20);
+  document.getElementById('scrollTopBtn').classList.toggle('show', window.scrollY > 400);
+  runReveal();
+}, { passive: true });
+
+/* ─────────────────
+   CARD FACTORY
+───────────────── */
+function makeCard(p) {
+  const full5 = p.rating >= 4.8;
+  return `
+<div class="card" onclick="openDetail(${p.id})">
+  <div class="card-img-wrap">
+    <img src="${p.img}" alt="${p.name}" loading="lazy"
+         onerror="this.src='https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=60'">
+    <div class="card-img-overlay"></div>
+    <span class="card-tag">${p.cat}</span>
+    <div class="card-save ${savedIds.includes(p.id)?'on':''}"
+         onclick="event.stopPropagation();toggleSaveId(${p.id},this)">
+      ${savedIds.includes(p.id)?'❤':'🤍'}
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="card-area">${p.area}</div>
+    <div class="card-name">${p.name}</div>
+    <div class="card-meta">
+      <span class="stars">★★★★${full5?'★':'☆'}</span>
+      <span class="score">${p.rating}</span>
+      <span class="cnt">(${p.cnt.toLocaleString()})</span>
+      <span class="price">${p.price}</span>
+    </div>
+    <div class="card-tags">${p.tags.slice(0,3).map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+  </div>
+</div>`;
+}
+
+function makeCourseCard(c) {
+  return `
+<div class="course-card" onclick="toast('📋 코스 상세보기 준비 중입니다')">
+  <div class="course-img-wrap">
+    <img src="${c.img}" alt="${c.title}" loading="lazy"
+         onerror="this.src='https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=60'">
+    <div class="course-img-overlay"></div>
+  </div>
+  <div class="course-body">
+    <div class="course-chips">${c.tags.map(t=>`<span class="c-chip">${t}</span>`).join('')}</div>
+    <div class="course-title">${c.title}</div>
+    <div class="course-meta"><span>⏱ ${c.dur}</span><span>📍 ${c.spots}곳</span><span>✦ ${c.sub}</span></div>
+  </div>
+</div>`;
+}
+
+/* ─────────────────
+   HOME RENDERS
+───────────────── */
+function renderHome() {
+  const spots   = document.getElementById('home-spots');
+  const food    = document.getElementById('home-food');
+  const cafes   = document.getElementById('home-cafes');
+  const courses = document.getElementById('home-courses');
+
+  const attractions = PLACES.filter(p => p.type === 'attraction');
+  if (spots)   spots.innerHTML   = attractions.slice(0,4).map(makeCard).join('');
+  if (food)    food.innerHTML    = PLACES.filter(p => p.type === 'food').map(makeCard).join('');
+  if (cafes)   cafes.innerHTML   = PLACES.filter(p => p.type === 'cafe').slice(0,4).map(makeCard).join('');
+  if (courses) courses.innerHTML = COURSES.map(makeCourseCard).join('');
+
+  renderSeason('spring');
+}
+
+function filterHomeSpots(el, key) {
+  document.querySelectorAll('#page-home .chip').forEach(c => c.classList.remove('on'));
+  el.classList.add('on');
+  const g = document.getElementById('home-spots');
+  let list;
+  if (key === 'all')        list = PLACES.filter(p => p.type === 'attraction').slice(0,4);
+  else if (key === 'beach') list = PLACES.filter(p => p.tags.includes('해변') || p.cat === '해변');
+  else if (key === 'nature') list = PLACES.filter(p => p.cat === '자연' || p.cat === '섬');
+  else                       list = PLACES.filter(p => p.type === 'attraction').slice(0,4);
+  if (g) g.innerHTML = list.map(makeCard).join('');
+  runReveal();
+}
+
+function renderSeason(s) {
+  const g = document.getElementById('season-grid');
+  if (!g) return;
+  const data = SEASONS[s] || SEASONS.spring;
+  g.innerHTML = data.map(it => `
+<div class="card" onclick="toast('🌸 장소 상세 불러오는 중...')">
+  <div class="card-img-wrap">
+    <img src="${it.img}" alt="${it.name}" loading="lazy"
+         onerror="this.src='https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=60'">
+    <div class="card-img-overlay"></div>
+  </div>
+  <div class="card-body">
+    <div class="card-area">${it.area}</div>
+    <div class="card-name">${it.name}</div>
+    <div class="card-meta">
+      <span class="stars">★★★★${it.r>=4.8?'★':'☆'}</span>
+      <span class="score">${it.r}</span>
+    </div>
+  </div>
+</div>`).join('');
+  runReveal();
+}
+
+function setSeason(el, s) {
+  document.querySelectorAll('.s-tab').forEach(t => t.classList.remove('on'));
+  el.classList.add('on');
+  renderSeason(s);
+}
+
+/* ─────────────────
+   EXPLORE
+───────────────── */
+function renderExplore() {
+  const q = (document.getElementById('searchInput')?.value || '').toLowerCase().trim();
+  let list = PLACES;
+  if (exType !== 'all') list = list.filter(p => p.type === exType);
+  if (q) list = list.filter(p =>
+    p.name.toLowerCase().includes(q) ||
+    p.area.toLowerCase().includes(q) ||
+    p.tags.some(t => t.toLowerCase().includes(q))
+  );
+  const g   = document.getElementById('exploreGrid');
+  const cnt = document.getElementById('resultCount');
+  if (g) g.innerHTML = list.length
+    ? list.map(makeCard).join('')
+    : '<p style="grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--text3)">검색 결과가 없습니다</p>';
+  if (cnt) cnt.textContent = `${list.length}개 결과`;
+  runReveal();
+}
+
+function setExType(el, t) {
+  document.querySelectorAll('.t-tab').forEach(b => b.classList.remove('on'));
+  el.classList.add('on');
+  exType = t;
+  renderExplore();
+}
+
+function doSearch() { renderExplore(); }
+function doSort(v) { toast(`정렬: ${v === 'popular' ? '인기순' : v === 'rating' ? '평점순' : '최신순'}`); }
+
+/* ─────────────────
+   MAP
+───────────────── */
+function renderMap() {
+  const listEl = document.getElementById('mapList');
+  const pinsEl = document.getElementById('pinsSvg');
+  if (!listEl || !pinsEl) return;
+
+  listEl.innerHTML = PLACES.map((p, i) => `
+<div class="map-item" id="mi${p.id}" onclick="focusPin(${p.id})">
+  <div class="mi-num">${i+1}</div>
+  <img class="mi-img" src="${p.img}" alt="${p.name}" loading="lazy"
+       onerror="this.src='https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=200&q=50'">
+  <div class="mi-info">
+    <div class="mi-name">${p.name}</div>
+    <div class="mi-area">${p.area} · ${p.cat}</div>
+    <div class="mi-meta">
+      <span class="mi-score">★ ${p.rating}</span>
+      <span class="mi-cnt">(${p.cnt.toLocaleString()})</span>
+    </div>
+  </div>
+</div>`).join('');
+
+  const COLORS = { attraction:'#0dd8c8', food:'#f0c060', cafe:'#ff8c69', hotel:'#a78bfa' };
+  pinsEl.innerHTML = PLACES.map(p => {
+    const c = COLORS[p.type] || '#0dd8c8';
+    const x = (p.px / 100) * 900;
+    const y = (p.py / 100) * 500;
+    return `
+<g onclick="focusPin(${p.id})" style="cursor:pointer" transform="translate(${x},${y})">
+  <circle r="20" fill="${c}" opacity="0.1">
+    <animate attributeName="r" values="12;22;12" dur="2.5s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.3;0;0.3" dur="2.5s" repeatCount="indefinite"/>
+  </circle>
+  <circle r="9" fill="${c}" opacity="0.85"/>
+  <circle r="3.5" fill="white" opacity="0.9"/>
+</g>`;
+  }).join('');
+}
+
+function focusPin(id) {
+  const p = PLACES.find(x => x.id === id);
+  if (!p) return;
+  curPopupId = id;
+  document.querySelectorAll('.map-item').forEach(m => m.classList.remove('on'));
+  const mi = document.getElementById('mi' + id);
+  if (mi) { mi.classList.add('on'); mi.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }
+  document.getElementById('popupImg').src    = p.img;
+  document.getElementById('popupName').textContent   = p.name;
+  document.getElementById('popupRating').textContent = '★ ' + p.rating;
+  document.getElementById('popupType').textContent   = p.area + ' · ' + p.cat;
+  document.getElementById('mapPopup').classList.add('show');
+}
+
+function openPopupDetail() {
+  if (curPopupId !== null) openDetail(curPopupId);
+}
+
+/* ─────────────────
+   DETAIL MODAL
+───────────────── */
+function openDetail(id) {
+  const p = PLACES.find(x => x.id === id);
+  if (!p) return;
+  curDetail = p;
+
+  // Images with fallback
+  const fallback = 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=60';
+  document.getElementById('dImg1').src = p.img  || fallback;
+  document.getElementById('dImg2').src = p.img2 || fallback;
+  document.getElementById('dImg3').src = p.img3 || fallback;
+  document.getElementById('dImg1').onerror = function(){ this.src = fallback; };
+  document.getElementById('dImg2').onerror = function(){ this.src = fallback; };
+  document.getElementById('dImg3').onerror = function(){ this.src = fallback; };
+
+  document.getElementById('dArea').textContent   = p.area + ' · ' + p.cat;
+  document.getElementById('dName').textContent   = p.name;
+  document.getElementById('dRating').textContent = p.rating;
+  document.getElementById('dCnt').textContent    = `(${p.cnt.toLocaleString()}개 리뷰)`;
+  document.getElementById('dTime').textContent   = p.time;
+  document.getElementById('dFee').textContent    = p.fee;
+  document.getElementById('dDur').textContent    = p.dur;
+  document.getElementById('dDesc').textContent   = p.desc;
+
+  document.getElementById('dReviews').innerHTML = REVIEWS.map(r => `
+<div class="review-item">
+  <div class="review-head">
+    <div class="av">${r.name[0]}</div>
+    <div>
+      <div class="rv-name">${r.name}</div>
+      <div class="rv-date">${r.date} · ${'★'.repeat(r.r)}</div>
+    </div>
+  </div>
+  <p class="rv-text">${r.txt}</p>
+</div>`).join('');
+
+  const nearby = PLACES.filter(x => x.id !== p.id).slice(0, 5);
+  document.getElementById('dNearby').innerHTML = nearby.map(nb => `
+<div class="nb-card" onclick="openDetail(${nb.id})">
+  <div class="nb-img-wrap">
+    <img src="${nb.img}" alt="${nb.name}" loading="lazy"
+         onerror="this.src='https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=200&q=60'">
+  </div>
+  <div class="nb-name">${nb.name}</div>
+  <div class="nb-area">${nb.area}</div>
+</div>`).join('');
+
+  // Save button state
+  const sbm = document.getElementById('saveBtnModal');
+  sbm.textContent = savedIds.includes(p.id) ? '❤️ 저장됨' : '🤍 저장';
+
+  // Reset tabs
+  document.querySelectorAll('.d-tab').forEach(t => t.classList.remove('on'));
+  document.querySelector('.d-tab').classList.add('on');
+  document.querySelectorAll('.d-tab-pane').forEach(t => t.classList.remove('on'));
+  document.getElementById('dtInfo').classList.add('on');
+
+  document.getElementById('overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeDetail() {
+  document.getElementById('overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function handleOverlayClick(e) {
+  if (e.target === document.getElementById('overlay')) closeDetail();
+}
+
+function switchDTab(el, t) {
+  document.querySelectorAll('.d-tab').forEach(x => x.classList.remove('on'));
+  el.classList.add('on');
+  document.querySelectorAll('.d-tab-pane').forEach(x => x.classList.remove('on'));
+  document.getElementById('dt' + t[0].toUpperCase() + t.slice(1)).classList.add('on');
+}
+
+function toggleSaveModal() {
+  if (!curDetail) return;
+  toggleSaveId(curDetail.id, document.getElementById('saveBtnModal'));
+}
+
+function toggleSaveId(id, el) {
+  const idx = savedIds.indexOf(id);
+  if (idx === -1) {
+    savedIds.push(id);
+    el.textContent = '❤️ 저장됨';
+    el.classList.add('on');
+    toast('❤️ 북마크에 저장했습니다!');
+  } else {
+    savedIds.splice(idx, 1);
+    el.textContent = '🤍 저장';
+    el.classList.remove('on');
+    toast('북마크에서 제거했습니다');
+  }
+  updateSavedPage();
+  // also refresh grids
+  if (document.getElementById('home-spots').innerHTML) renderHome();
+}
+
+function updateSavedPage() {
+  const el = document.getElementById('savedContent');
+  if (!el) return;
+  const items = PLACES.filter(p => savedIds.includes(p.id));
+  el.innerHTML = items.length
+    ? `<div class="grid-3">${items.map(makeCard).join('')}</div>`
+    : `<div class="empty-state">
+         <div class="empty-icon">🗺</div>
+         <div class="empty-title">아직 저장된 장소가 없습니다</div>
+         <div class="empty-sub">마음에 드는 여행지를 북마크해보세요</div>
+         <button class="btn-primary" onclick="goPage('explore')">탐색 시작하기</button>
+       </div>`;
+  runReveal();
+}
+
+function shareCurrentPlace() {
+  const url = window.location.href.split('?')[0];
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(url).then(() => toast('🔗 링크가 클립보드에 복사됐습니다!'));
+  } else {
+    toast('🔗 ' + url);
+  }
+}
+
+/* ─────────────────
+   PLANNER
+───────────────── */
+function generatePlan() {
+  const dur = document.getElementById('pDur').value;
+  const grp = document.getElementById('pGrp').value;
+  const rw  = document.getElementById('resultWrap');
+
+  rw.className  = 'result-wrap';
+  rw.innerHTML  = `<div class="loading-bar"><div class="loading-progress"></div></div>
+    <p style="text-align:center;color:var(--text3);font-size:0.84rem;padding:6px 0 16px">AI가 최적 동선을 계산하고 있습니다...</p>`;
+  rw.classList.add('show');
+
+  setTimeout(() => {
+    const plan   = PLANS[dur] || PLANS['2'];
+    const styles = [...document.querySelectorAll('#page-planner .chip.on')]
+                    .map(c => c.textContent.trim()).join(' · ');
+
+    let html = `
+<div class="r-header">
+  <div>
+    <div class="r-title">${grp} ${dur}박 ${parseInt(dur)+1}일 맞춤 코스</div>
+    <div class="r-meta">${styles}</div>
+  </div>
+  <div class="r-actions">
+    <button class="btn-outline" onclick="shareCurrentPlace()">↗ 공유</button>
+    <button class="btn-primary" style="padding:9px 18px;font-size:0.82rem"
+            onclick="toast('📋 일정이 저장되었습니다!')">저장</button>
+  </div>
+</div>`;
+
+    plan.days.forEach(day => {
+      html += `<div class="day-block">
+        <div class="day-lbl">Day ${day.d} — ${day.title}</div>
+        <div class="tl">`;
+      day.items.forEach((it, i) => {
+        html += `
+<div class="tl-row">
+  ${i < day.items.length - 1 ? '' : ''}
+  <div class="tl-time">${it.t}</div>
+  <div class="tl-dot"></div>
+  <div class="tl-body">
+    <div class="tl-icon">${it.i}</div>
+    <div class="tl-name">${it.n}</div>
+    <div class="tl-desc">${it.d}</div>
+  </div>
+</div>`;
+      });
+      html += `</div></div>`;
+    });
+
+    const spots  = plan.days.reduce((a, d) => a + d.items.length, 0);
+    const km     = 120 + parseInt(dur) * 25;
+    const budget = 8  + parseInt(dur) * 4;
+
+    html += `
+<div class="r-stats">
+  <div class="rs-item"><div class="rs-val">${spots}</div>  <div class="rs-key">방문 장소</div></div>
+  <div class="rs-item"><div class="rs-val">${km}km</div>  <div class="rs-key">총 이동 거리</div></div>
+  <div class="rs-item"><div class="rs-val">₩${budget}만~</div><div class="rs-key">예상 비용</div></div>
+</div>`;
+
+    rw.innerHTML = html;
+    rw.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 2200);
+}
+
+/* ─────────────────
+   TOAST
+───────────────── */
+let toastTimer;
+function toast(msg) {
+  const el = document.getElementById('toastEl');
+  document.getElementById('toastTxt').textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 3000);
+}
+
+/* ─────────────────
+   KEYBOARD
+───────────────── */
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeDetail();
+});
+
+/* ─────────────────
+   HERO BG PARALLAX
+───────────────── */
+window.addEventListener('scroll', () => {
+  const bg = document.getElementById('heroBg');
+  if (bg) {
+    const y = window.scrollY * 0.25;
+    bg.style.transform = `translateY(${y}px)`;
+  }
+}, { passive: true });
+
+/* ─────────────────
+   INIT
+───────────────── */
+window.addEventListener('DOMContentLoaded', () => {
+  renderHome();
+  setTimeout(runReveal, 200);
+
+  // Hero bg smooth load
+  const bg  = document.getElementById('heroBg');
+  const img = new Image();
+  img.onload = () => bg && bg.classList.add('loaded');
+  img.src    = 'https://images.unsplash.com/photo-1539367628448-4bc5c9d171c8?w=1800&q=85';
+});
+</script>
+
+</body>
+</html>
